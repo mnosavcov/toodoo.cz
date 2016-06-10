@@ -15,6 +15,11 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+
+            $table->string('hash', 32);
+            $table->string('name', 255);
+            $table->string('short', 255);
+            $table->text('description');
         });
     }
 

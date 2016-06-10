@@ -7,9 +7,9 @@
 
     <title>TooDoo.cz</title>
 
-    {{ Html::style('css/bootstrap.min.css') }}
-    {{ Html::style('css/bootstrap-theme.min.css') }}
-    {{ Html::script('js/bootstrap.min.js') }}
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css">
+    <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>
 <body id="app-layout">
 <nav class="navbar navbar-inverse navbar-static-top">
