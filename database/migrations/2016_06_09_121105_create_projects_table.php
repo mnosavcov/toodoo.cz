@@ -16,10 +16,13 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
+            $table->integer('user_id')->unsigned();
             $table->string('hash', 32);
             $table->string('name', 255);
             $table->string('short', 255);
             $table->text('description');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

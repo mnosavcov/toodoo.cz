@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->string('short', 255);
             $table->text('description');
 
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
 
 

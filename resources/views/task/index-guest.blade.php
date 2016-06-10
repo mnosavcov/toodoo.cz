@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <p>You have to login</p>
+    <p>Pro fungování je třeba <a href="{{ url('login') }}">přihlásit se</a></p>
 @endsection

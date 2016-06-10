@@ -9,11 +9,15 @@
 
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css">
+    @if(!Auth::guest())
+        <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
+    @endif
+    <script src="{{ asset('/') }}js/jquery.min.js"></script>
     <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>
 <body id="app-layout">
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+<nav class="navbar navbar-inverse navbar-{{Auth::guest()?'static':'fixed'}}-top">
+    <div class="container-fluid">
         <div class="navbar-header">
 
             <!-- Collapsed Hamburger -->
@@ -33,13 +37,13 @@
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-            {{--
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url('/home') }}">Home</a></li>
-            </ul>
-            --}}
+        {{--
+        <ul class="nav navbar-nav">
+            <li><a href="{{ url('/home') }}">Home</a></li>
+        </ul>
+        --}}
 
-            <!-- Right Side Of Navbar -->
+        <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
@@ -61,20 +65,8 @@
     </div>
 </nav>
 
-<div class="container">
-
+<div class="container-fluid">
     @yield('content')
-
 </div>
-
-
-<!-- JavaScripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"
-        integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"
-        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-        crossorigin="anonymous"></script>
-{{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 </html>
