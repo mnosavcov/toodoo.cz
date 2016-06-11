@@ -16,7 +16,7 @@
     <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>
 <body id="app-layout">
-<nav class="navbar navbar-inverse navbar-{{Auth::guest()?'static':'fixed'}}-top">
+<nav class="navbar navbar-inverse navbar-{{ Auth::guest()?'static':'fixed' }}-top">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -65,8 +65,29 @@
     </div>
 </nav>
 
-<div class="container-fluid">
-    @yield('content')
-</div>
+@if (Auth::guest())
+    <div class="container-fluid">
+        @yield('content')
+    </div>
+@else
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="{{ route('project.add') }}">Nový projekt&nbsp;<span
+                                    class="glyphicon glyphicon-plus-sign"></span></a></li>
+                    @foreach(\App\Project::all() as $item)
+                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif><a
+                                    href="{{ route('project', ['id'=>$item->id]) }}"
+                                    title="{{ $item->short }}">{{ $item->title }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                @yield('content')
+            </div>
+        </div>
+    </div>
+@endif
 </body>
 </html>

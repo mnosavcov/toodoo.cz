@@ -18,7 +18,7 @@ class CreateProjectsTable extends Migration
 
             $table->integer('user_id')->unsigned();
             $table->string('hash', 32);
-            $table->string('name', 255);
+            $table->string('title', 255);
             $table->string('short', 255);
             $table->text('description');
 

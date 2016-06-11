@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', ['uses' => 'TaskController@index']);
+Route::get('/', ['as' => 'task.index', 'uses' => 'TaskController@index']);
+
+Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
+Route::get('project/{id}', ['as' => 'project', 'uses' => 'ProjectController@detail']);
+Route::get('task/{id}', ['as' => 'task', 'uses' => 'TaskController@detail']);
 
 Route::auth();
