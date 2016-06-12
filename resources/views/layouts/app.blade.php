@@ -76,10 +76,10 @@
                 <ul class="nav nav-sidebar">
                     <li><a href="{{ route('project.add') }}">Nový projekt&nbsp;<span
                                     class="glyphicon glyphicon-plus-sign"></span></a></li>
-                    @foreach(\App\Project::all() as $item)
+                    @foreach(\App\Project::where('user_id', Auth::user()->id)->get() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif><a
-                                    href="{{ route('project', ['id'=>$item->id]) }}"
-                                    title="{{ $item->short }}">{{ $item->title }}</a></li>
+                                    href="{{ route('project.detail', ['id'=>$item->id]) }}"
+                                    title="{{ $item->short }}">{{ $item->name }}</a></li>
                     @endforeach
                 </ul>
             </div>

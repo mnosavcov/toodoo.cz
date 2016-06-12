@@ -5,13 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Requests\StoreProjectRequest;
 use App\Project;
+use Auth;
 
 class ProjectController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('auth');
+
+        $key = $request->input('key');
+        $key = str_slug($key, '-');
+        if(!mb_strlen($key)) {
+            $key = $request->input('name');
+            $key = str_slug($key, '-');
+        }
+        $key = str_slug($key, '-');
+        $key = strtoupper($key);
+        $key = mb_substr($key, 0, 10);
+        $request->request->add(['key'=>$key]);
     }
 
     public function add(Request $request)
@@ -19,7 +32,26 @@ class ProjectController extends Controller
         return view('project.form');
     }
 
-    public function detail($project_id)
+    public function save(StoreProjectRequest $request, $id=null)
+    {
+        if($id) {
+            $project = Project::find($id);
+        } else {
+            $project = new Project;
+            $project->user_id = Auth::user()->id;
+            $project->hash = str_random(32);
+        }
+
+        $project->name = $request->input('name');
+        $project->key = $request->input('key');
+        $project->description = $request->input('description');
+
+        $project->save();
+        return redirect()->route('project.detail', ['id' => $project->id]);
+    }
+
+    public
+    function detail($project_id)
     {
         return view('project.detail', ['project' => Project::find($project_id)]);
     }

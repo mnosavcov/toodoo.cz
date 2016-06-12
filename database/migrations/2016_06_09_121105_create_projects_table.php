@@ -13,15 +13,21 @@ class CreateProjectsTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
-            $table->timestamps();
+            $table->integer('created_at');
+            $table->integer('updated_at');
 
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->index();
             $table->string('hash', 32);
-            $table->string('title', 255);
-            $table->string('short', 255);
-            $table->text('description');
+            $table->string('name', 255);
+            $table->string('key', 10);
+            $table->text('description')->nullable();
 
+            $table->unique('hash');
+            $table->unique(['user_id', 'name']);
+            $table->unique(['user_id', 'key']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
