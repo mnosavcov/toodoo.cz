@@ -20,6 +20,7 @@ class CreateProjectsTable extends Migration
             $table->integer('updated_at');
 
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('priority')->default(0);
             $table->string('hash', 32);
             $table->string('name', 255);
             $table->string('key', 10);

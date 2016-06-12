@@ -29,8 +29,8 @@ class StoreProjectRequest extends Request
 //        }
 
         return [
-            'name' => 'required|unique:projects,name,null,id,user_id,'.Auth::user()->id,
-            'key' => 'required|unique:projects,key,null,id,user_id,'.Auth::user()->id
+            'name' => 'required|unique:projects,name,'.$this->input('project_id').',id,user_id,'.Auth::user()->id,
+            'key' => 'required|unique:projects,key,'.$this->input('project_id').',id,user_id,'.Auth::user()->id
         ];
     }
 

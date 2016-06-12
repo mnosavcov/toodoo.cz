@@ -14,7 +14,9 @@
 Route::get('/', ['as' => 'task.index', 'uses' => 'TaskController@index']);
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
-Route::post('project/save', ['as' => 'project.save', 'uses' => 'ProjectController@save']);
+Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);
+Route::get('project/{id}/update', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
+Route::put('project/{id}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
 Route::get('project/{id}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
 Route::get('task/{id}', ['as' => 'task', 'uses' => 'TaskController@detail']);
 

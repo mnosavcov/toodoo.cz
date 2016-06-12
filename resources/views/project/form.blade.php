@@ -7,15 +7,20 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">projekt</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.save') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['id'=>$project->id]) }}">
                             {{ csrf_field() }}
+
+                            @if($project->id>0)
+                                {{ method_field('PUT') }}
+                            @endif
+                            <input type="hidden" name="project_id" value="{{ $project->id }}">
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="col-md-4 control-label">Název</label>
 
                                 <div class="col-md-6">
                                     <input id="name" type="name" class="form-control" name="name"
-                                           value="{{ old('name') }}" maxlength="255">
+                                           value="{{ old('name', $project->name) }}" maxlength="255">
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -29,7 +34,8 @@
                                 <label for="key" class="col-md-4 control-label">Klíč</label>
 
                                 <div class="col-md-6">
-                                    <input id="key" type="key" class="form-control" name="key" value="{{ old('key') }}"
+                                    <input id="key" type="key" class="form-control" name="key"
+                                           value="{{ old('key', $project->key) }}"
                                            maxlength="10">
 
                                     @if ($errors->has('key'))
@@ -40,12 +46,39 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('priority') ? ' has-error' : '' }}">
+                                <label for="priority" class="col-md-4 control-label">Priorita</label>
+
+                                <div class="col-md-6">
+                                    <select id="priority" type="priority" class="form-control" name="priority">
+                                        <option value="1"
+                                                @if(old('priority', $project->priority)==1) selected="selected" @endif>
+                                            Vysoká
+                                        </option>
+                                        <option value="0"
+                                                @if(old('priority', $project->priority)==0) selected="selected" @endif>
+                                            Normální
+                                        </option>
+                                        <option value="-1"
+                                                @if(old('priority', $project->priority)==-1) selected="selected" @endif>
+                                            Nízká
+                                        </option>
+                                    </select>
+
+                                    @if ($errors->has('priority'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('priority') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                                 <label for="description" class="col-md-4 control-label">Popis</label>
 
                                 <div class="col-md-6">
                                     <textarea id="description" type="description" class="form-control"
-                                              name="description">{{ old('description') }}</textarea>
+                                              name="description">{{ old('description', $project->description) }}</textarea>
 
                                     @if ($errors->has('description'))
                                         <span class="help-block">
