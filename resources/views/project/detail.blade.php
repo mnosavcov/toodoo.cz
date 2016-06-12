@@ -3,6 +3,6 @@
 @section('content')
     <a href="{{ Route('project.update', ['id'=>$project->id]) }}">Update</a>
     @foreach($tasks as $task)
-        <div>$task->id</div>
+        <div>{{ $task->name }}</div>
     @endforeach
 @endsection
