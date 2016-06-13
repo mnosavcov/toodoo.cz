@@ -41,6 +41,7 @@ class ProjectController extends Controller
     {
         if ($id) {
             $project = Project::find($id);
+            $this->authorize('update', $project);
         } else {
             $project = new Project;
             $project->user_id = Auth::user()->id;
@@ -58,7 +59,7 @@ class ProjectController extends Controller
 
     public function detail($project_id)
     {
-        $project = Project::find($project_id);
+        $project = Project::where('user_id', Auth::user()->id)->find($project_id);
         return view('project.detail', ['tasks'=>$project->tasks, 'project' => $project]);
     }
 }
