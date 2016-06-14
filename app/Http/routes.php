@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', ['as' => 'task.index', 'uses' => 'TaskController@index']);
+Route::get('/', ['as' => 'task.index', 'uses' => 'HomeController@index']);
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
 Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);

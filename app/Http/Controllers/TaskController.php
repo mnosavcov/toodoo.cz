@@ -11,16 +11,7 @@ class TaskController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => [
-            'index'
-        ]]);
-    }
-
-    public function index(Request $request, $project_id = null, $task_id = null)
-    {
-        if (!$request->user()) return view('task.index-guest');
-
-        return view('task.index');
+        $this->middleware('auth');
     }
 
     public function detail($task_id)
