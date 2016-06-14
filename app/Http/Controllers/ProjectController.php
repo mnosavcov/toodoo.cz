@@ -54,12 +54,18 @@ class ProjectController extends Controller
         $project->description = $request->input('description');
 
         $project->save();
-        return redirect()->route('project.detail', ['id' => $project->id]);
+        return redirect()->route('project.dashboard', ['id' => $project->id]);
+    }
+
+    public function dashboard($project_id)
+    {
+        $project = Project::where('user_id', Auth::user()->id)->find($project_id);
+        return view('project.dashboard', ['tasks'=>$project->tasks, 'project' => $project]);
     }
 
     public function detail($project_id)
     {
         $project = Project::where('user_id', Auth::user()->id)->find($project_id);
-        return view('project.detail', ['tasks'=>$project->tasks, 'project' => $project]);
+        return view('project.detail', ['project' => $project]);
     }
 }

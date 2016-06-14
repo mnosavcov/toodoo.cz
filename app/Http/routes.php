@@ -17,7 +17,8 @@ Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@a
 Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);
 Route::get('project/{id}/update', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
 Route::put('project/{id}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
-Route::get('project/{id}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
+Route::get('project/{id}', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
+Route::get('project/{id}/detail', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
 Route::get('task/{id}', ['as' => 'task', 'uses' => 'TaskController@detail']);
 
 Route::auth();

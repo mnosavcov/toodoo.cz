@@ -74,7 +74,7 @@
                                     class="glyphicon glyphicon-plus-sign"></span></a></li>
                     @foreach(\App\Project::where('user_id', Auth::user()->id)->orderBy('priority', 'DESC')->orderBy('name', 'ASC')->get() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif><a
-                                    href="{{ route('project.detail', ['id'=>$item->id]) }}"
+                                    href="{{ route('project.dashboard', ['id'=>$item->id]) }}"
                                     title="{{ $item->short }}">{{ $item->name }}</a></li>
                     @endforeach
                 </ul>
