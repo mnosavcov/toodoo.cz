@@ -5,9 +5,9 @@ namespace App\Policies;
 use App\User;
 use App\Project;
 
-class ProjectPolicy
+class ToodooPolicy
 {
-    public function update(User $user, Project $project)
+    public function updateProject(User $user, Project $project)
     {
         return $user->id === $project->user_id;
     }
