@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">projekt</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['id'=>$project->id]) }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}">
                             {{ csrf_field() }}
 
                             @if($project->id>0)

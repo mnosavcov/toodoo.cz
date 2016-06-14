@@ -27,20 +27,23 @@ class ProjectController extends Controller
         $request->request->add(['key' => $key]);
     }
 
-    public function add(Request $request)
+    public function add()
     {
         return view('project.form', ['project' => new Project]);
     }
 
-    public function update(Request $request, $id)
+    public function update($key)
     {
-        return view('project.form', ['project' => Project::find($id)]);
+        $project = Project::byKey($key);
+        if(!$project->count()) return redirect()->route('home.index');
+        return view('project.form', ['project' => $project]);
     }
 
-    public function save(StoreProjectRequest $request, $id = null)
+    public function save(StoreProjectRequest $request, $key = null)
     {
-        if ($id) {
-            $project = Project::find($id);
+        if ($key) {
+            $project = Project::byKey($key);
+            if(!$project->count()) return redirect()->route('home.index');
             $this->authorize('updateProject', $project);
         } else {
             $project = new Project;
@@ -54,18 +57,20 @@ class ProjectController extends Controller
         $project->description = $request->input('description');
 
         $project->save();
-        return redirect()->route('project.dashboard', ['id' => $project->id]);
+        return redirect()->route('project.dashboard', ['key' => $project->key]);
     }
 
-    public function dashboard($project_id)
+    public function dashboard($key)
     {
-        $project = Project::where('user_id', Auth::user()->id)->find($project_id);
-        return view('project.dashboard', ['tasks'=>$project->tasks, 'project' => $project]);
+        $project = Project::byKey($key);
+        if(!$project->count()) return redirect()->route('home.index');
+        return view('project.dashboard', ['tasks' => $project->tasks, 'project' => $project]);
     }
 
-    public function detail($project_id)
+    public function detail($key)
     {
-        $project = Project::where('user_id', Auth::user()->id)->find($project_id);
+        $project = Project::byKey($key);
+        if(!$project->count()) return redirect()->route('home.index');
         return view('project.detail', ['project' => $project]);
     }
 }
