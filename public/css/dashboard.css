@@ -31,7 +31,7 @@ body {
 
 /* Hide for mobile, show later */
 .sidebar {
-  display: none;
+  /*display: none;*/
 }
 @media (min-width: 768px) {
   .sidebar {
@@ -76,8 +76,10 @@ body {
 }
 @media (min-width: 768px) {
   .main {
+    /*
     padding-right: 40px;
     padding-left: 40px;
+    */
   }
 }
 .main .page-header {
