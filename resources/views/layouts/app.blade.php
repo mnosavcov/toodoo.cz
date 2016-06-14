@@ -8,15 +8,13 @@
     <title>TooDoo.cz</title>
 
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css">
-    @if(!Auth::guest())
-        <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
-    @endif
+    {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css"> --}}
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
     <script src="{{ asset('/') }}js/jquery.min.js"></script>
     <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>
 <body id="app-layout">
-<nav class="navbar navbar-inverse navbar-{{ Auth::guest()?'static':'fixed' }}-top">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
 
@@ -66,9 +64,7 @@
 </nav>
 
 @if (Auth::guest())
-    <div class="container-fluid">
-        @yield('content')
-    </div>
+    @yield('content')
 @else
     <div class="container-fluid">
         <div class="row">
