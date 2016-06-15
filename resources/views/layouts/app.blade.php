@@ -10,6 +10,7 @@
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
     {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css"> --}}
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/docs.min.css">
     <script src="{{ asset('/') }}js/jquery.min.js"></script>
     <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>

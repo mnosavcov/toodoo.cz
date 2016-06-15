@@ -19,6 +19,7 @@
                     </div>
                 </div>
             </div>
+            <div class="bs-callout bs-callout-danger" id="callout-overview-not-both"> <h4>Using the compiled JavaScript</h4> <p>Both <code>bootstrap.js</code> and <code>bootstrap.min.js</code> contain all plugins in a single file. Include only one.</p> </div>
             @foreach($tasks as $task)
                 <div class="panel panel-default">
                     <div class="panel-heading">{{ $task->name }}</div>
