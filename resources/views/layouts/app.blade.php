@@ -36,11 +36,16 @@
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-        {{--
-        <ul class="nav navbar-nav">
-            <li><a href="{{ url('/home') }}">Home</a></li>
-        </ul>
-        --}}
+            @if (Auth::check())
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ route('project.add') }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            &nbsp;Nový projekt
+                        </a>
+                    </li>
+                </ul>
+        @endif
 
         <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
@@ -71,8 +76,6 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li><a href="{{ route('project.add') }}">Nový projekt&nbsp;<span
-                                    class="glyphicon glyphicon-plus-sign"></span></a></li>
                     @foreach(\App\Project::where('user_id', Auth::user()->id)->orderBy('priority', 'DESC')->orderBy('name', 'ASC')->get() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif><a
                                     href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
