@@ -4,8 +4,9 @@
     <div class="page-header">
         <div class="row">
             <div class="col-sm-12">
-                <a href="{{ Route('project.detail', ['id'=>$project->key]) }}">Detail</a>
-                <a href="{{ Route('project.update', ['id'=>$project->key]) }}">Update</a>
+                <a href="{{ Route('project.detail', ['key'=>$project->key]) }}">Detail</a>
+                <a href="{{ Route('project.update', ['key'=>$project->key]) }}">Update</a>
+                <a href="{{ Route('task.add', ['key'=>$project->key]) }}">New Task</a>
             </div>
         </div>
     </div>
