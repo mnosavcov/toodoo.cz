@@ -23,16 +23,27 @@ class TaskController extends Controller
 		return view('task.form', ['task' => new task, 'project' => $project]);
 	}
 
-	public function update($key)
+	public function save(StoreTaskRequest $request, $key = null)
 	{
 		$project = Project::byKey($key);
 		if (!$project->count()) return redirect()->route('home.index');
-		return view('project.form', ['project' => $project]);
+
+		$project->increment('last_task_id');
+
+		$task = new Task;
+		$task->project_id = $project->id;
+		$task->task_id = $project->last_task_id;
+		$task->priority = $request->input('priority');
+		$task->hash = str_random(32);
+		$task->name = $request->input('name');
+		$task->description = $request->input('description');
+
+		$task->save();
+		return redirect()->route('task.detail', ['key' => $task->key()]);
 	}
 
-	public function save(StoreTaskRequest $request, $key = null)
+	public function updateSave(StoreTaskRequest $request, $key = null)
 	{
-		dd($key);
 		if ($key) {
 			$project = Project::byKey($key);
 			if (!$project->count()) return redirect()->route('home.index');
@@ -52,22 +63,18 @@ class TaskController extends Controller
 		return redirect()->route('project.dashboard', ['key' => $project->key]);
 	}
 
-	public function dashboard($key)
+	public function update($key)
 	{
 		$project = Project::byKey($key);
 		if (!$project->count()) return redirect()->route('home.index');
-		return view('project.dashboard', ['tasks' => $project->tasks, 'project' => $project]);
+		return view('project.form', ['project' => $project]);
 	}
 
 	public function detail($key)
 	{
-		$task = Task::find($id);
+		$task = Task::byKey($key);
 		if (!$task->count()) return redirect()->route('home.index');
 		$project = $task->project;
 		return view('task.detail', ['project' => $project, 'task' => $task]);
-
-//        $project = Project::byKey($key);
-//        if(!$project->count()) return redirect()->route('home.index');
-//        return view('project.detail', ['project' => $project]);
 	}
 }

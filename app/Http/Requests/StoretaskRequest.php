@@ -28,7 +28,7 @@ class StoreTaskRequest extends Request
 //            case 'POST':
 //        }
         return [
-            'name' => 'required|unique:tasks,name,'.$this->input('task_id').',id'
+            'name' => 'required'
         ];
     }
 

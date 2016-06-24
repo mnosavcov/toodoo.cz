@@ -26,7 +26,7 @@ class CreateProjectsTable extends Migration
             $table->string('key', 10);
             $table->text('description')->nullable();
 
-            $table->integer('next_task_id')->unsigned()->default(1);
+            $table->integer('last_task_id')->unsigned()->default(0);
 
             $table->unique('hash');
             $table->unique(['user_id', 'name']);

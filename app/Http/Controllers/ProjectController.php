@@ -16,12 +16,15 @@ class ProjectController extends Controller
         $this->middleware('auth');
 
         $key = $request->input('key');
-        $key = str_slug($key, '-');
+        $key = str_slug($key, '_');
         if (!mb_strlen($key)) {
             $key = $request->input('name');
-            $key = str_slug($key, '-');
+            $key = str_slug($key, '_');
         }
-        $key = str_slug($key, '-');
+        $key = str_slug($key, '_');
+        $key = trim($key);
+        $key = trim($key, '_');
+        $key = str_replace('-', '_', $key);
         $key = strtoupper($key);
         $key = mb_substr($key, 0, 10);
         $request->request->add(['key' => $key]);
