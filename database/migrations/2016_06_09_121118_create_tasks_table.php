@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
 			$table->integer('created_at');
 			$table->integer('updated_at');
 
+			$table->integer('task_status_id')->unsigned();
 			$table->integer('project_id')->unsigned()->index();
 			$table->integer('task_id')->unsigned();
 
@@ -30,9 +31,8 @@ class CreateTasksTable extends Migration
 			$table->unique('hash');
 			$table->unique(['project_id', 'task_id']);
 			$table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+			$table->foreign('task_status_id')->references('id')->on('task_statuses');
 		});
-
-
 	}
 
 	/**

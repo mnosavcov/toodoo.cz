@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
 use App\Project;
+use App\Task;
 use Auth;
 
 class ProjectController extends Controller

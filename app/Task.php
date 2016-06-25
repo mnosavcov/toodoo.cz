@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
+use App\TaskStatus;
 
 class Task extends Model
 {
@@ -18,6 +19,11 @@ class Task extends Model
 		return $this->belongsTo('App\Project');
 	}
 
+	public function status()
+	{
+		return $this->belongsTo('App\TaskStatus', 'task_status_id');
+	}
+
 	public function scopeKey($query)
 	{
 		return $this->project->key.'-'.$this->task_id;
@@ -29,4 +35,9 @@ class Task extends Model
 	    $project = Project::byKey($project_key);
         return $query->where(['project_id' => $project->id, 'task_id' => $task_id])->first();
     }
+
+	public function scopeHasStatus($query, $code)
+	{
+		return $query->where('task_status_id', TaskStatus::where('code', $code)->first(['id'])->id);
+	}
 }
