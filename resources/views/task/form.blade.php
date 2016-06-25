@@ -30,22 +30,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('key') ? ' has-error' : '' }}">
-                                <label for="key" class="col-md-4 control-label">Klíč</label>
-
-                                <div class="col-md-6">
-                                    <input id="key" type="key" class="form-control" name="key"
-                                           value="{{ old('key', $project->key) }}"
-                                           maxlength="10">
-
-                                    @if ($errors->has('key'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('key') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
                             <div class="form-group{{ $errors->has('priority') ? ' has-error' : '' }}">
                                 <label for="priority" class="col-md-4 control-label">Priorita</label>
 
@@ -78,7 +62,7 @@
 
                                 <div class="col-md-6">
                                     <textarea id="description" type="description" class="form-control"
-                                              name="description">{{ old('description', $task->description) }}</textarea>
+                                              name="description" rows="8">{{ old('description', $task->description) }}</textarea>
 
                                     @if ($errors->has('description'))
                                         <span class="help-block">

@@ -78,7 +78,7 @@
 
                                 <div class="col-md-6">
                                     <textarea id="description" type="description" class="form-control"
-                                              name="description">{{ old('description', $project->description) }}</textarea>
+                                              name="description" rows="8">{{ old('description', $project->description) }}</textarea>
 
                                     @if ($errors->has('description'))
                                         <span class="help-block">
