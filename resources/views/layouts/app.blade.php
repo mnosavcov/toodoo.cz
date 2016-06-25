@@ -11,15 +11,23 @@
     {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css"> --}}
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
     <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/docs.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/main.css">
     <script src="{{ asset('/') }}js/jquery.min.js"></script>
     <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
 </head>
 <body id="app-layout">
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-79877449-1', 'auto');
     ga('send', 'pageview');
@@ -86,9 +94,17 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     @foreach(\App\Project::where('user_id', Auth::user()->id)->orderBy('priority', 'DESC')->orderBy('name', 'ASC')->get() as $item)
-                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif><a
-                                    href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
-                                    title="{{ $item->short }}">{{ $item->name }}</a></li>
+                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif>
+                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9"
+                               title="{{ $item->short }}">{{ $item->name }}
+                            </a>
+                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}" class="col-xs-3 text-right task-detail"
+                               title="{{ $item->short }}">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+
+                            <div class="clearfix"></div>
+                        </li>
                     @endforeach
                 </ul>
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{ Route('task.update', ['key'=>$task->key()]) }}" class="pull-right">Update</a>
+    <a href="{{ Route('task.update', ['key'=>$task->key()]) }}" class="pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
     task.detail
 @endsection

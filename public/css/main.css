@@ -1,0 +1,17 @@
+li .task-detail span {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+li:hover .task-detail span, li .task-detail:hover span {
+    opacity: 1;
+    transition: opacity .2s;
+}
+
+.nav.nav-sidebar li:hover {
+    background-color: #eee;
+}
+
+.no-hover:hover {
+    text-decoration: none;
+}

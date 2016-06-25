@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="{{ Route('project.update', ['key'=>$project->key]) }}" class="pull-right"><span class="glyphicon glyphicon-pencil"></span></a>
     projekt.detail
     <pre>
     {{ var_dump($project) }}

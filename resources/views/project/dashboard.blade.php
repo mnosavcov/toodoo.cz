@@ -1,22 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="page-header">
-        <div class="row">
-            <div class="col-sm-12">
-                <a href="{{ Route('project.detail', ['key'=>$project->key]) }}">Detail</a>
-                <a href="{{ Route('project.update', ['key'=>$project->key]) }}">Update</a>
-                <a href="{{ Route('task.add', ['key'=>$project->key]) }}">New Task</a>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-sm-4">
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="label label-default">todo</div>
+                        <a href="{{ Route('task.add', ['key'=>$project->key]) }}" class="no-hover pull-right">
+                            New Task&nbsp;<span class="glyphicon glyphicon-plus-sign"></span>
+                        </a>
                     </div>
                 </div>
             </div>
