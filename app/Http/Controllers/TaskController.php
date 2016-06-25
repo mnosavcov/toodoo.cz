@@ -44,33 +44,27 @@ class TaskController extends Controller
         return redirect()->route('task.detail', ['key' => $task->key()]);
     }
 
-//    public function update($key)
-//    {
-//        $project = Project::byKey($key);
-//        if (!$project->count()) return redirect()->route('home.index');
-//        return view('project.form', ['project' => $project]);
-//    }
-//
-//    public function updateSave(StoreTaskRequest $request, $key = null)
-//    {
-//        if ($key) {
-//            $project = Project::byKey($key);
-//            if (!$project->count()) return redirect()->route('home.index');
-//            $this->authorize('updateProject', $project);
-//        } else {
-//            $project = new Project;
-//            $project->user_id = Auth::user()->id;
-//            $project->hash = str_random(32);
-//        }
-//
-//        $project->priority = $request->input('priority');
-//        $project->name = $request->input('name');
-//        $project->key = $request->input('key');
-//        $project->description = $request->input('description');
-//
-//        $project->save();
-//        return redirect()->route('project.dashboard', ['key' => $project->key]);
-//    }
+    public function update($key)
+    {
+        $task = Task::byKey($key);
+        if (!$task->count()) return redirect()->route('home.index');
+        return view('task.form', ['task' => $task, 'project' => $task->project]);
+    }
+
+    public function updateSave(StoreTaskRequest $request, $key)
+    {
+        $task = Task::byKey($key);
+        if (!$task->count()) return redirect()->route('home.index');
+
+        $this->authorize('updateTask', $task);
+
+        $task->priority = $request->input('priority');
+        $task->name = $request->input('name');
+        $task->description = $request->input('description');
+
+        $task->save();
+        return redirect()->route('task.detail', ['key' => $task->key()]);
+    }
 
     public function detail($key)
     {

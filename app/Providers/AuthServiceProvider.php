@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Project;
+use App\Task;
 use App\Policies\ToodooPolicy;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
 	protected $policies = [
 		'App\Model' => 'App\Policies\ModelPolicy',
 		Project::class => ToodooPolicy::class,
+		Task::class => ToodooPolicy::class,
 	];
 
 	/**
