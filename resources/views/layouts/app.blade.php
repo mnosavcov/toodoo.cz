@@ -55,11 +55,20 @@
             <!-- Left Side Of Navbar -->
             @if (Auth::check())
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{{ route('project.add') }}">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            &nbsp;Nový projekt
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="visible-xs-inline">menu</span>
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
                         </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ route('project.add') }}">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    &nbsp;Nový projekt
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
         @endif
@@ -98,7 +107,8 @@
                             <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9"
                                title="{{ $item->short }}">{{ $item->name }}
                             </a>
-                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}" class="col-xs-3 text-right task-detail"
+                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}"
+                               class="col-xs-3 text-right task-detail"
                                title="{{ $item->short }}">
                                 <span class="glyphicon glyphicon-search"></span>
                             </a>
