@@ -102,7 +102,7 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    @foreach(\App\Project::where('user_id', Auth::user()->id)->orderBy('priority', 'DESC')->orderBy('name', 'ASC')->get() as $item)
+                    @foreach(\App\Project::navList() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif>
                             <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9"
                                title="{{ $item->short }}">{{ $item->name }}
