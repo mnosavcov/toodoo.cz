@@ -106,6 +106,9 @@
                         <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif>
                             <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9"
                                title="{{ $item->short }}">{{ $item->name }}
+                                @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
+                                    <span class="badge">{{ $todocount }}/{{ $inprogresscount }}</span>
+                                @endif
                             </a>
                             <a href="{{ route('project.detail', ['key'=>$item->key]) }}"
                                class="col-xs-3 text-right task-detail"

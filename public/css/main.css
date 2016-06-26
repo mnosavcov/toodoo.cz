@@ -15,3 +15,19 @@ li:hover .task-detail span, li .task-detail:hover span {
 .no-hover:hover {
     text-decoration: none;
 }
+
+.nav-sidebar .badge {
+    background-color: #337ab7;
+    color: #fff;
+}
+.nav-sidebar a:hover .badge {
+    background-color: #23527c;
+}
+
+.nav-sidebar .active .badge {
+    background-color: #fff;
+    color: #337ab7;
+}
+.nav-sidebar .active a:hover .badge {
+    background-color: #fff;
+}

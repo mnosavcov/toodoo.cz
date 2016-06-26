@@ -22,4 +22,12 @@ class Project extends Model
     {
         return $query->where(['user_id' => Auth::user()->id, 'key' => $key])->first();
     }
+    
+    public function todoCount() {
+        return $this->tasks()->hasStatus('TODO')->count();
+    }
+
+    public function inprogressCount() {
+        return $this->tasks()->hasStatus('IN-PROGRESS')->count();
+    }
 }
