@@ -31,3 +31,15 @@ li:hover .task-detail span, li .task-detail:hover span {
 .nav-sidebar .active a:hover .badge {
     background-color: #fff;
 }
+
+.nav-sidebar li a.priority1 {
+    border-left: 5px #d9534f solid;
+}
+
+.nav-sidebar li a.priority0 {
+    border-left: 5px #5bc0de solid;
+}
+
+.nav-sidebar li a.priority-1 {
+    border-left: 5px #777 solid;
+}

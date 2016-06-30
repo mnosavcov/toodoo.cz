@@ -103,8 +103,8 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     @foreach(\App\Project::navList() as $item)
-                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif>
-                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9"
+                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif style="margin-bottom: 1px;">
+                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9 priority{{ $item->priority }}"
                                title="{{ $item->short }}">{{ $item->name }}
                                 @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
                                     <span class="badge">{{ $todocount }}/{{ $inprogresscount }}</span>
