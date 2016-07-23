@@ -54,6 +54,8 @@ li:hover .task-detail span, li .task-detail:hover span {
 .bs-callout .description {
     height: 100px;
     overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-all;
     border: 1px solid #eee;
     border-radius: 3px;
     padding-left: 10px;
