@@ -141,7 +141,7 @@
     </div>
 
     <script>
-        $(".bs-callout p.description").mCustomScrollbar({theme: "minimal-dark"});
+        $(".bs-callout p.description").mCustomScrollbar({theme: "dark-3", scrollButtons: {"enable": true}, contentTouchScroll: false});
     </script>
 @endif
 </body>

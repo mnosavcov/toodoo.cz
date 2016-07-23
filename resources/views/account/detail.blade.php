@@ -17,8 +17,8 @@
                                     <caption>informace o účtu</caption>
                                     <tbody>
                                     <tr>
-                                        <th class="col-md-4 active">Jméno</th>
-                                        <td class="col-md-8">{{ $user->name }}</td>
+                                        <th class="col-xs-4 active">Jméno</th>
+                                        <td class="col-xs-8">{{ $user->name }}</td>
                                     </tr>
                                     <tr>
                                         <th class="active">Email</th>
