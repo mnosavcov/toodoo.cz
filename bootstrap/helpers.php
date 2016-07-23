@@ -20,5 +20,5 @@ function linkInText($text)
 
 
     return preg_replace_callback("&\\b$rexProtocol$rexDomain$rexPort$rexPath$rexQuery$rexFragment(?=[?.!,;:\"]?(\s|$))&",
-        'linkInText_callback', htmlspecialchars($text));
+        'linkInText_callback', $text);
 }
