@@ -67,6 +67,21 @@ li:hover .task-detail span, li .task-detail:hover span {
 
 .bs-callout h4 {
     margin-bottom: 15px;
+    margin-right: 35px;
+}
+
+.bs-callout {
+    position: relative;
+}
+.bs-callout .navbar-wrap {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+}
+
+.bs-callout a.dropdown-toggle {
+    line-height: 1;
+    padding: 2px 5px 1px 5px;
 }
 
 /* styles for '...' */
