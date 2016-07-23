@@ -86,7 +86,8 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;My account</a></li>
+                            <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</a></li>
                         </ul>
                     </li>
                 @endif
@@ -122,6 +123,7 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                @include('@shared.message')
                 @yield('content')
             </div>
         </div>
