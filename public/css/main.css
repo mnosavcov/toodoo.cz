@@ -43,3 +43,27 @@ li:hover .task-detail span, li .task-detail:hover span {
 .nav-sidebar li a.priority-1 {
     border-left: 5px #777 solid;
 }
+
+.bs-callout1{border-left-color: #d9534f;}
+.bs-callout1 h4{color: #ce4844;}
+.bs-callout0 {border-left-color: #428bca;}
+.bs-callout0 h4{color: #337ab7;}
+.bs-callout-1{border-left-color: #ccc;}
+.bs-callout-1 h4{color: #555;}
+
+.bs-callout .description {
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.bs-callout h4 {
+    margin-bottom: 15px;
+    height: 1em;
+    overflow: hidden;
+}
