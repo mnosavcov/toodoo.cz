@@ -7,13 +7,20 @@
 
     <title>TooDoo.cz</title>
 
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css?v={{ config('app.version') }}">
-    {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css"> --}}
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css?v={{ config('app.version') }}">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/docs.min.css?v={{ config('app.version') }}">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/main.css?v={{ config('app.version') }}">
-    <script src="{{ asset('/') }}js/jquery.min.js?v={{ config('app.version') }}"></script>
-    <script src="{{ asset('/') }}js/bootstrap.min.js?v={{ config('app.version') }}"></script>
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/bootstrap/bootstrap.min.css?v={{ config('app.version') }}">
+    {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap/bootstrap-theme.min.css"> --}}
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/bootstrap/dashboard.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/bootstrap/docs.min.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/main.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/scrollbar/jquery.mCustomScrollbar.min.css?v={{ config('app.version') }}">
+    <script src="{{ asset('/') }}js/jquery/jquery.min.js?v={{ config('app.version') }}"></script>
+    <script src="{{ asset('/') }}js/bootstrap/bootstrap.min.js?v={{ config('app.version') }}"></script>
+    <script src="{{ asset('/') }}js/scrollbar/jquery.mCustomScrollbar.concat.min.js?v={{ config('app.version') }}"></script>
 </head>
 <body id="app-layout">
 <script>
@@ -86,8 +93,10 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;My account</a></li>
-                            <li><a href="{{ url('/logout') }}"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</a></li>
+                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;My account</a>
+                            </li>
+                            <li><a href="{{ url('/logout') }}"><i
+                                            class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</a></li>
                         </ul>
                     </li>
                 @endif
@@ -104,8 +113,10 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     @foreach(\App\Project::navList() as $item)
-                        <li @if(isset($project->id) && $project->id==$item->id) class="active" @endif style="margin-bottom: 1px;">
-                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}" class="col-xs-9 priority{{ $item->priority }}"
+                        <li @if(isset($project->id) && $project->id==$item->id) class="active"
+                            @endif style="margin-bottom: 1px;">
+                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
+                               class="col-xs-9 priority{{ $item->priority }}"
                                title="{{ $item->short }}">{{ $item->name }}
                                 @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
                                     <span class="badge">{{ $todocount }}/{{ $inprogresscount }}</span>
@@ -128,6 +139,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(".bs-callout p.description").mCustomScrollbar({theme: "minimal-dark"});
+    </script>
 @endif
 </body>
 </html>
