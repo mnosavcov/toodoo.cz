@@ -7,13 +7,13 @@
 
     <title>TooDoo.cz</title>
 
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap.min.css?v={{ config('app.version') }}">
     {{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/bootstrap-theme.min.css"> --}}
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/docs.min.css">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/main.css">
-    <script src="{{ asset('/') }}js/jquery.min.js"></script>
-    <script src="{{ asset('/') }}js/bootstrap.min.js"></script>
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/dashboard.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/docs.min.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('/') }}css/main.css?v={{ config('app.version') }}">
+    <script src="{{ asset('/') }}js/jquery.min.js?v={{ config('app.version') }}"></script>
+    <script src="{{ asset('/') }}js/bootstrap.min.js?v={{ config('app.version') }}"></script>
 </head>
 <body id="app-layout">
 <script>
