@@ -2,5 +2,5 @@
     <h4>
         <a href="{{ route('task.detail', ['key'=>$task->key()]) }}" style="color: inherit">{{ $task->name }}</a>
     </h4>
-    <p>{!! nl2br(nl2br(e($task->description))) !!}</p>
+    <p>{!! nl2br(linkInText(e($task->description))) !!}</p>
 </div>
