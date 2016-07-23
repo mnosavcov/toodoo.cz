@@ -1,4 +1,4 @@
-<div class="bs-callout bs-callout-danger" id="callout-overview-not-both">
+<div class="bs-callout bs-callout{{ $task->priority }}" id="callout-overview-not-both">
     <h4>
         <a href="{{ route('task.detail', ['key'=>$task->key()]) }}" style="color: inherit">{{ $task->name }}</a>
     </h4>

@@ -712,8 +712,8 @@ h1[id] {
 
 /* Variations */
 .bs-callout-danger {
-  border-left-color: #ce4844;
-}
+   border-left-color: #ce4844;
+ }
 .bs-callout-danger h4 {
   color: #ce4844;
 }
@@ -729,6 +729,13 @@ h1[id] {
 .bs-callout-info h4 {
   color: #1b809e;
 }
+
+.bs-callout1{border-left-color: #d9534f;}
+.bs-callout1 h4{color: #ce4844;}
+.bs-callout0 {border-left-color: #428bca;}
+.bs-callout0 h4{color: #337ab7;}
+.bs-callout-1{border-left-color: #ccc;}
+.bs-callout-1 h4{color: #555;}
 
 
 /*

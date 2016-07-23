@@ -67,7 +67,7 @@ class ProjectController extends Controller
     {
         $project = Project::byKey($key);
         if(!$project->count()) return redirect()->route('home.index');
-        return view('project.dashboard', ['tasks' => $project->tasks, 'project' => $project]);
+        return view('project.dashboard', ['tasks' => $project->tasks()->orderBy('priority', 'desc')->orderBy('id')->get(), 'project' => $project]);
     }
 
     public function detail($key)
