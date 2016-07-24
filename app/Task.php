@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Project;
 use App\TaskStatus;
 
 class Task extends Model
 {
+    use SoftDeletes;
+
 	protected $dateFormat = 'U';
 
 	protected $attributes = [

@@ -15,11 +15,14 @@
     <link media="all" type="text/css" rel="stylesheet"
           href="{{ asset('/') }}css/bootstrap/docs.min.css?v={{ config('app.version') }}">
     <link media="all" type="text/css" rel="stylesheet"
+          href="{{ asset('/') }}css/bootstrap/dropdowns-enhancement.css?v={{ config('app.version') }}">
+    <link media="all" type="text/css" rel="stylesheet"
           href="{{ asset('/') }}css/main.css?v={{ config('app.version') }}">
     <link media="all" type="text/css" rel="stylesheet"
           href="{{ asset('/') }}css/scrollbar/jquery.mCustomScrollbar.min.css?v={{ config('app.version') }}">
     <script src="{{ asset('/') }}js/jquery/jquery.min.js?v={{ config('app.version') }}"></script>
     <script src="{{ asset('/') }}js/bootstrap/bootstrap.min.js?v={{ config('app.version') }}"></script>
+    <script src="{{ asset('/') }}js/bootstrap/dropdowns-enhancement.js?v={{ config('app.version') }}"></script>
     <script src="{{ asset('/') }}js/scrollbar/jquery.mCustomScrollbar.concat.min.js?v={{ config('app.version') }}"></script>
 </head>
 <body id="app-layout">

@@ -73,4 +73,23 @@ class TaskController extends Controller
         $project = $task->project;
         return view('task.detail', ['project' => $project, 'task' => $task]);
     }
+
+    public function statusChange(Request $request, $key, $from, $to)
+    {
+        list($project_key, $task_id) = explode('-', $key);
+        $task = Task::whereHas('status', function ($query) use ($from) {
+            $query->where('code', $from);
+        })->byKey($key);
+        if (!$task->count()) return redirect()->route('project.dashboard', ['key' => $project_key]);
+
+        if ($to == 'DELETE') {
+            $task->delete();
+            $request->session()->flash('success', 'Úkol byl přesunutý do koše!');
+        } else {
+            $task->task_status_id = TaskStatus::where('code', $to)->first(['id'])->id;
+            $task->save();
+        }
+
+        return redirect()->route('project.dashboard', ['key' => $project_key]);
+    }
 }

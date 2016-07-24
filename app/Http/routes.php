@@ -29,5 +29,6 @@ Route::post('task/{key}/save', ['as' => 'task.add.save', 'uses' => 'TaskControll
 Route::get('task/{key}/update', ['as' => 'task.update', 'uses' => 'TaskController@update']);
 Route::put('task/{key}/save', ['as' => 'task.update.save', 'uses' => 'TaskController@updateSave']);
 Route::get('task/{key}', ['as' => 'task.detail', 'uses' => 'TaskController@detail']);
+Route::get('task/{key}/status-change/{from}/2/{to}', ['as' => 'task.status.change', 'uses' => 'TaskController@statusChange']);
 
 Route::auth();
