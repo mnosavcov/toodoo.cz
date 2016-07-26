@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c284a9c122da36c99a8b6597bdce7aa6",
-    "content-hash": "8b1485987e7c5949da82435d403e52e8",
+    "hash": "2f4289658a2c9d2aa50d555f1657eb72",
+    "content-hash": "5b63cae7ab9d544849b7904728200bfb",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -60,6 +60,42 @@
                 "preload"
             ],
             "time": "2015-11-09 22:51:51"
+        },
+        {
+            "name": "dennissmink/laravel-ftp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cannonb4ll/LaravelFtp.git",
+                "reference": "e0804a4a1637665cb0d901e8e34d836ec2fae844"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Cannonb4ll/LaravelFtp/zipball/e0804a4a1637665cb0d901e8e34d836ec2fae844",
+                "reference": "e0804a4a1637665cb0d901e8e34d836ec2fae844",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LaravelFtp": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Dennis Smink",
+                    "email": "dennissmink@gmail.com"
+                }
+            ],
+            "time": "2016-01-25 17:20:58"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3152,7 +3188,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "dennissmink/laravel-ftp": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
