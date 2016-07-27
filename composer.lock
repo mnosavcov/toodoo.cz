@@ -4,9 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2f4289658a2c9d2aa50d555f1657eb72",
-    "content-hash": "5b63cae7ab9d544849b7904728200bfb",
+    "hash": "699a31cfa9557cdf6555cdb51b811e65",
+    "content-hash": "61a2078328a9b795cd4dd4fc2d83f024",
     "packages": [
+        {
+            "name": "anchu/ftp",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/harishanchu/Laravel-FTP.git",
+                "reference": "e0fec2dae79123a7d993afcafa174eb88b45146e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/harishanchu/Laravel-FTP/zipball/e0fec2dae79123a7d993afcafa174eb88b45146e",
+                "reference": "e0fec2dae79123a7d993afcafa174eb88b45146e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.x",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Anchu\\Ftp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Harish Anchu",
+                    "email": "harishanchu@gmail.com"
+                }
+            ],
+            "description": "A simple Laravel 4/5 ftp service provider",
+            "keywords": [
+                "L4",
+                "ftp",
+                "l5",
+                "laravel",
+                "service provider"
+            ],
+            "time": "2015-05-16 18:29:29"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
@@ -60,42 +104,6 @@
                 "preload"
             ],
             "time": "2015-11-09 22:51:51"
-        },
-        {
-            "name": "dennissmink/laravel-ftp",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Cannonb4ll/LaravelFtp.git",
-                "reference": "e0804a4a1637665cb0d901e8e34d836ec2fae844"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Cannonb4ll/LaravelFtp/zipball/e0804a4a1637665cb0d901e8e34d836ec2fae844",
-                "reference": "e0804a4a1637665cb0d901e8e34d836ec2fae844",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^5.0",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "LaravelFtp": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Dennis Smink",
-                    "email": "dennissmink@gmail.com"
-                }
-            ],
-            "time": "2016-01-25 17:20:58"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3188,9 +3196,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dennissmink/laravel-ftp": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
