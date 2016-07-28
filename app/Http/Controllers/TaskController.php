@@ -9,6 +9,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Task;
 use App\TaskStatus;
 use App\Project;
+use FTP;
 
 class TaskController extends Controller
 {
@@ -58,19 +59,16 @@ class TaskController extends Controller
 
         $this->authorize('updateTask', $task);
 
-        $ftp = ftp(config('ftp.server.0'), config('ftp.login.0'), decrypt(config('ftp.password.0')));
         $files = $request->file('files');
         foreach ($files as $file) {
 
             if ($file->isValid()) {
-                $out_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.str_slug($file->getClientOriginalExtension());
-                //$ftp->uploadFile($out_filename, $file->getPathname());
-                FTP::connection()->uploadFile($file_loc, $current_dir);
+	            $out_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.str_slug($file->getClientOriginalExtension());
+	            FTP::connection()->uploadFile($file->getPathname(), $out_filename);
             } else {
                 echo $file->getErrorMessage().'<br>';
             }
         }
-        dd();
 
         $task->priority = $request->input('priority');
         $task->name = $request->input('name');

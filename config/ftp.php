@@ -1,18 +1,35 @@
 <?php
+return array(
 
-$ftp_count = env('FTP_COUNT', 0);
+    /*
+	|--------------------------------------------------------------------------
+	| Default FTP Connection Name
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify which of the FTP connections below you wish
+	| to use as your default connection for all ftp work.
+	|
+	*/
 
-$ftps['count'] = $ftp_count;
+    'default' => 's18655',
 
-for ($i = 0; $i < $ftp_count; $i++) {
-    $ftp = env('FTP_'. $i, false);
-    if(!$ftp) continue;
+    /*
+    |--------------------------------------------------------------------------
+    | FTP Connections
+    |--------------------------------------------------------------------------
+    |
+    | Here are each of the FTP connections setup for your application.
+    |
+    */
 
-    list($server, $login, $password) = explode('|', $ftp);
+    'connections' => array(
 
-    $ftps['server'][$i] = $server;
-    $ftps['login'][$i] = $login;
-    $ftps['password'][$i] = $password;
-}
-
-return $ftps;
+        's18655' => array(
+            'host'   => '18655.s55.wedos.net',
+            'port'  => 21,
+            'username' => 's18655',
+            'password'   => '',
+            'passive'   => false,
+        ),
+    ),
+);

@@ -113,7 +113,7 @@ return [
     /*
      *
      */
-    'version'=> '0.0.9',
+    'version'=> '0.0.10',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +160,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+	    Anchu\Ftp\FtpServiceProvider::class,
 
     ],
 
