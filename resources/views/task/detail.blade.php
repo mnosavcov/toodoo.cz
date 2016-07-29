@@ -8,7 +8,11 @@
 
     @foreach($files as $file)
         <a href="{{ Route('task.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}">
-            {{ $file->filename }}<br>
+            @if(starts_with($file->mime_type, 'image/'))
+                <img src="{{ Route('task.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}" width="250"><br>
+            @else
+                {{ $file->filename }}<br>
+            @endif
         </a>
     @endforeach
 @endsection
