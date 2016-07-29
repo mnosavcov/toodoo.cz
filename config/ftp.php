@@ -28,7 +28,7 @@ return array(
             'host'   => '18655.s55.wedos.net',
             'port'  => 21,
             'username' => 's18655',
-            'password'   => '',
+            'password'   => env('FTP_s18655_PWD'),
             'passive'   => false,
         ),
     ),

@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Project;
-use App\TaskStatus;
 
 class Task extends Model
 {
@@ -27,7 +25,12 @@ class Task extends Model
 		return $this->belongsTo('App\TaskStatus', 'task_status_id');
 	}
 
-	public function scopeKey($query)
+	public function file()
+	{
+		return $this->hasMany('App\TaskFile');
+	}
+
+	public function key()
 	{
 		return $this->project->key.'-'.$this->task_id;
 	}

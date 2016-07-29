@@ -18,6 +18,11 @@ class Project extends Model
         return $this->hasMany('App\Task');
     }
 
+	public function user()
+	{
+		return $this->belongsTo('App\User');
+	}
+
     public function scopeByKey($query, $key)
     {
         return $query->where(['user_id' => Auth::user()->id, 'key' => $key])->first();
