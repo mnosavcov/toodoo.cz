@@ -136,29 +136,21 @@ class TaskController extends Controller
 
 	public function getFile($id, $name = '')
 	{
-		$dir_sep = $this->dir_sep;
-		$file = TaskFile::find($id);
-		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-
-		$response = response()->make(
-			FTP::connection($file->ftp_connection)->readFile($file->fullfile),
-			200
-		)->header('Content-disposition', 'inline; filename="'.$file->filename.'"');
-		if ($file->mime_type) $response->header('Content-type', $file->mime_type);
-
-		return $response;
+		return $this->responseFile($id, 'inline');
 	}
 
 	public function downloadFile($id, $name = '')
 	{
-		$dir_sep = $this->dir_sep;
+		return $this->responseFile($id, 'attachment');
+	}
+
+	protected function responseFile($id, $disposition) {
 		$file = TaskFile::find($id);
 		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
 
 		$response = response()->make(
-			FTP::connection($file->ftp_connection)->readFile($file->fullfile),
-			200
-		)->header('Content-disposition', 'attachment; filename="'.$file->filename.'"');
+			FTP::connection($file->ftp_connection)->readFile($file->fullfile)
+		)->header('Content-disposition', $disposition.'; filename="'.$file->filename.'"');
 		if ($file->mime_type) $response->header('Content-type', $file->mime_type);
 
 		return $response;
