@@ -141,7 +141,7 @@ class TaskController extends Controller
 		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
 		$tmpfile = storage_path() . $dir_sep . 'tmp' . $dir_sep . $file->file_md5 . '.' . $file->extname;
 
-		FTP::connection($file->ftp_connection)->downloadFile($dir_sep . $file->fullfile, $tmpfile);
+		FTP::connection($file->ftp_connection)->downloadFile($file->fullfile, $tmpfile);
 		//return FTP::connection($file->ftp_connection)->readFile($file->filename);
 
 		return response()->file($tmpfile);
