@@ -11,11 +11,12 @@ class TaskFile extends Model
 	protected $fillable = [
 		'ftp_connection',
 		'file_md5',
-		'fullpath',
+		'fullfile',
 		'pathname',
 		'filename',
 		'extname',
-		'thumb'
+		'thumb',
+		'mime_type'
 	];
 
 	public function task()

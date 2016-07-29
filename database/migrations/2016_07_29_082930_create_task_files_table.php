@@ -23,10 +23,11 @@ class CreateTaskFilesTable extends Migration
 
 	        $table->string('ftp_connection');
 	        $table->string('file_md5', 32);
-	        $table->string('fullpath', 255);
+	        $table->string('fullfile', 255);
 	        $table->string('pathname', 255);
 	        $table->string('filename', 255);
 	        $table->string('extname', 32);
+	        $table->string('mime_type', 255);
 	        $table->string('thumb', 255)->nullable();
 
 	        $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');

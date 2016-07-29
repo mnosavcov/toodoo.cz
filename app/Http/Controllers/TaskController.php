@@ -15,6 +15,8 @@ use FTP;
 
 class TaskController extends Controller
 {
+	protected $dir_sep = '/';
+
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -73,57 +75,76 @@ class TaskController extends Controller
 
 	protected function putFile($task, $files)
 	{
-		$task_file = null;
+		$dir_sep = $this->dir_sep;
 		foreach ($files as $file) {
-
 			if ($file->isValid()) {
-				$in_filename = $file->getPathname();
-				$project_path = $task->project->id . '-' . $task->project->hash;
-				$task_path = $task->id . '-' . $task->hash;
-				$out_path = $project_path . DIRECTORY_SEPARATOR . $task_path;
-				$out_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
-				$out_fullfile = $out_path . DIRECTORY_SEPARATOR . $out_filename;
-				$status = FTP::connection()->makeDir($project_path);
-				if ($status) {
-					FTP::connection()->changeDir($project_path);
-					$status = FTP::connection()->makeDir($task_path);
-				}
-				if ($status) {
-					FTP::connection()->changeDir($task_path);
-					$status = FTP::connection()->uploadFile($in_filename, $out_filename);
-				}
-				if ($status) {
-					$task_file = new TaskFile([
-						'ftp_connection' => config('ftp.default'),
-						'file_md5' => md5_file($in_filename),
-						'fullpath' => $out_fullfile,
-						'pathname' => $out_path,
-						'filename' => $out_filename,
-						'extname' => str_slug($file->getClientOriginalExtension()),
-						'thumb' => null
-					]);
-					$task->file()->save($task_file);
+				$input_filename = $file->getPathname();
+				$output_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
+
+				$path = $this->createDir($task);
+				if ($path) {
+					$output_fullfile = $path . $dir_sep . uniqid(time().'-').'-'.$output_filename;
+					$status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
+
+					if ($status) {
+						$task_file = new TaskFile([
+							'ftp_connection' => config('ftp.default'),
+							'file_md5' => md5_file($input_filename),
+							'fullfile' => $output_fullfile,
+							'pathname' => $path,
+							'filename' => $output_filename,
+							'extname' => str_slug($file->getClientOriginalExtension()),
+							'mime_type' => $file->getClientMimeType(),
+							'thumb' => null
+						]);
+						$task->file()->save($task_file);
+					}
 				}
 			} else {
 				echo $file->getErrorMessage() . '<br>';
 			}
 		}
+	}
 
-		return $task_file;
+	protected function createDir($task)
+	{
+		$dir_sep = $this->dir_sep;
+		$paths = [
+			$task->project->user->id,
+			$task->project->id . '-' . $task->project->hash,
+			$task->id . '-' . $task->hash
+		];
+
+		$path = $dir_sep . implode($dir_sep, $paths);
+		foreach ($paths as $p) {
+			$status = FTP::connection()->changeDir($p);
+			if (!$status) {
+				$status = FTP::connection()->makeDir($p);
+				if (!$status) {
+					return false;
+				}
+				$status = FTP::connection()->changeDir($p);
+				if (!$status) {
+					return false;
+				}
+			}
+		}
+
+		if ($path != FTP::connection()->currentDir()) return false;
+		return $path;
 	}
 
 	public function getFile($id, $name = '')
 	{
+		$dir_sep = $this->dir_sep;
 		$file = TaskFile::find($id);
 		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-		$tmpfile = storage_path() . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . str_random(40) . $file->filename;
-		FTP::connection($file->ftp_connection)->changeDir('1-9c56e5da0e14c715d138bbaf1af54336');
-		FTP::connection($file->ftp_connection)->changeDir('2-IUr3L9UR8LA6oglgYr8cbpVkonWX7m8W');
+		$tmpfile = storage_path() . $dir_sep . 'tmp' . $dir_sep . $file->file_md5 . '.' . $file->extname;
 
-		FTP::connection($file->ftp_connection)->downloadFile($file->filename, $tmpfile);
-		return FTP::connection($file->ftp_connection)->readFile($file->filename);
+		FTP::connection($file->ftp_connection)->downloadFile($dir_sep . $file->fullfile, $tmpfile);
+		//return FTP::connection($file->ftp_connection)->readFile($file->filename);
 
-		return response()->file(FTP::connection($file->ftp_connection)->readFile($file->filename));
+		return response()->file($tmpfile);
 		return response()->download($tmpfile, $file->filename);
 	}
 
