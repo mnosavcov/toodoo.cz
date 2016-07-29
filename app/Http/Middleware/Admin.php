@@ -24,7 +24,7 @@ class Admin
             }
         }
 
-        if (Auth::user()->is_admin!=1) return response('Unauthorized.', 401);
+        if (!Auth::user()->is_admin()) return response('Unauthorized.', 401);
 
         return $next($request);
     }
