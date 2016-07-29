@@ -83,7 +83,7 @@ class TaskController extends Controller
 
 				$path = $this->createDir($task);
 				if ($path) {
-					$output_fullfile = $path . $dir_sep . uniqid(time().'-').'-'.$output_filename;
+					$output_fullfile = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename;
 					$status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
 
 					if ($status) {
@@ -139,13 +139,29 @@ class TaskController extends Controller
 		$dir_sep = $this->dir_sep;
 		$file = TaskFile::find($id);
 		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-		$tmpfile = storage_path() . $dir_sep . 'tmp' . $dir_sep . $file->file_md5 . '.' . $file->extname;
 
-		FTP::connection($file->ftp_connection)->downloadFile($file->fullfile, $tmpfile);
-		//return FTP::connection($file->ftp_connection)->readFile($file->filename);
+		$response = response()->make(
+			FTP::connection($file->ftp_connection)->readFile($file->fullfile),
+			200
+		)->header('Content-disposition', 'inline; filename="'.$file->filename.'"');
+		if ($file->mime_type) $response->header('Content-type', $file->mime_type);
 
-		return response()->file($tmpfile);
-		return response()->download($tmpfile, $file->filename);
+		return $response;
+	}
+
+	public function downloadFile($id, $name = '')
+	{
+		$dir_sep = $this->dir_sep;
+		$file = TaskFile::find($id);
+		if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+
+		$response = response()->make(
+			FTP::connection($file->ftp_connection)->readFile($file->fullfile),
+			200
+		)->header('Content-disposition', 'attachment; filename="'.$file->filename.'"');
+		if ($file->mime_type) $response->header('Content-type', $file->mime_type);
+
+		return $response;
 	}
 
 	public function detail($key)

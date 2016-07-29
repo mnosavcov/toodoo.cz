@@ -31,6 +31,7 @@ Route::put('task/{key}/save', ['as' => 'task.update.save', 'uses' => 'TaskContro
 Route::get('task/{key}', ['as' => 'task.detail', 'uses' => 'TaskController@detail']);
 Route::get('task/{key}/status-change/{from}/2/{to}', ['as' => 'task.status.change', 'uses' => 'TaskController@statusChange']);
 Route::get('task/file/{id}-{name}', ['as' => 'task.file.get', 'uses' => 'TaskController@getFile']);
+Route::get('task/download/{id}-{name}', ['as' => 'task.file.download', 'uses' => 'TaskController@downloadFile']);
 
 Route::get('admin', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashboard']);
 
