@@ -77,35 +77,39 @@ class TaskController extends Controller
     protected function putFile($task, $files)
     {
         $dir_sep = $this->dir_sep;
+        $path = $this->createDir($task);
+        if (!$path) return false;
+
         foreach ($files as $file) {
             if ($file->isValid()) {
                 $input_filename = $file->getPathname();
                 $output_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
                 $output_filename_thumb = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '_tmb.' . str_slug($file->getClientOriginalExtension());
 
-                $path = $this->createDir($task);
-                if ($path) {
-                    $output_fullfile = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename;
-                    $output_fullfile_thumb = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename_thumb;
-                    $status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
+                $output_mimetype = $file->getClientMimeType();
+                $output_fullfile = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename;
+                $output_fullfile_thumb = false;
 
-                    $output_fullfile_thumb = null;
-
-                    if ($status) {
-                        $task_file = new TaskFile([
-                            'ftp_connection' => config('ftp.default'),
-                            'file_md5' => md5_file($input_filename),
-                            'fullfile' => $output_fullfile,
-                            'pathname' => $path,
-                            'filename' => $output_filename,
-                            'extname' => str_slug($file->getClientOriginalExtension()),
-                            'mime_type' => $file->getClientMimeType(),
-                            'thumb' => $output_fullfile_thumb,
-                            'filesize' => $file->getClientSize()
-                        ]);
-                        $task->file()->save($task_file);
+                $status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
+                if ($status) {
+                    if (starts_with($output_mimetype, 'image/')) {
+                        $output_fullfile_thumb = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename_thumb;
                     }
+
+                    $task_file = new TaskFile([
+                        'ftp_connection' => config('ftp.default'),
+                        'file_md5' => md5_file($input_filename),
+                        'fullfile' => $output_fullfile,
+                        'pathname' => $path,
+                        'filename' => $output_filename,
+                        'extname' => str_slug($file->getClientOriginalExtension()),
+                        'mime_type' => $output_mimetype,
+                        'thumb' => $output_fullfile_thumb,
+                        'filesize' => $file->getClientSize()
+                    ]);
+                    $task->file()->save($task_file);
                 }
+
             } else {
                 echo $file->getErrorMessage() . '<br>';
             }
@@ -151,7 +155,7 @@ class TaskController extends Controller
     }
 
     public function thumbFile($id, $name = '')
-	{
+    {
         return $this->responseFile($id, 'inline', true);
     }
 
