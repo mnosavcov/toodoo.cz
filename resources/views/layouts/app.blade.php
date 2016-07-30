@@ -24,6 +24,7 @@
     <script src="{{ asset('/') }}js/bootstrap/bootstrap.min.js?v={{ config('app.version') }}"></script>
     <script src="{{ asset('/') }}js/bootstrap/dropdowns-enhancement.js?v={{ config('app.version') }}"></script>
     <script src="{{ asset('/') }}js/scrollbar/jquery.mCustomScrollbar.concat.min.js?v={{ config('app.version') }}"></script>
+    <script src="{{ asset('/') }}js/main.js?v={{ config('app.version') }}"></script>
 </head>
 <body id="app-layout">
 <script>
@@ -152,6 +153,7 @@
     </div>
 
     <script>
+        $('body').addClass('js-enabled');
         $(".bs-callout p.description").mCustomScrollbar({
             theme: "dark-3",
             autoHideScrollbar: true,

@@ -1,8 +1,21 @@
 <ul class="thumbs">
     @foreach($files as $file)
         <li>
+            <ul class="js-hide menu">
+                <li>
+                    <a href="{{ Route($type.'.file.download', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                       title="download">
+                        <span class="glyphicon glyphicon-download"></span>
+                    </a>
+                </li>
+                <li class="pull-left"><a
+                            href="{{ Route($type.'.file.delete', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                            title="odstranit">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a></li>
+            </ul>
             <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
-               title="{{ $file->filename }}">
+               title="{{ $file->filename }}" target="{{ $file->file_md5 }}" class="item">
                 @if($file->thumb)
                     <img class="img-thumbnail"
                          src="{{ $file->thumb }}">
@@ -23,3 +36,10 @@
     @endforeach
 </ul>
 <div class="clearfix"></div>
+<script>
+    $('ul.thumbs a.item, ul.thumbs .menu').hover(function () {
+        $(this).parent().find('.menu').stop().fadeIn(150);
+    }, function () {
+        $(this).parent().find('.menu').stop().fadeOut();
+    })
+</script>

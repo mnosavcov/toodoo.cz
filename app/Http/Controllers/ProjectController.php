@@ -43,7 +43,7 @@ class ProjectController extends Controller
     public function update($key)
     {
         $project = Project::byKey($key);
-        if(!$project->count()) return redirect()->route('home.index');
+        if (!$project->count()) return redirect()->route('home.index');
         return view('project.form', ['project' => $project]);
     }
 
@@ -51,7 +51,7 @@ class ProjectController extends Controller
     {
         if ($key) {
             $project = Project::byKey($key);
-            if(!$project->count()) return redirect()->route('home.index');
+            if (!$project->count()) return redirect()->route('home.index');
             $this->authorize('updateProject', $project);
         } else {
             $project = new Project;
@@ -72,20 +72,20 @@ class ProjectController extends Controller
     public function dashboard($key)
     {
         $project = Project::byKey($key);
-        if(!$project->count()) return redirect()->route('home.index');
+        if (!$project->count()) return redirect()->route('home.index');
         return view('project.dashboard', ['tasks' => $project->tasks()->orderBy('priority', 'desc')->orderBy('id')->get(), 'project' => $project]);
     }
 
     public function detail($key)
     {
         $project = Project::byKey($key);
-        if(!$project->count()) return redirect()->route('home.index');
+        if (!$project->count()) return redirect()->route('home.index');
         return view('project.detail', ['project' => $project, 'files' => $project->file]);
     }
 
     protected function putFile($request, $project, $files)
     {
-        if(!$files) return true;
+        if (!$files) return true;
         $dir_sep = $this->dir_sep;
         $path = $this->createDir($project);
         if (!$path) return false;
@@ -174,5 +174,22 @@ class ProjectController extends Controller
         if ($file->mime_type) $response->header('Content-type', $file->mime_type);
 
         return $response;
+    }
+
+    protected function deleteFile(Request $request, $id, $name = '')
+    {
+        $file = ProjectFile::find($id);
+        if ($file->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+        $project = $file->project;
+
+        FTP::connection($file->ftp_connection)->delete($file->fullfile);
+        $size = FTP::connection($file->ftp_connection)->size($file->fullfile);
+        if ($size==-1) {
+            $file->delete();
+        } else {
+            $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
+        }
+
+        return redirect()->route('project.dashboard', ['key' => $project->key]);
     }
 }

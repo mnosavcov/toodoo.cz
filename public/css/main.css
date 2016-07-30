@@ -1,3 +1,7 @@
+body.js-enabled .js-hide {
+    display: none;
+}
+
 li .task-detail span {
     opacity: 0;
     transition: opacity 0.5s;
@@ -113,6 +117,7 @@ ul.thumbs li {
     float: left;
     margin-right: 10px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 }
@@ -156,4 +161,29 @@ ul.thumbs .info .size {
 
 ul.thumbs .info .date {
     font-size: 10px;
+}
+
+ul.thumbs .menu {
+    background-color: rgba(0, 0, 0, .5);
+    color: #fff;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    right: 5px;
+    width: 180px;
+    padding-top: 4px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+}
+ul.thumbs .menu li {
+    float: right;
+    margin-bottom: 0;
+    margin-right: 5px;
+    list-style-type: none;
+}
+ul.thumbs .menu li a {
+    color: #fff;
+}
+ul.thumbs .menu li a:hover {
+    color: #ccc;
 }
