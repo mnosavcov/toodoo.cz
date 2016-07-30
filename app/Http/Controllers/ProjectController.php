@@ -102,9 +102,9 @@ class ProjectController extends Controller
                 $status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
                 if ($status) {
                     if (starts_with($output_mimetype, 'image/')) {
-                        $img = Image::make($input_filename)->fit(140, 140);
+                        $img = Image::make($input_filename)->fit(190, 150);
                         if ($img) {
-                            $output_thumb = $img->encode('data-url');
+                            $output_thumb = $img->encode('data-url', 50);
                         }
                     }
 
