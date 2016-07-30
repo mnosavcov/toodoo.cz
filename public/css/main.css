@@ -82,3 +82,11 @@ li:hover .task-detail span, li .task-detail:hover span {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.thumbs a {
+    text-decoration: none;
+}
+.thumbs .img-thumbnail {
+    width: 140px;
+    height: 140px;
+}
