@@ -1,6 +1,6 @@
 <div class="thumbs">
     @foreach($files as $file)
-        <a href="{{ Route('task.file.download', ['id'=>$file->id, 'name'=>$file->filename]) }}">
+        <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}">
             @if($file->thumb)
                 <img class="img-thumbnail"
                      src="{{ $file->thumb }}">

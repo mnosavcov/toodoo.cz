@@ -7,10 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\StoreProjectRequest;
 use App\Project;
+use App\ProjectFile;
 use Auth;
+use FTP;
+use Image;
 
 class ProjectController extends Controller
 {
+    protected $dir_sep = '/';
+
     public function __construct(Request $request)
     {
         $this->middleware('auth');
@@ -60,6 +65,7 @@ class ProjectController extends Controller
         $project->description = $request->input('description');
 
         $project->save();
+        $this->putFile($request, $project, $request->file('files'));
         return redirect()->route('project.dashboard', ['key' => $project->key]);
     }
 
@@ -74,6 +80,99 @@ class ProjectController extends Controller
     {
         $project = Project::byKey($key);
         if(!$project->count()) return redirect()->route('home.index');
-        return view('project.detail', ['project' => $project]);
+        return view('project.detail', ['project' => $project, 'files' => $project->file]);
+    }
+
+    protected function putFile($request, $project, $files)
+    {
+        if(!$files) return true;
+        $dir_sep = $this->dir_sep;
+        $path = $this->createDir($project);
+        if (!$path) return false;
+
+        foreach ($files as $file) {
+            if ($file->isValid()) {
+                $input_filename = $file->getPathname();
+                $output_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
+
+                $output_mimetype = $file->getClientMimeType();
+                $output_fullfile = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename;
+                $output_thumb = null;
+
+                $status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
+                if ($status) {
+                    if (starts_with($output_mimetype, 'image/')) {
+                        $img = Image::make($input_filename)->fit(140, 140);
+                        if ($img) {
+                            $output_thumb = $img->encode('data-url');
+                        }
+                    }
+
+                    $project_file = new ProjectFile([
+                        'ftp_connection' => config('ftp.default'),
+                        'file_md5' => md5_file($input_filename),
+                        'fullfile' => $output_fullfile,
+                        'pathname' => $path,
+                        'filename' => $output_filename,
+                        'extname' => str_slug($file->getClientOriginalExtension()),
+                        'mime_type' => $output_mimetype,
+                        'thumb' => $output_thumb,
+                        'filesize' => $file->getClientSize()
+                    ]);
+                    $project->file()->save($project_file);
+                }
+            } else {
+                $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
+            }
+        }
+    }
+
+    protected function createDir($project)
+    {
+        $dir_sep = $this->dir_sep;
+        $paths = [
+            $project->user->id,
+            $project->id . '-' . $project->hash
+        ];
+
+        $path = $dir_sep . implode($dir_sep, $paths);
+        foreach ($paths as $p) {
+            $status = FTP::connection()->changeDir($p);
+            if (!$status) {
+                $status = FTP::connection()->makeDir($p);
+                if (!$status) {
+                    return false;
+                }
+                $status = FTP::connection()->changeDir($p);
+                if (!$status) {
+                    return false;
+                }
+            }
+        }
+
+        if ($path != FTP::connection()->currentDir()) return false;
+        return $path;
+    }
+
+    public function getFile($id, $name = '')
+    {
+        return $this->responseFile($id, 'inline');
+    }
+
+    public function downloadFile($id, $name = '')
+    {
+        return $this->responseFile($id, 'attachment');
+    }
+
+    protected function responseFile($id, $disposition)
+    {
+        $file = ProjectFile::find($id);
+        if ($file->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+        $response = response()->make(
+            FTP::connection($file->ftp_connection)->readFile($file->fullfile)
+        )->header('Content-disposition', $disposition . '; filename="' . $file->filename . '"');
+        if ($file->mime_type) $response->header('Content-type', $file->mime_type);
+
+        return $response;
     }
 }

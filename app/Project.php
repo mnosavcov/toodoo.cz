@@ -23,6 +23,11 @@ class Project extends Model
 		return $this->belongsTo('App\User');
 	}
 
+    public function file()
+    {
+        return $this->hasMany('App\ProjectFile');
+    }
+
     public function scopeByKey($query, $key)
     {
         return $query->where(['user_id' => Auth::user()->id, 'key' => $key])->first();

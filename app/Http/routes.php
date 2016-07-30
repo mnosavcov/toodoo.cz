@@ -23,6 +23,8 @@ Route::get('project/{key}/update', ['as' => 'project.update', 'uses' => 'Project
 Route::put('project/{key}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
 Route::get('project/{key}/dashboard', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
 Route::get('project/{key}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
+Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
+Route::get('project/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 
 Route::get('task/{key}/add', ['as' => 'task.add', 'uses' => 'TaskController@add']);
 Route::post('task/{key}/save', ['as' => 'task.add.save', 'uses' => 'TaskController@save']);

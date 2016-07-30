@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">projekt</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
 
                             @if($project->id>0)
@@ -83,6 +83,21 @@
                                     @if ($errors->has('description'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('files[]') ? ' has-error' : '' }}">
+                                <label for="description" class="col-md-4 control-label">Soubory</label>
+
+                                <div class="col-md-6">
+                                    <input id="files" type="file" class="form-control"
+                                           name="files[]" multiple>
+
+                                    @if ($errors->has('files[]'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('files[]') }}</strong>
                                     </span>
                                     @endif
                                 </div>

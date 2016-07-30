@@ -6,5 +6,5 @@
     task.detail
     <br>
 
-    @include('@shared.thumb')
+    @include('@shared.thumb', ['type'=>'task'])
 @endsection

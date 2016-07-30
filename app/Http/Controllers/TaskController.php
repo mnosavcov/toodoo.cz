@@ -77,6 +77,7 @@ class TaskController extends Controller
 
     protected function putFile($request, $task, $files)
     {
+        if(!$files) return true;
         $dir_sep = $this->dir_sep;
         $path = $this->createDir($task);
         if (!$path) return false;
