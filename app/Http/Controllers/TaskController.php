@@ -83,7 +83,7 @@ class TaskController extends Controller
         if (!$path) return false;
 
         foreach ($files as $file) {
-            if ($file->isValid()) {
+            if (isset($file) && $file->isValid()) {
                 $input_filename = $file->getPathname();
                 $output_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
 
@@ -114,7 +114,7 @@ class TaskController extends Controller
                     $task->file()->save($task_file);
                 }
             } else {
-                $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
+                if(isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
     }
