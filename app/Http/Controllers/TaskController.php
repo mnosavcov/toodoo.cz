@@ -95,7 +95,8 @@ class TaskController extends Controller
 							'filename' => $output_filename,
 							'extname' => str_slug($file->getClientOriginalExtension()),
 							'mime_type' => $file->getClientMimeType(),
-							'thumb' => null
+							'thumb' => null,
+							'filesize' => $file->getClientSize()
 						]);
 						$task->file()->save($task_file);
 					}
@@ -142,6 +143,11 @@ class TaskController extends Controller
 	public function downloadFile($id, $name = '')
 	{
 		return $this->responseFile($id, 'attachment');
+	}
+
+	public function thumbFile($id, $name = '')
+	{
+		return $this->responseFile($id, 'inline');
 	}
 
 	protected function responseFile($id, $disposition) {

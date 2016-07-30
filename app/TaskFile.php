@@ -16,7 +16,8 @@ class TaskFile extends Model
 		'filename',
 		'extname',
 		'thumb',
-		'mime_type'
+		'mime_type',
+		'filesize'
 	];
 
 	public function task()
