@@ -9,8 +9,9 @@
                     </a>
                 </li>
                 <li class="pull-left"><a
-                            href="{{ Route($type.'.file.delete', ['id'=>$file->id, 'name'=>$file->filename]) }}"
-                            title="odstranit">
+                            href="javascript:void(0);"
+                            title="odstranit"
+                    onclick="location_confirm('opravdu smazat soubor?', '{{ Route($type.'.file.delete', ['id'=>$file->id, 'name'=>$file->filename]) }}')">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a></li>
             </ul>
