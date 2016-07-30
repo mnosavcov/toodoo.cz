@@ -28,7 +28,7 @@ class CreateTaskFilesTable extends Migration
 	        $table->string('filename', 255);
 	        $table->string('extname', 32);
 	        $table->string('mime_type', 255);
-	        $table->string('thumb', 255)->nullable();
+	        $table->text('thumb')->nullable();
 
 	        $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
         });

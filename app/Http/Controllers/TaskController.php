@@ -12,6 +12,7 @@ use App\TaskStatus;
 use App\TaskFile;
 use App\Project;
 use FTP;
+use Image;
 
 class TaskController extends Controller
 {
@@ -46,7 +47,7 @@ class TaskController extends Controller
         $task->description = $request->input('description');
 
         $task->save();
-        $this->putFile($task, $request->file('files'));
+        $this->putFile($request, $task, $request->file('files'));
         return redirect()->route('task.detail', ['key' => $task->key()]);
     }
 
@@ -69,12 +70,12 @@ class TaskController extends Controller
         $task->description = $request->input('description');
 
         $task->save();
-        $this->putFile($task, $request->file('files'));
+        $this->putFile($request, $task, $request->file('files'));
 
         return redirect()->route('task.detail', ['key' => $task->key()]);
     }
 
-    protected function putFile($task, $files)
+    protected function putFile($request, $task, $files)
     {
         $dir_sep = $this->dir_sep;
         $path = $this->createDir($task);
@@ -84,16 +85,18 @@ class TaskController extends Controller
             if ($file->isValid()) {
                 $input_filename = $file->getPathname();
                 $output_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . str_slug($file->getClientOriginalExtension());
-                $output_filename_thumb = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '_tmb.' . str_slug($file->getClientOriginalExtension());
 
                 $output_mimetype = $file->getClientMimeType();
                 $output_fullfile = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename;
-                $output_fullfile_thumb = false;
+                $output_thumb = null;
 
                 $status = FTP::connection()->uploadFile($input_filename, $output_fullfile);
                 if ($status) {
                     if (starts_with($output_mimetype, 'image/')) {
-                        $output_fullfile_thumb = $path . $dir_sep . uniqid(time() . '-') . '-' . $output_filename_thumb;
+                        $img = Image::make($input_filename)->fit(140, 140);
+                        if ($img) {
+                            $output_thumb = $img->encode('data-url');
+                        }
                     }
 
                     $task_file = new TaskFile([
@@ -104,14 +107,13 @@ class TaskController extends Controller
                         'filename' => $output_filename,
                         'extname' => str_slug($file->getClientOriginalExtension()),
                         'mime_type' => $output_mimetype,
-                        'thumb' => $output_fullfile_thumb,
+                        'thumb' => $output_thumb,
                         'filesize' => $file->getClientSize()
                     ]);
                     $task->file()->save($task_file);
                 }
-
             } else {
-                echo $file->getErrorMessage() . '<br>';
+                $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
     }
@@ -154,18 +156,12 @@ class TaskController extends Controller
         return $this->responseFile($id, 'attachment');
     }
 
-    public function thumbFile($id, $name = '')
-    {
-        return $this->responseFile($id, 'inline', true);
-    }
-
-    protected function responseFile($id, $disposition, $thumb = false)
+    protected function responseFile($id, $disposition)
     {
         $file = TaskFile::find($id);
         if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-
         $response = response()->make(
-            (($thumb) ? FTP::connection($file->ftp_connection)->readFile($file->thumb) : FTP::connection($file->ftp_connection)->readFile($file->fullfile))
+            FTP::connection($file->ftp_connection)->readFile($file->fullfile)
         )->header('Content-disposition', $disposition . '; filename="' . $file->filename . '"');
         if ($file->mime_type) $response->header('Content-type', $file->mime_type);
 
