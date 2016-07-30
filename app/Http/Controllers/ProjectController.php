@@ -190,6 +190,6 @@ class ProjectController extends Controller
             $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
         }
 
-        return redirect()->route('project.dashboard', ['key' => $project->key]);
+        return redirect()->route('project.detail', ['key' => $project->key]);
     }
 }
