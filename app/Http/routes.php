@@ -38,5 +38,6 @@ Route::get('task/download/{id}-{name}', ['as' => 'task.file.download', 'uses' =>
 Route::get('task/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' => 'TaskController@deleteFile']);
 
 Route::get('admin', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashboard']);
+Route::get('admin/refresh', ['as' => 'admin.refresh', 'uses' => 'AdminController@refresh']);
 
 Route::auth();
