@@ -127,18 +127,19 @@
                     @foreach(\App\Project::navList() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active"
                             @endif style="margin-bottom: 1px;">
+                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}"
+                               class="pull-right project-nav"
+                               title="{{ $item->short }}">
+                                <span class="glyphicon glyphicon-option-horizontal"></span>
+                            </a>
                             <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
-                               class="col-xs-9 priority{{ $item->priority }}"
+                               class="project-item priority{{ $item->priority }}"
                                title="{{ $item->short }}">{{ $item->name }}
                                 @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
                                     <span class="badge">{{ $todocount }}/{{ $inprogresscount }}</span>
                                 @endif
                             </a>
-                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}"
-                               class="col-xs-3 text-right task-detail"
-                               title="{{ $item->short }}">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </a>
+
 
                             <div class="clearfix"></div>
                         </li>
