@@ -123,7 +123,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar navbar-right">
+                <ul class="nav nav-sidebar navbar-right project-nav-wrap">
                     @foreach(\App\Project::navList() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active"
                             @endif style="margin-bottom: 1px;">
@@ -131,7 +131,7 @@
                                class="dropdown-toggle pull-right project-nav"
                                title="{{ $item->short }}" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <span class="glyphicon glyphicon-option-horizontal"></span>
+                                <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">

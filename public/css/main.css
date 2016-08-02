@@ -181,6 +181,15 @@ ul.thumbs .menu li a:hover {
     padding-right: 10px!important;
     padding-left: 10px!important;
 }
+.project-nav-wrap .project-nav {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.project-nav-wrap:hover .project-nav,
+.project-nav:hover {
+    opacity: 1;
+    transition: opacity 0s;
+}
 .nav-file a {
     max-width: 200px;
 }
