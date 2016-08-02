@@ -123,21 +123,72 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar">
+                <ul class="nav nav-sidebar navbar-right">
                     @foreach(\App\Project::navList() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active"
                             @endif style="margin-bottom: 1px;">
-                            <a href="{{ route('project.detail', ['key'=>$item->key]) }}"
-                               class="pull-right project-nav"
-                               title="{{ $item->short }}">
+                            <a href="#"
+                               class="dropdown-toggle pull-right project-nav"
+                               title="{{ $item->short }}" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
                                 <span class="glyphicon glyphicon-option-horizontal"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
                             </a>
-                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
-                               class="project-item priority{{ $item->priority }}"
-                               title="{{ $item->short }}">{{ $item->name }}
-                                @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
-                                    <span class="badge">{{ $todocount }}/{{ $inprogresscount }}</span>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ route('project.detail', ['key'=>$item->key]) }}">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        &nbsp;Detail
+                                    </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                @if($item->file->count())
+                                    @foreach($item->file as $file)
+                                        <li class="nav-file">
+                                            <a href="{{ Route('project.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                                               title="{{ $file->filename }}" target="{{ $file->file_md5 }}"
+                                               class="item block-with-text">
+                                                @if($file->thumb)
+                                                    <img class="img-thumbnail-micro"
+                                                         src="{{ $file->thumb }}">
+                                                @else
+                                                    <div class="img-thumbnail-micro">
+                                                        <div class="in">
+                                                            {{ $file->extname }}
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                {{ $file->filename }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li class="disabled" disabled="disabled">
+                                        <a href="#" data-toggle="dropdown">
+                                            <span class="glyphicon glyphicon-paperclip"></span>
+                                            Žádné přílohy
+                                        </a>
+                                    </li>
                                 @endif
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="{{ route('project.update', ['key'=>$item->key]) }}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        &nbsp;Upravit
+                                    </a>
+                                </li>
+                            </ul>
+                            <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
+                               class="block-with-text priority{{ $item->priority }}"
+                               title="{{ $item->short }}">
+                                @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
+                                    <span class="pull-right">
+                                        &nbsp;<span class="badge">
+                                            {{ $todocount }}/{{ $inprogresscount }}
+                                        </span>
+                                    </span>
+                                @endif
+                                {{ $item->name }}
                             </a>
 
 

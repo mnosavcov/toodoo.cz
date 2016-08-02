@@ -1,6 +1,6 @@
 <div class="bs-callout bs-callout{{ $task->priority }}" id="callout-overview-not-both">
     <div class="dropdown pull-right">
-        <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
             <span class="glyphicon glyphicon-option-horizontal"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </a>
