@@ -131,7 +131,8 @@
                                class="dropdown-toggle pull-right project-nav"
                                title="{{ $item->short }}" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <span class="caret"></span>
+                                <span class="caret hidden-xs"></span>
+                                <span class="glyphicon glyphicon-option-horizontal visible-xs-inline-block" style="visibility: visible!important;"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
