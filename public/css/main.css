@@ -1,3 +1,7 @@
+@media only screen and (max-width: 760px) {
+    #no-mobile-element { display: none; }
+}
+
 body.js-enabled .js-hide {
     display: none;
 }
@@ -199,13 +203,16 @@ ul.thumbs .menu li a:hover {
     background-color: #428bca !important;
 }
 
-.project-nav-wrap .project-nav span {
+.project-nav-wrap .project-nav span.sign {
     visibility: hidden;
 }
 
-.project-nav-wrap:hover .project-nav span,
-.project-nav:hover span {
+.project-nav-wrap:hover .project-nav span.sign,
+.project-nav:hover span.sign {
     visibility: visible;
+}
+.mobile-device .project-nav-wrap .project-nav span.sign {
+    visibility: visible!important;
 }
 
 .nav-file a {

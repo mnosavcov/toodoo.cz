@@ -27,6 +27,7 @@
     <script src="{{ asset('/') }}js/main.js?v={{ config('app.version') }}"></script>
 </head>
 <body id="app-layout">
+<div id="no-mobile-element"></div>
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -131,8 +132,8 @@
                                class="dropdown-toggle pull-right project-nav"
                                title="{{ $item->short }}" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <span class="caret hidden-xs"></span>
-                                <span class="glyphicon glyphicon-option-horizontal visible-xs-inline-block" style="visibility: visible!important;"></span>
+                                <span class="sign caret hidden-xs"></span>
+                                <span class="sign glyphicon glyphicon-option-horizontal visible-xs-inline-block"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -207,6 +208,9 @@
 
     <script>
         $('body').addClass('js-enabled');
+        if ($('#no-mobile-element').css('display') == 'none') {
+            $('body').addClass('mobile-device');
+        }
         $(".bs-callout p.description").mCustomScrollbar({
             theme: "dark-3",
             autoHideScrollbar: true,
