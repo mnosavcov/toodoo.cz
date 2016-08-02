@@ -181,14 +181,18 @@ ul.thumbs .menu li a:hover {
     padding-right: 10px!important;
     padding-left: 10px!important;
 }
-.project-nav-wrap .project-nav {
-    opacity: 0;
-    transition: opacity 0.2s;
+.project-nav-wrap a:focus {
+    background-color: transparent!important;
 }
-.project-nav-wrap:hover .project-nav,
-.project-nav:hover {
-    opacity: 1;
-    transition: opacity 0s;
+.active.project-nav-wrap a:focus {
+    background-color: #428bca!important;
+}
+.project-nav-wrap .project-nav span {
+    visibility: hidden;
+}
+.project-nav-wrap:hover .project-nav span ,
+.project-nav:hover span {
+    visibility: visible;
 }
 .nav-file a {
     max-width: 200px;
