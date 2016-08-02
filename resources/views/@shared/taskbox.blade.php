@@ -5,22 +5,6 @@
             <span class="sr-only">Toggle Dropdown</span>
         </a>
         <ul class="dropdown-menu" role="menu">
-            <li>
-                <a href="{{ route('task.update', ['key'=>$task->key()]) }}">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    &nbsp;Upravit
-                </a>
-            </li>
-            <li class="dropdown-submenu disabled" disabled="disabled">
-                <a href="#" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-paperclip"></span>
-                    Soubory
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">přidat funkčnost</a></li>
-                </ul>
-            </li>
-
             @if($task->status->code=='TODO')
                 <li>
                     <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'TODO', 'to'=>'IN-PROGRESS']) }}">
@@ -80,6 +64,42 @@
                     </a>
                 </li>
             @endif
+            <li role="separator" class="divider"></li>
+            @if($task->file->count())
+                @foreach($task->file as $file)
+                    <li class="nav-file">
+                        <a href="{{ Route('task.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                           title="{{ $file->filename }}" target="{{ $file->file_md5 }}"
+                           class="item block-with-text">
+                            @if($file->thumb)
+                                <img class="img-thumbnail-micro"
+                                     src="{{ $file->thumb }}">
+                            @else
+                                <div class="img-thumbnail-micro">
+                                    <div class="in">
+                                        {{ $file->extname }}
+                                    </div>
+                                </div>
+                            @endif
+                            {{ $file->filename }}
+                        </a>
+                    </li>
+                @endforeach
+            @else
+                <li class="disabled" disabled="disabled">
+                    <a href="#" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-paperclip"></span>
+                        Žádné přílohy
+                    </a>
+                </li>
+            @endif
+            <li role="separator" class="divider"></li>
+            <li>
+                <a href="{{ route('task.update', ['key'=>$task->key()]) }}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    &nbsp;Upravit
+                </a>
+            </li>
         </ul>
     </div>
     <h4 class="block-with-text">
