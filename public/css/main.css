@@ -202,6 +202,12 @@ ul.thumbs .menu li a:hover {
 .active.project-nav-wrap a:focus {
     background-color: #428bca !important;
 }
+.project-nav-wrap.open a.project-nav {
+    background-color: #eee !important;
+}
+.active.project-nav-wrap.open a.project-nav {
+    background-color: #428bca !important;
+}
 
 .project-nav-wrap .project-nav span.sign {
     visibility: hidden;
@@ -211,7 +217,8 @@ ul.thumbs .menu li a:hover {
 .project-nav:hover span.sign {
     visibility: visible;
 }
-.mobile-device .project-nav-wrap .project-nav span.sign {
+.mobile-device .project-nav-wrap .project-nav span.sign,
+.project-nav-wrap.open .project-nav span.sign {
     visibility: visible!important;
 }
 
