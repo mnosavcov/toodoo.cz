@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDecriptionSecretToProjectsTable extends Migration
+class AddDescriptionSecretToProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddDecriptionSecretToProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-	        $table->text('decription_secret')->nullable()->after('description');
+	        $table->text('description_secret')->nullable()->after('description');
         });
     }
 
@@ -25,7 +25,7 @@ class AddDecriptionSecretToProjectsTable extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-	        $table->dropColumn('decription_secret');
+	        $table->dropColumn('description_secret');
         });
     }
 }

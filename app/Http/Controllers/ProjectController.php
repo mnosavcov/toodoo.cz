@@ -63,6 +63,7 @@ class ProjectController extends Controller
         $project->name = $request->input('name');
         $project->key = $request->input('key');
         $project->description = $request->input('description');
+	    $project->description_secret = encrypt($request->input('description_secret'));
 
         $project->save();
         $this->putFile($request, $project, $request->file('files'));

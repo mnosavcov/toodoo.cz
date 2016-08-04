@@ -261,3 +261,7 @@ ul.thumbs .menu li a:hover {
 .mobile-device .mobile-inline-block {
     display: inline-block!important;
 }
+
+#description-secret {
+    display: none;
+}

@@ -61,7 +61,7 @@
                                 <label for="description" class="col-md-4 control-label">Popis</label>
 
                                 <div class="col-md-6">
-                                    <textarea id="description" type="description" class="form-control"
+                                    <textarea id="description" class="form-control"
                                               name="description" rows="8">{{ old('description', $task->description) }}</textarea>
 
                                     @if ($errors->has('description'))
@@ -72,8 +72,31 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="button" class="btn btn-primary col-md-12" id="description-secret-button">
+                                        Upravit skrytý popis
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="description-secret" class="form-group{{ $errors->has('description_secret') ? ' has-error' : '' }}">
+                                <label for="description_secret" class="col-md-4 control-label">Popis skrytý</label>
+
+                                <div class="col-md-6">
+                                    <textarea id="description_secret" class="form-control"
+                                              name="description_secret" rows="8">{{ old('description_secret', decrypt($task->description_secret)) }}</textarea>
+
+                                    @if ($errors->has('description_secret'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('description_secret') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('files[]') ? ' has-error' : '' }}">
-                                <label for="description" class="col-md-4 control-label">Soubory</label>
+                                <label for="files" class="col-md-4 control-label">Soubory</label>
 
                                 <div class="col-md-6">
                                     <input id="files" type="file" class="form-control"
@@ -90,7 +113,7 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-sign-in"></i> Uložit
+                                        Uložit
                                     </button>
                                 </div>
                             </div>
