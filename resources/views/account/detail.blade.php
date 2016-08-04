@@ -26,6 +26,24 @@
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <table class="table table-bordered">
+                                    <caption>Soubory</caption>
+                                    <tbody>
+                                    <tr>
+                                        <th class="col-xs-4 active">Místo celkem</th>
+                                        <td class="col-xs-8">{{ formatBytes($user->main_size + $user->purchased_size, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-xs-4 active">Použité místo</th>
+                                        <td class="col-xs-8">{{ $user->used_size }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-xs-4 active">Zbývá místo</th>
+                                        <td class="col-xs-8">{{ $user->free_size }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
