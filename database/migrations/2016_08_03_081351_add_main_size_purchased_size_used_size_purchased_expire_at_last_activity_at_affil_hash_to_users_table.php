@@ -19,6 +19,7 @@ class AddMainSizePurchasedSizeUsedSizePurchasedExpireAtLastActivityAtAffilHashTo
 	        $table->integer('purchase_expire_at');
 	        $table->integer('last_activity_at');
 	        $table->char('affil_hash', 8);
+            $table->unique('affil_hash');
         });
     }
 
