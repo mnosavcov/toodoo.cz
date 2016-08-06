@@ -57,9 +57,6 @@ $user = $request->user();
 if ($user) {
     $user->last_activity_at = time();
     $user->save();
-    if ($user->free_size<20000000) {
-        $request->session()->flash('success', 'zbývá ' . formatBytes($user->free_size) . ' volného místa z ' . formatBytes($user->main_size + $user->purchased_size) . ' pro vaše soubory');
-    }
 }
 
 $response->send();
