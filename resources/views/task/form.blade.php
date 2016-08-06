@@ -85,7 +85,7 @@
 
                                 <div class="col-md-6">
                                     <textarea id="description_secret" class="form-control"
-                                              name="description_secret" rows="8">{{ old('description_secret', ($task->description_secret?decrypt($task->description_secret):'')) }}</textarea>
+                                              name="description_secret" rows="8">{{ old('description_secret', ((isset($task->description_secret) && $task->description_secret)?decrypt($task->description_secret):'')) }}</textarea>
 
                                     @if ($errors->has('description_secret'))
                                         <span class="help-block">
