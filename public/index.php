@@ -19,7 +19,7 @@
 |
 */
 
-require __DIR__.'/../bootstrap/autoload.php';
+require __DIR__ . '/../bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ require __DIR__.'/../bootstrap/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +54,12 @@ $response = $kernel->handle(
 );
 
 $user = $request->user();
-if($user) {
+if ($user) {
     $user->last_activity_at = time();
     $user->save();
+    if ($user->free_size<20000000) {
+        $request->session()->flash('success', 'zbývá ' . formatBytes($user->free_size) . ' volného místa z ' . formatBytes($user->main_size + $user->purchased_size) . ' pro vaše soubory');
+    }
 }
 
 $response->send();

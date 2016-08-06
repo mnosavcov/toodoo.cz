@@ -31,7 +31,8 @@ class User extends Authenticatable
 
 	protected $attributes = array(
 		'main_size' => '20971520', // 20MB
-		'purchased_size' => 0
+		'purchased_size' => 0,
+        'free_size' => '20971520' // 20MB
 	);
 
     public function recalcSize()

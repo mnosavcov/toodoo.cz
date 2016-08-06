@@ -35,7 +35,7 @@
                                     <tbody>
                                     <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
-                                        <td class="col-xs-8">{{ formatBytes($user->main_size + $user->purchased_size, 2) }}</td>
+                                        <td class="col-xs-8">{{ formatBytes($user->main_size + $user->purchased_size) }}</td>
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Použité místo</th>
