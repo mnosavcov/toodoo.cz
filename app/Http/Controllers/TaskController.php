@@ -118,6 +118,7 @@ class TaskController extends Controller
                 if(isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
+        $request->user()->recalcSize();
     }
 
     protected function createDir($task)
