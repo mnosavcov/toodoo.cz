@@ -16,6 +16,7 @@ Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 Route::get('account', ['as' => 'account.detail', 'uses' => 'AccountController@detail']);
 Route::get('account/edit', ['as' => 'account.edit', 'uses' => 'AccountController@edit']);
 Route::post('account/save', ['as' => 'account.save', 'uses' => 'AccountController@save']);
+Route::get('account/refresh', ['as' => 'account.refresh', 'uses' => 'AccountController@refresh']);
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
 Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);

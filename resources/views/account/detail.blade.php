@@ -28,7 +28,10 @@
                                 </table>
 
                                 <table class="table table-bordered">
-                                    <caption>Soubory</caption>
+                                    <caption>
+                                        <a href="{{ Route('account.refresh') }}" class="pull-right"><span class="glyphicon glyphicon-refresh"></span></a>
+                                        Soubory
+                                    </caption>
                                     <tbody>
                                     <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
@@ -36,11 +39,11 @@
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Použité místo</th>
-                                        <td class="col-xs-8">{{ $user->used_size }}</td>
+                                        <td class="col-xs-8">{{ formatBytes($user->used_size) }}</td>
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Zbývá místo</th>
-                                        <td class="col-xs-8">{{ $user->free_size }}</td>
+                                        <td class="col-xs-8">{{ formatBytes($user->free_size) }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
