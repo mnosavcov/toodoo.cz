@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBackupDbTable extends Migration
+class CreateBackupDbsTable extends Migration
 {
     /**
      * Run the migrations.
