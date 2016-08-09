@@ -73,7 +73,7 @@ class AdminController extends Controller
     {
         $time_backup = 2592000; //60*60*24*30 = 30 dni
         $max_lines = 100;
-        $filename = date('Ymd_His') . '_toodoo_cz';
+        $filename = date('Ymd_His') . '_toodoo_cz.sql';
         $pathname = __DIR__ . '/../../../database/backup/';
         $backup_db = new BackupDb;
         $backup_db->filename = $filename;
