@@ -15,6 +15,8 @@ use Storage;
 
 class AdminController extends Controller
 {
+    protected $pathname = __DIR__ . '/../../../database/backup/';
+
     public function __construct()
     {
         $this->middleware('admin');
@@ -26,22 +28,26 @@ class AdminController extends Controller
         $data['last_refresh'] = AdminStatus::where('type', 'last_refresh')->first()->data;
         $data['users_count'] = AdminStatus::where('type', 'users_count')->first()->data;
         $data['ftp'] = AdminStatus::where('type', 'ftp')->get();
+        $data['backup_db'] = json_decode(AdminStatus::where('type', 'backup_db')->first()->data);
         return view('admin.dashboard', ['data' => $data]);
     }
 
     public function refresh()
     {
+        // last refresh
         AdminStatus::truncate();
         AdminStatus::create([
             'type' => 'last_refresh',
             'data' => date('d.m.Y H:i:s')
         ]);
 
+        // users accounts
         AdminStatus::create([
             'type' => 'users_count',
             'data' => User::count()
         ]);
 
+        // ftp
         $ftp_data = [];
         $ftps = ProjectFile::select('ftp_connection', DB::raw('sum(filesize) as filesize'))->groupBy('ftp_connection')->get();
         foreach ($ftps as $ftp) {
@@ -66,6 +72,24 @@ class AdminController extends Controller
             ]);
         }
 
+        // backups DB
+        $pathname = $this->pathname;
+        $backup_db_count = BackupDb::count();
+        $last_backup_db = BackupDb::orderBy('id', 'desc')->first();
+        $file_size = false;
+        $filename = $pathname . '/' . $last_backup_db->filename;
+        if (file_exists($filename)) {
+            $file_size = filesize($filename);
+        }
+        AdminStatus::create([
+            'type' => 'backup_db',
+            'data' => json_encode([
+                'count' => $backup_db_count,
+                'last_backup_at' => date('d.m.Y H:i:s', $last_backup_db->created_at->timestamp),
+                'success' => ($file_size ? formatBytes($file_size) . ' (' . number_format($file_size, 0, ',', ' ') . ')' : 'NEZDAŘILO SE')
+            ])
+        ]);
+
         return redirect()->route('admin.dashboard');
     }
 
@@ -74,7 +98,7 @@ class AdminController extends Controller
         $time_backup = 2592000; //60*60*24*30 = 30 dni
         $max_lines = 100;
         $filename = date('Ymd_His') . '_toodoo_cz.sql';
-        $pathname = __DIR__ . '/../../../database/backup/';
+        $pathname = $this->pathname;
         $backup_db = new BackupDb;
         $backup_db->filename = $filename;
         $backup_db->save();
@@ -107,15 +131,15 @@ class AdminController extends Controller
         }
         fclose($backup_file);
 
-        $backup_db = BackupDb::where('created_at', '<=', time()-$time_backup)->get();
-        foreach($backup_db as $db) {
+        $backup_db = BackupDb::where('created_at', '<=', time() - $time_backup)->get();
+        foreach ($backup_db as $db) {
             $file_del = $pathname . $db->filename;
-            if(file_exists($file_del)) {
+            if (file_exists($file_del)) {
                 unlink($file_del);
             }
             $db->delete();
         }
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.refresh');
     }
 }

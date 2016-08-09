@@ -41,4 +41,23 @@
                 @endforeach
         </table>
     </div>
+
+    <h2>Backup DB</h2>
+
+    <div class="row">
+        <table class="table table-bordered">
+            <tr>
+                <td class="active col-xs-4">Počet záloh</td>
+                <td class="col-xs-8">{{ $data['backup_db']->count }}</td>
+            </tr>
+            <tr>
+                <td class="active col-xs-4">Poslední záloha</td>
+                <td class="col-xs-8">{{ $data['backup_db']->last_backup_at }}</td>
+            </tr>
+            <tr>
+                <td class="active col-xs-4">Velikost poslední zálohy</td>
+                <td class="col-xs-8">{{ $data['backup_db']->success }}</td>
+            </tr>
+        </table>
+    </div>
 @endsection
