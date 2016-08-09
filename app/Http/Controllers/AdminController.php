@@ -77,15 +77,19 @@ class AdminController extends Controller
         $backup_db_count = BackupDb::count();
         $last_backup_db = BackupDb::orderBy('id', 'desc')->first();
         $file_size = false;
-        $filename = $pathname . '/' . $last_backup_db->filename;
-        if (file_exists($filename)) {
-            $file_size = filesize($filename);
+        $last_time = '-';
+        if ($last_backup_db) {
+            $filename = $pathname . '/' . $last_backup_db->filename;
+            if (file_exists($filename)) {
+                $file_size = filesize($filename);
+            }
+            $last_time = date('d.m.Y H:i:s', $last_backup_db->created_at->timestamp);
         }
         AdminStatus::create([
             'type' => 'backup_db',
             'data' => json_encode([
                 'count' => $backup_db_count,
-                'last_backup_at' => date('d.m.Y H:i:s', $last_backup_db->created_at->timestamp),
+                'last_backup_at' => $last_time,
                 'success' => ($file_size ? formatBytes($file_size) . ' (' . number_format($file_size, 0, ',', ' ') . ')' : 'NEZDAŘILO SE')
             ])
         ]);
