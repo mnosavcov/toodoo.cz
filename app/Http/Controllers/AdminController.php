@@ -75,22 +75,36 @@ class AdminController extends Controller
         // backups DB
         $pathname = $this->pathname;
         $backup_db_count = BackupDb::count();
+
         $last_backup_db = BackupDb::orderBy('id', 'desc')->first();
-        $file_size = false;
+        $last_file_size = 'NEZDAŘILO SE';
         $last_time = '-';
         if ($last_backup_db) {
             $filename = $pathname . '/' . $last_backup_db->filename;
             if (file_exists($filename)) {
                 $file_size = filesize($filename);
+                $last_file_size = formatBytes($file_size) . ' (' . number_format($file_size, 0, ',', ' ') . ')';
             }
             $last_time = date('d.m.Y H:i:s', $last_backup_db->created_at->timestamp);
+        }
+
+        $old_backup_db = BackupDb::orderBy('id', 'asc')->first();
+        $old_file_size = 'NEZDAŘILO SE';
+        $old_time = '-';
+        if ($old_backup_db) {
+            $filename = $pathname . '/' . $old_backup_db->filename;
+            if (file_exists($filename)) {
+                $file_size = filesize($filename);
+                $old_file_size = formatBytes($file_size) . ' (' . number_format($file_size, 0, ',', ' ') . ')';
+            }
+            $old_time = date('d.m.Y H:i:s', $old_backup_db->created_at->timestamp);
         }
         AdminStatus::create([
             'type' => 'backup_db',
             'data' => json_encode([
                 'count' => $backup_db_count,
-                'last_backup_at' => $last_time,
-                'success' => ($file_size ? formatBytes($file_size) . ' (' . number_format($file_size, 0, ',', ' ') . ')' : 'NEZDAŘILO SE')
+                'last_backup_at' => $last_time . ' / ' . $old_time,
+                'success' => $last_file_size . ' / ' . $old_file_size
             ])
         ]);
 
