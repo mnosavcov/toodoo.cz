@@ -48,7 +48,7 @@ class TaskController extends Controller
 
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
-        return redirect()->route('task.detail', ['key' => $task->key()]);
+        return redirect()->route('project.dashboard', ['key' => $task->project->key]);
     }
 
     public function update($key)
@@ -73,7 +73,7 @@ class TaskController extends Controller
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
 
-        return redirect()->route('task.detail', ['key' => $task->key()]);
+        return redirect()->route('project.dashboard', ['key' => $task->project->key]);
     }
 
     protected function putFile($request, $task, $files)
