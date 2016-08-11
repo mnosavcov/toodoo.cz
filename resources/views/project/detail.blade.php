@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    @if(trim(decrypt($project->description_secret)))
+    @if(trim($project->description_secret) && trim(decrypt($project->description_secret)))
         <div class="panel panel-default">
             <div class="panel-heading">
                 Skrytý popis projektu
