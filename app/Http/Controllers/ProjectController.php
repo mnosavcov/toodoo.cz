@@ -67,7 +67,7 @@ class ProjectController extends Controller
 
         $project->save();
         $this->putFile($request, $project, $request->file('files'));
-        return redirect()->route('project.dashboard', ['key' => $project->key]);
+        return redirect()->route('project.detail', ['key' => $project->key]);
     }
 
     public function dashboard($key)
