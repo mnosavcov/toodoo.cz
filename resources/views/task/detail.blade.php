@@ -63,7 +63,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Popis projektu</div>
             <div class="panel-body">
-                {{ $task->description }}
+                {!! nl2br(linkInText(e($task->description))) !!}
             </div>
         </div>
     @endif
@@ -78,7 +78,7 @@
                 </button>
             </div>
             <div class="panel-body" id="description-secret">
-                {{ decrypt($task->description_secret) }}
+                {!! nl2br(linkInText(e(decrypt($task->description_secret)))) !!}
             </div>
         </div>
     @endif
