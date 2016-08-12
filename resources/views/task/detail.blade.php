@@ -57,7 +57,7 @@
 
 
 
-    <h1>{{ $task->name }}&nbsp;<span class="label label-default">{{ $task->status->title }}</span></h1>
+    <h1 class="task-title">{{ $task->name }}&nbsp;<span class="label label-default">{{ $task->status->title }}</span></h1>
 
     @if(trim($task->description))
         <div class="panel panel-default">

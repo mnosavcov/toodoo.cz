@@ -1,5 +1,7 @@
 @media only screen and (max-width: 760px) {
-    #no-mobile-element { display: none; }
+    #no-mobile-element {
+        display: none;
+    }
 }
 
 body.js-enabled .js-hide {
@@ -202,9 +204,11 @@ ul.thumbs .menu li a:hover {
 .active.project-nav-wrap a:focus {
     background-color: #428bca !important;
 }
+
 .project-nav-wrap.open a.project-nav {
     background-color: #eee !important;
 }
+
 .active.project-nav-wrap.open a.project-nav {
     background-color: #428bca !important;
 }
@@ -217,9 +221,10 @@ ul.thumbs .menu li a:hover {
 .project-nav:hover span.sign {
     visibility: visible;
 }
+
 .mobile-device .project-nav-wrap .project-nav span.sign,
 .project-nav-wrap.open .project-nav span.sign {
-    visibility: visible!important;
+    visibility: visible !important;
 }
 
 .nav-file a {
@@ -250,18 +255,26 @@ ul.thumbs .menu li a:hover {
 }
 
 .mobile-hidden {
-    display: inline-block!important;
+    display: inline-block !important;
 }
+
 .mobile-device .mobile-hidden {
-    display: none!important;
+    display: none !important;
 }
+
 .mobile-inline-block {
-    display: none!important;
+    display: none !important;
 }
+
 .mobile-device .mobile-inline-block {
-    display: inline-block!important;
+    display: inline-block !important;
 }
 
 #description-secret {
     display: none;
+}
+
+.task-title .label {
+    font-size: 50%;
+    vertical-align: middle;
 }
