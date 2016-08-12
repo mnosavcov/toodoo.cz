@@ -27,6 +27,9 @@ class AdminController extends Controller
         $data = [];
         $data['last_refresh'] = AdminStatus::where('type', 'last_refresh')->first()->data;
         $data['users_count'] = AdminStatus::where('type', 'users_count')->first()->data;
+        $data['users_last_activity_at'] = AdminStatus::where('type', 'users_last_activity_at')->first()->data;
+        $data['users_purchased_count'] = AdminStatus::where('type', 'users_purchased_count')->first()->data;
+        $data['users_last_register_at'] = AdminStatus::where('type', 'users_last_register_at')->first()->data;
         $data['ftp'] = AdminStatus::where('type', 'ftp')->get();
         $data['backup_db'] = json_decode(AdminStatus::where('type', 'backup_db')->first()->data);
         return view('admin.dashboard', ['data' => $data]);
@@ -46,28 +49,65 @@ class AdminController extends Controller
             'type' => 'users_count',
             'data' => User::count()
         ]);
+        // users last activity at
+        AdminStatus::create([
+            'type' => 'users_last_activity_at',
+            'data' => date('d.m.Y H.i:s', User::where('is_admin', '!=', 1)->max('last_activity_at'))
+        ]);
+        // users purchased count
+        AdminStatus::create([
+            'type' => 'users_purchased_count',
+            'data' => User::where(DB::raw('purchase_expire_at'), '>', time())->count()
+        ]);
+        // users last register at
+        AdminStatus::create([
+            'type' => 'users_last_register_at',
+            'data' => User::max('created_at')
+        ]);
 
         // ftp
         $ftp_data = [];
-        $ftps = ProjectFile::select('ftp_connection', DB::raw('sum(filesize) as filesize'))->groupBy('ftp_connection')->get();
+        $ftps = ProjectFile::select('ftp_connection', DB::raw('sum(filesize) as filesize, count(*) as uploaded_files, max(created_at) as last_upload_at'))->groupBy('ftp_connection')->get();
         foreach ($ftps as $ftp) {
-            $ftp_data[$ftp->ftp_connection] = (int)$ftp->filesize;
+            $ftp_data[$ftp->ftp_connection]['filesize'] = $ftp->filesize;
+            $ftp_data[$ftp->ftp_connection]['uploaded_files'] = $ftp->uploaded_files;
+            $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
         }
-        $ftps = TaskFile::select('ftp_connection', DB::raw('sum(filesize) as filesize'))->groupBy('ftp_connection')->get();
+        $ftps = TaskFile::select('ftp_connection', DB::raw('sum(filesize) as filesize, count(*) as uploaded_files, max(created_at) as last_upload_at'))->groupBy('ftp_connection')->get();
         foreach ($ftps as $ftp) {
             if (isset($ftp_data[$ftp->ftp_connection])) {
-                $ftp_data[$ftp->ftp_connection] += $ftp->filesize;
+                $ftp_data[$ftp->ftp_connection]['filesize'] += $ftp->filesize;
+                $ftp_data[$ftp->ftp_connection]['uploaded_files'] += $ftp->uploaded_files;
+                if ($ftp->last_upload_at > $ftp_data[$ftp->ftp_connection]['last_upload_at']) {
+                    $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
+                }
             } else {
-                $ftp_data[$ftp->ftp_connection] = (int)$ftp->filesize;
+                $ftp_data[$ftp->ftp_connection]['filesize'] = $ftp->filesize;
+                $ftp_data[$ftp->ftp_connection]['uploaded_files'] += $ftp->uploaded_files;
+                $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
             }
         }
 
         foreach ($ftp_data as $k => $v) {
+            $disc_size = config('ftp.connections.' . $k . '.disc_size');
+            $used_size = $v['filesize'];
+            $free_size = $disc_size - $used_size;
+
+            $max_files = config('ftp.connections.' . $k . '.max_files');
+            $uploaded_files = $v['uploaded_files'];
+            $free_files = $max_files - $uploaded_files;
+
             AdminStatus::create([
                 'type' => 'ftp',
                 'data' => json_encode([
                     'name' => $k,
-                    'size' => formatBytes($v) . ' (' . number_format($v, 0, ',', ' ') . ')',
+                    'disc_size' => formatBytes($disc_size) . ' (' . number_format($disc_size, 0, ',', ' ') . ')',
+                    'used_size' => formatBytes($used_size) . ' (' . number_format($used_size, 0, ',', ' ') . ')',
+                    'free_size' => formatBytes($free_size) . ' (' . number_format($free_size, 0, ',', ' ') . ')',
+                    'max_files' => number_format($max_files, 0, ',', ' '),
+                    'uploaded_files' => number_format($uploaded_files, 0, ',', ' '),
+                    'free_files' => number_format($free_files, 0, ',', ' '),
+                    'last_upload_at' => date('d.m.Y H:i:s', $v['last_upload_at']),
                 ])
             ]);
         }

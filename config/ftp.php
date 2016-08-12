@@ -30,6 +30,8 @@ return array(
             'username' => 's18784',
             'password'   => env('FTP_s18784_PWD'),
             'passive'   => false,
+            'disc_size' => '10000000',
+            'max_files' => '10000'
         ),
         's18655' => array(
             'host'   => '18655.s55.wedos.net',
@@ -37,6 +39,8 @@ return array(
             'username' => 's18655',
             'password'   => env('FTP_s18655_PWD'),
             'passive'   => false,
+            'disc_size' => '10000000',
+            'max_files' => '10000'
         ),
     ),
 );

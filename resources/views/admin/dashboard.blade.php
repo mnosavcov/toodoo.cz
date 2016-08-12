@@ -22,8 +22,12 @@
     <div class="row">
         <table class="table table-bordered">
             <tr>
-                <td class="active col-xs-4">Počet uživatelů</td>
-                <td class="col-xs-8">{{ $data['users_count'] }}</td>
+                <td class="active col-xs-4">Počet uživatelů / placených</td>
+                <td class="col-xs-8">{{ $data['users_count'] }} / {{ $data['users_purchased_count'] }}</td>
+            </tr>
+            <tr>
+                <td class="active col-xs-4">Poslední aktivita / registrace</td>
+                <td class="col-xs-8">{{ $data['users_last_activity_at'] }} / {{ $data['users_last_register_at'] }}</td>
             </tr>
         </table>
     </div>
@@ -34,11 +38,34 @@
         <table class="table table-bordered">
             @foreach($data['ftp'] as $d)
                 <?php $dd = json_decode($d['data'], true) ?>
-            <tr>
-                <td class="active col-xs-4">{{ $dd['name'] }}</td>
-                <td class="col-xs-8">{{ $dd['size'] }}</td>
-            </tr>
-                @endforeach
+                <tr>
+                    <td class="active col-xs-2" rowspan="3"><strong>{{ $dd['name'] }}</strong></td>
+                    <td class="active col-xs-4">
+                        <strong>Kapacita disku</strong> /
+                        <strong>Použito</strong> /
+                        <strong>Volné místo</strong>
+                    </td>
+                    <td class="col-xs-2">{{ $dd['disc_size'] }}</td>
+                    <td class="col-xs-2">{{ $dd['used_size'] }}</td>
+                    <td class="col-xs-2"><strong class="text-danger">{{ $dd['free_size'] }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="active col-xs-4">
+                        <strong>Maximální počet souborů</strong> /
+                        <strong>Vloženo souborů</strong> /
+                        <strong>Zbývá souborů</strong>
+                    </td>
+                    <td class="col-xs-2">{{ $dd['max_files'] }}</td>
+                    <td class="col-xs-2">{{ $dd['uploaded_files'] }}</td>
+                    <td class="col-xs-2"><strong class="text-danger">{{ $dd['free_files'] }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="active col-xs-2"><strong>Poslední nahraný soubor</strong></td>
+                    <td class="col-xs-6" colspan="3">
+                        <strong class="text-danger">{{ $dd['last_upload_at'] }}</strong>
+                    </td>
+                </tr>
+            @endforeach
         </table>
     </div>
 
