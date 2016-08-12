@@ -69,9 +69,9 @@ class AdminController extends Controller
         $ftp_data = [];
         $ftps = ProjectFile::select('ftp_connection', DB::raw('sum(filesize) as filesize, count(*) as uploaded_files, max(created_at) as last_upload_at'))->groupBy('ftp_connection')->get();
         foreach ($ftps as $ftp) {
-            $ftp_data[$ftp->ftp_connection]['filesize'] = $ftp->filesize;
-            $ftp_data[$ftp->ftp_connection]['uploaded_files'] = $ftp->uploaded_files;
-            $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
+            $ftp_data[$ftp->ftp_connection]['filesize'] = (int)$ftp->filesize;
+            $ftp_data[$ftp->ftp_connection]['uploaded_files'] = (int)$ftp->uploaded_files;
+            $ftp_data[$ftp->ftp_connection]['last_upload_at'] = (int)$ftp->last_upload_at;
         }
         $ftps = TaskFile::select('ftp_connection', DB::raw('sum(filesize) as filesize, count(*) as uploaded_files, max(created_at) as last_upload_at'))->groupBy('ftp_connection')->get();
         foreach ($ftps as $ftp) {
@@ -82,9 +82,9 @@ class AdminController extends Controller
                     $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
                 }
             } else {
-                $ftp_data[$ftp->ftp_connection]['filesize'] = $ftp->filesize;
-                $ftp_data[$ftp->ftp_connection]['uploaded_files'] += $ftp->uploaded_files;
-                $ftp_data[$ftp->ftp_connection]['last_upload_at'] = $ftp->last_upload_at;
+                $ftp_data[$ftp->ftp_connection]['filesize'] = (int)$ftp->filesize;
+                $ftp_data[$ftp->ftp_connection]['uploaded_files'] = (int)$ftp->uploaded_files;
+                $ftp_data[$ftp->ftp_connection]['last_upload_at'] = (int)$ftp->last_upload_at;
             }
         }
 
