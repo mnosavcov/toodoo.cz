@@ -57,9 +57,11 @@
                     </div>
                 </div>
             </div>
+            <div  style="opacity: 0.5">
             @foreach($done as $task)
                 @include('@shared.taskbox')
             @endforeach
+            </div>
 
             @if($reject->count())
                 <div class="page-header">
@@ -72,9 +74,11 @@
                     </div>
                 </div>
 
+                <div  style="opacity: 0.5">
                 @foreach($reject as $task)
                     @include('@shared.taskbox')
                 @endforeach
+                </div>
             @endif
         </div>
     </div>
