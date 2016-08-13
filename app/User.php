@@ -6,34 +6,34 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'name', 'email', 'password', 'affil_hash'
-	];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'email', 'password', 'affil_hash'
+    ];
 
-	/**
-	 * The attributes that should be hidden for arrays.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [
-		'password', 'remember_token',
-	];
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
-	public function is_admin()
-	{
-		return $this->is_admin == 1;
-	}
+    public function is_admin()
+    {
+        return $this->is_admin == 1;
+    }
 
-	protected $attributes = array(
-		'main_size' => '20971520', // 20MB
-		'purchased_size' => 0,
+    protected $attributes = array(
+        'main_size' => '20971520', // 20MB
+        'purchased_size' => 0,
         'free_size' => '20971520' // 20MB
-	);
+    );
 
     public function recalcSize()
     {
@@ -50,5 +50,10 @@ class User extends Authenticatable
         $this->save();
 
         return redirect()->route('account.detail');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany('App\Project');
     }
 }

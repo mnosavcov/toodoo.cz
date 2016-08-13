@@ -15,7 +15,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Michal Nosavcov',
             'email' => 'mnosavcov@gmail.com',
             'password' => bcrypt('secret'),
-	        'main_size' => '20971520',
+            'main_size' => '20971520',
+            'created_at' => time(),
+            'updated_at' => time()
         ]);
     }
 }

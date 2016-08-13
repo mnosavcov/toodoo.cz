@@ -42,4 +42,6 @@ Route::get('admin', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashb
 Route::get('admin/refresh', ['as' => 'admin.refresh', 'uses' => 'AdminController@refresh']);
 Route::get('admin/backup-db', ['as' => 'admin.backup.db', 'uses' => 'AdminController@backupDb']);
 
+Route::get('manual', ['as' => 'manual', 'uses' => 'HomeController@manual']);
+
 Route::auth();
