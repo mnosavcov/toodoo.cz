@@ -187,6 +187,8 @@ class TaskController extends Controller
         })->byKey($key);
         if (!$task->count()) return redirect()->route('project.dashboard', ['key' => $project_key]);
 
+        $task->last_status_change_at = time();
+
         if ($to == 'DELETE') {
             $task->delete();
             $request->session()->flash('success', 'Úkol byl přesunutý do koše!');

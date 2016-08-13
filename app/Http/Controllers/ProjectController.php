@@ -11,6 +11,7 @@ use App\ProjectFile;
 use Auth;
 use FTP;
 use Image;
+use App\TaskStatus;
 
 class ProjectController extends Controller
 {
@@ -63,7 +64,7 @@ class ProjectController extends Controller
         $project->name = $request->input('name');
         $project->key = $request->input('key');
         $project->description = $request->input('description');
-	    $project->description_secret = encrypt($request->input('description_secret'));
+        $project->description_secret = encrypt($request->input('description_secret'));
 
         $project->save();
         $this->putFile($request, $project, $request->file('files'));
@@ -74,7 +75,16 @@ class ProjectController extends Controller
     {
         $project = Project::byKey($key);
         if (!$project->count()) return redirect()->route('home.index');
-        return view('project.dashboard', ['tasks' => $project->tasks()->orderBy('priority', 'desc')->orderBy('id')->get(), 'project' => $project]);
+
+        $tasks = $project->tasks()->orderBy('priority', 'desc')->orderBy('id')->get();
+        $todo = $tasks->where('task_status_id', TaskStatus::where('code', 'TODO')->first(['id'])->id);
+        $inProgress = $tasks->where('task_status_id', TaskStatus::where('code', 'IN-PROGRESS')->first(['id'])->id);
+
+        $tasks = $project->tasks()->orderBy('last_status_change_at', 'desc')->orderBy('id')->get();
+        $done = $tasks->where('task_status_id', TaskStatus::where('code', 'DONE')->first(['id'])->id);
+        $reject = $tasks->where('task_status_id', TaskStatus::where('code', 'REJECT')->first(['id'])->id);
+
+        return view('project.dashboard', ['todo' => $todo, 'inProgress' => $inProgress, 'done' => $done, 'reject' => $reject, 'project' => $project]);
     }
 
     public function detail($key)
@@ -123,7 +133,7 @@ class ProjectController extends Controller
                     $project->file()->save($project_file);
                 }
             } else {
-                if(isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
+                if (isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
         $request->user()->recalcSize();
@@ -186,7 +196,7 @@ class ProjectController extends Controller
 
         FTP::connection($file->ftp_connection)->delete($file->fullfile);
         $size = FTP::connection($file->ftp_connection)->size($file->fullfile);
-        if ($size==-1) {
+        if ($size == -1) {
             $file->delete();
         } else {
             $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');

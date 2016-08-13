@@ -52,6 +52,12 @@
                 </li>
             @elseif($task->status->code=='REJECT')
                 <li>
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DONE']) }}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                        &nbsp;Done
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'TODO']) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Todo
@@ -103,8 +109,11 @@
         </ul>
     </div>
     <h4 class="block-with-text">
-        <a href="{{ route('task.detail', ['key'=>$task->key()]) }}" style="color: inherit"
-           title="{{ $task->name }}">{{ $task->name }}</a>
+        @if($task->status->code=='REJECT')<strike>@endif
+            <a href="{{ route('task.detail', ['key'=>$task->key()]) }}" style="color: inherit"
+               title="{{ $task->name }}">{{ $task->name }}
+            </a>
+            @if($task->status->code=='REJECT')</strike>@endif
     </h4>
     <p class="description">{!! nl2br(linkInText(e($task->description))) !!}</p>
 </div>
