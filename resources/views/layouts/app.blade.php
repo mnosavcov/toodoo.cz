@@ -80,6 +80,18 @@
                                     &nbsp;Nový projekt
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('account.files') }}">
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    &nbsp;Soubory
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('account.trash') }}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    &nbsp;Koš
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
