@@ -215,6 +215,9 @@ ul.thumbs.acc-files .description {
     overflow: hidden;
     max-width: 100%
 }
+ul.thumbs.acc-files div.img-thumbnail div.in {
+    line-height: 90px;
+}
 
 .project-nav {
     padding-right: 10px !important;
