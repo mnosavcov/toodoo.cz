@@ -85,7 +85,7 @@
                                                                 </a>
                                                 </h2>
                                                 <div class="clearfix"></div>
-                                                <div>{!! nl2br(linkInText(e($file['description']))) !!}</div>
+                                                <div class="descr">{!! nl2br(linkInText(e($file['description']))) !!}</div>
                                             </div>
                                         </li>
                                     @endforeach

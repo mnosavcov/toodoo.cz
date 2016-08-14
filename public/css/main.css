@@ -191,30 +191,50 @@ ul.thumbs.acc-files .img-thumbnail {
     width: 133px;
     height: 105px;
 }
+
 ul.thumbs.acc-files .menu {
     width: 123px;
 }
+
 ul.thumbs.acc-files .filename {
     width: 133px;
 }
+
 ul.thumbs.acc-files .info {
     width: 133px;
 }
-ul.thumbs.acc-files>li {
+
+ul.thumbs.acc-files > li {
     padding-left: 0;
     padding-right: 0;
     margin-right: 0;
     margin-bottom: 50px;
 }
+
 ul.thumbs.acc-files h2 {
     margin-top: 0;
 }
+
 ul.thumbs.acc-files .description {
     display: inline-block;
-    max-height: 150px;
     overflow: hidden;
     max-width: 100%
 }
+
+ul.thumbs.acc-files .description .descr {
+    height: 85px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 ul.thumbs.acc-files div.img-thumbnail div.in {
     line-height: 90px;
 }

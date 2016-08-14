@@ -223,7 +223,7 @@
         if ($('#no-mobile-element').css('display') == 'none') {
             $('body').addClass('mobile-device');
         }
-        $(".bs-callout p.description").mCustomScrollbar({
+        $(".bs-callout p.description,.acc-files .descr").mCustomScrollbar({
             theme: "dark-3",
             autoHideScrollbar: true,
             scrollButtons: {"enable": true},
