@@ -187,6 +187,35 @@ ul.thumbs .menu li a:hover {
     color: #ccc;
 }
 
+ul.thumbs.acc-files .img-thumbnail {
+    width: 133px;
+    height: 105px;
+}
+ul.thumbs.acc-files .menu {
+    width: 123px;
+}
+ul.thumbs.acc-files .filename {
+    width: 133px;
+}
+ul.thumbs.acc-files .info {
+    width: 133px;
+}
+ul.thumbs.acc-files>li {
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
+    margin-bottom: 50px;
+}
+ul.thumbs.acc-files h2 {
+    margin-top: 0;
+}
+ul.thumbs.acc-files .description {
+    display: inline-block;
+    max-height: 150px;
+    overflow: hidden;
+    max-width: 100%
+}
+
 .project-nav {
     padding-right: 10px !important;
     padding-left: 10px !important;

@@ -192,7 +192,6 @@ class ProjectController extends Controller
     {
         $file = ProjectFile::find($id);
         if ($file->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-        $project = $file->project;
 
         FTP::connection($file->ftp_connection)->delete($file->fullfile);
         $size = FTP::connection($file->ftp_connection)->size($file->fullfile);
@@ -202,6 +201,6 @@ class ProjectController extends Controller
             $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
         }
 
-        return redirect()->route('project.detail', ['key' => $project->key]);
+        return back();
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests;
 use Auth;
 use DB;
+use Illuminate\Pagination\Paginator;
 
 class AccountController extends Controller
 {
@@ -57,15 +58,60 @@ class AccountController extends Controller
         $order = $request->get('order', 'time');
 
         $project_files = Project::where('user_id', Auth::user()->id)
-            ->join('project_files', 'projects.id', '=', 'project_files.project_id');
+            ->join('project_files as files', 'projects.id', '=', 'files.project_id')
+            ->select(
+                'files.id as file_id',
+                'files.filename as file_filename',
+                'files.file_md5',
+                'files.thumb as file_thumb',
+                'files.extname as file_extname',
+                'files.filesize as file_filesize',
+                'files.created_at as file_created_at',
+                'projects.id as project_id',
+                DB::raw('null as task_id'),
+                DB::raw("'project' as `type`"),
+                'projects.name as title',
+                'projects.description as description',
+                'projects.key as key'
+            );
 
-        $task_files = Task::join('projects', function ($join) {
+        $files = Task::join('projects', function ($join) {
             $join->on('projects.id', '=', 'tasks.project_id')
                 ->on('projects.user_id', '=', DB::raw(Auth::user()->id));
         })
-            ->join('task_files', 'tasks.id', '=', 'task_files.task_id');
+            ->join('task_files as files', 'tasks.id', '=', 'files.task_id')
+            ->select(
+                'files.id as file_id',
+                'files.filename as file_filename',
+                'files.file_md5',
+                'files.thumb as file_thumb',
+                'files.extname as file_extname',
+                'files.filesize as file_filesize',
+                'files.created_at as file_created_at',
+                'projects.id as project_id',
+                'tasks.id as task_id',
+                DB::raw("'task' as `type`"),
+                DB::raw("concat(`tasks`.`name`, ' [', `projects`.`name`, ']') as `title`"),
+                'tasks.description as description',
+                DB::raw("concat(`projects`.`key`, '-', `tasks`.`task_id`) as `key`")
+            )
+            ->unionAll($project_files);
 
-        dd($task_files->get());
-        return view('account.files', ['files' => $files]);
+        if($order=='size') {
+            $files->orderBy('file_filesize', 'desc');
+        } else {
+            $files->orderBy('file_created_at', 'asc');
+        };
+
+        $files= $files->get();
+
+        $page = $request->get('page', 1);
+        $paginate = 20;
+
+        $offSet = ($page * $paginate) - $paginate;
+        $itemsForCurrentPage = array_slice($files->toArray(), $offSet, $paginate, true);
+        $data = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($files), $paginate, $page, ['path'=>'files']);
+
+        return view('account.files', ['files' => $data->items(), 'link'=>$data->links(), 'order'=>$order]);
     }
 }

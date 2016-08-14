@@ -204,7 +204,6 @@ class TaskController extends Controller
     {
         $file = TaskFile::find($id);
         if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
-        $task = $file->task;
 
         FTP::connection($file->ftp_connection)->delete($file->fullfile);
         $size = FTP::connection($file->ftp_connection)->size($file->fullfile);
@@ -214,6 +213,6 @@ class TaskController extends Controller
             $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
         }
 
-        return redirect()->route('task.detail', ['key' => $task->key()]);
+        return back();
     }
 }
