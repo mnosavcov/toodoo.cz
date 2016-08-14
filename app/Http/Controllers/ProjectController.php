@@ -200,6 +200,7 @@ class ProjectController extends Controller
         } else {
             $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
         }
+        $request->user()->recalcSize();
 
         return back();
     }
