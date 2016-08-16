@@ -61,7 +61,7 @@
 
     @if(trim($task->description))
         <div class="panel panel-default">
-            <div class="panel-heading">Popis projektu</div>
+            <div class="panel-heading">Popis úkolu</div>
             <div class="panel-body">
                 {!! nl2br(linkInText(e($task->description))) !!}
             </div>
@@ -71,7 +71,7 @@
     @if(trim($task->description_secret) && trim(decrypt($task->description_secret)))
         <div class="panel panel-default">
             <div class="panel-heading">
-                Skrytý popis projektu
+                Skrytý popis úkolu
                 &nbsp;
                 <button type="button" class="btn btn-primary" id="btn-description-secret">
                     <span class="glyphicon glyphicon-resize-full"></span>&nbsp;zobrazit
