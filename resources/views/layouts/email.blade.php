@@ -11,6 +11,7 @@ Dobrý den,<br>
 <br>
 @yield('content')<br>
 <br>
-S pozdravem tým TooDoo.cz
+S pozdravem<br>
+tým TooDoo.cz
 </body>
 </html>
