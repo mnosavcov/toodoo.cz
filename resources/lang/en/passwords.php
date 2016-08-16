@@ -17,6 +17,6 @@ return [
     'reset' => 'Vaše heslo bylo změněno!',
     'sent' => 'Na Váš email byl odeslán odkaz na změnu hesla!',
     'token' => 'Token pro změnu hesla není validní.',
-    'user' => "Užuvatel s tímto emailem neexistuje.",
+    'user' => "Uživatel s tímto emailem neexistuje.",
 
 ];
