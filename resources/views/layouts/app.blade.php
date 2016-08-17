@@ -101,8 +101,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
+                    <li><a href="{{ url('/login') }}">Přihlásit</a></li>
+                    <li><a href="{{ url('/register') }}">Registrovat</a></li>
                 @else
                     @if (Auth::user()->is_admin())
                         <li>
@@ -118,10 +118,10 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;My account</a>
+                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;Můj účet</a>
                             </li>
                             <li><a href="{{ url('/logout') }}"><i
-                                            class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</a></li>
+                                            class="glyphicon glyphicon-log-out"></i>&nbsp;Odhlásit se</a></li>
                         </ul>
                     </li>
                 @endif

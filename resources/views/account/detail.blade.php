@@ -8,7 +8,7 @@
                     <div class="panel-heading">
                         <a href="{{ Route('account.edit') }}" class="pull-right"><span
                                     class="glyphicon glyphicon-pencil"></span></a>
-                        My account
+                        Můj účet
                     </div>
                     <div class="panel-body">
                         <div class="container-fluid">

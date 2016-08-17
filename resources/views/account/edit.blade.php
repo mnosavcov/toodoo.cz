@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2 main">
                 <div class="panel panel-default">
-                    <div class="panel-heading">My account</div>
+                    <div class="panel-heading">Můj účet</div>
                     <div class="panel-body">
                         <form class="form-horizontal" role="form" method="POST" action="{{ url('/account/save') }}">
                             {{ csrf_field() }}
@@ -41,7 +41,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Password</label>
+                                <label for="password" class="col-md-4 control-label">heslo</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password">
@@ -55,7 +55,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                                <label for="password-confirm" class="col-md-4 control-label">Kontrola hesla</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
