@@ -26,6 +26,7 @@ Route::get('project/{key}/update', ['as' => 'project.update', 'uses' => 'Project
 Route::put('project/{key}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
 Route::get('project/{key}/dashboard', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
 Route::get('project/{key}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
+Route::get('project/{key}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
 Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
 Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);

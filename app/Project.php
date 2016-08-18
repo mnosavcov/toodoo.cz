@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
 class Project extends Model
 {
+	use SoftDeletes;
+
     protected $dateFormat = 'U';
 
     protected $attributes = [

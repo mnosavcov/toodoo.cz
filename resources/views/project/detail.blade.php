@@ -1,9 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="{{ Route('project.update', ['key'=>$project->key]) }}" class="pull-right btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;upravit
-    </a>
+    <div class="pull-right btn-group">
+        <a href="{{ Route('project.update', ['key'=>$project->key]) }}" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;upravit</a>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ route('project.delete', ['key'=>$project->key]) }}">
+                    <span class="glyphicon glyphicon-remove-sign text-danger"></span>
+                    <strong class="text-danger">DELETE</strong>
+                </a>
+            </li>
+        </ul>
+    </div>
 
 
     <h1>{{ $project->name }}</h1>
