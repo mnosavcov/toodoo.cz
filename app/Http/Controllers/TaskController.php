@@ -162,7 +162,7 @@ class TaskController extends Controller
     protected function responseFile($id, $disposition)
     {
         $file = TaskFile::find($id);
-        if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+        if (!isset($file) || $file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
         $response = response()->make(
             FTP::connection($file->ftp_connection)->readFile($file->fullfile)
         )->header('Content-disposition', $disposition . '; filename="' . $file->filename . '"');
@@ -205,15 +205,30 @@ class TaskController extends Controller
         $file = TaskFile::find($id);
         if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
 
-        FTP::connection($file->ftp_connection)->delete($file->fullfile);
-        $size = FTP::connection($file->ftp_connection)->size($file->fullfile);
-        if ($size==-1) {
-            $file->delete();
-        } else {
-            $request->session()->flash('success', $file->filename . ': soubor se nepodařilo odstranit');
-        }
-        $request->user()->recalcSize();
+        $file->delete();
 
         return back();
+    }
+
+    public function renew(Request $request, $key)
+    {
+        $task = Task::onlyTrashed()->byKey($key);
+        if (!$task->count()) return redirect()->route('home.index');
+
+        $task->restore();
+        $request->session()->flash('success', 'Úkol byl obnovený.');
+
+        return redirect()->route('account.trash');
+    }
+
+    public function forceDelete(Request $request, $key)
+    {
+        $task = Task::onlyTrashed()->byKey($key);
+        if (!$task->count()) return redirect()->route('home.index');
+
+        $task->forceDelete();
+        $request->session()->flash('success', 'Úkol byl nevratně odstraněn.');
+
+        return redirect()->route('account.trash');
     }
 }

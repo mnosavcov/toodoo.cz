@@ -27,6 +27,8 @@ Route::put('project/{key}/save', ['as' => 'project.update.save', 'uses' => 'Proj
 Route::get('project/{key}/dashboard', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
 Route::get('project/{key}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
 Route::get('project/{key}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
+Route::get('project/{key}/renew', ['as' => 'project.renew', 'uses' => 'ProjectController@renew']);
+Route::get('project/{key}/force-delete', ['as' => 'project.delete.force', 'uses' => 'ProjectController@forceDelete']);
 Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
 Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
@@ -37,6 +39,8 @@ Route::get('task/{key}/update', ['as' => 'task.update', 'uses' => 'TaskControlle
 Route::put('task/{key}/save', ['as' => 'task.update.save', 'uses' => 'TaskController@updateSave']);
 Route::get('task/{key}', ['as' => 'task.detail', 'uses' => 'TaskController@detail']);
 Route::get('task/{key}/status-change/{from}/2/{to}', ['as' => 'task.status.change', 'uses' => 'TaskController@statusChange']);
+Route::get('task/{key}/renew', ['as' => 'task.renew', 'uses' => 'TaskController@renew']);
+Route::get('task/{key}/force-delete', ['as' => 'task.delete.force', 'uses' => 'TaskController@forceDelete']);
 Route::get('task/file/{id}-{name}', ['as' => 'task.file.get', 'uses' => 'TaskController@getFile']);
 Route::get('task/file/download/{id}-{name}', ['as' => 'task.file.download', 'uses' => 'TaskController@downloadFile']);
 Route::get('task/file/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' => 'TaskController@deleteFile']);

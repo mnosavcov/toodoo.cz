@@ -5,10 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
+use DB;
 
 class Project extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes {
+        forceDelete as traitForceDelete;
+    }
 
     protected $dateFormat = 'U';
 
@@ -65,5 +68,20 @@ class Project extends Model
     public function inprogressCount()
     {
         return $this->tasks()->hasStatus('IN-PROGRESS')->count();
+    }
+
+    public function forceDelete()
+    {
+        $files = $this->file()->get();
+        foreach($files as $file) {
+            if(!$file->delete()) return false;
+        }
+
+        $tasks = $this->tasks()->get();
+        foreach($tasks as $task) {
+            if(!$task->forceDelete()) return false;
+        }
+
+        return $this->traitForceDelete();
     }
 }
