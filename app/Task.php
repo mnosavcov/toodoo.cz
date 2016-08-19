@@ -58,8 +58,10 @@ class Task extends Model
             if (!$file->delete()) return false;
         }
 
-        $user = User::find($this->project->user_id);
-        $user->recalcSize();
+        if ($this->project) {
+            $user = User::find($this->project->user_id);
+            $user->recalcSize();
+        }
 
         return $this->traitForceDelete();
     }
