@@ -114,4 +114,8 @@ class AccountController extends Controller
 
         return view('account.files', ['files' => $data->items(), 'link'=>$data->links(), 'order'=>$order]);
     }
+
+    public function trash() {
+	    return view('account.trash');
+    }
 }
