@@ -34,7 +34,9 @@ class ProjectFile extends Model
         if ($size == -1) {
             request()->session()->flash('success', $this->filename . ': soubor byl úspěšně odstraněn');
             $return = parent::delete();
-            Auth::user()->recalcSize();
+            if (Auth::user()) {
+                Auth::user()->recalcSize();
+            }
             return $return;
         }
 

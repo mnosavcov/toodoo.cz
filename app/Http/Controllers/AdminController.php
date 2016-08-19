@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
+use App\Task;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -199,5 +201,18 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.refresh');
+    }
+
+    public function deleteTaskProjectXDaysAfterTrashed($x = 2592000) // x = 30 days
+    {
+        $time = time() - $x;
+        $projects = Project::onlyTrashed()->where('deleted_at', '<', $time)->get();
+        foreach($projects as $project) {
+            $project->forceDelete();
+        }
+        $tasks = Task::onlyTrashed()->where('deleted_at', '<', $time)->get();
+        foreach($tasks as $task) {
+            $task->forceDelete();
+        }
     }
 }

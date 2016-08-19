@@ -53,10 +53,13 @@ class Task extends Model
 
     public function forceDelete()
     {
-        $files = $this->file()->get();
-        foreach($files as $file) {
-            if(!$file->delete()) return false;
+        $files = $this->file;
+        foreach ($files as $file) {
+            if (!$file->delete()) return false;
         }
+
+        $user = User::find($this->project->user_id);
+        $user->recalcSize();
 
         return $this->traitForceDelete();
     }

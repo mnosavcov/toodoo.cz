@@ -51,4 +51,6 @@ Route::get('admin/backup-db', ['as' => 'admin.backup.db', 'uses' => 'AdminContro
 
 Route::get('manual', ['as' => 'manual', 'uses' => 'HomeController@manual']);
 
+Route::get('test', ['as' => 'test', 'uses' => 'AdminController@deleteTaskProjectXDaysAfterTrashed']);
+
 Route::auth();

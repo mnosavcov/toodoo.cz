@@ -25,5 +25,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call('App\Http\Controllers\AdminController@backupDb')->twiceDaily(1, 13);
+        $schedule->call('App\Http\Controllers\AdminController@deleteTaskProjectXDaysAfterTrashed')->hourly();
     }
 }
