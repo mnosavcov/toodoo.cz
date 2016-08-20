@@ -32,15 +32,17 @@ class ProjectFile extends Model
         FTP::connection($this->ftp_connection)->delete($this->fullfile);
         $size = FTP::connection($this->ftp_connection)->size($this->fullfile);
         if ($size == -1) {
-            request()->session()->flash('success', $this->filename . ': soubor byl úspěšně odstraněn');
             $return = parent::delete();
             if (Auth::user()) {
                 Auth::user()->recalcSize();
+                request()->session()->flash('success', $this->filename . ': soubor byl úspěšně odstraněn');
             }
             return $return;
         }
 
-        request()->session()->flash('success', $this->filename . ': soubor se nepodařilo odstranit');
+        if (Auth::user()) {
+            request()->session()->flash('success', $this->filename . ': soubor se nepodařilo odstranit');
+        }
         return false;
     }
 }
