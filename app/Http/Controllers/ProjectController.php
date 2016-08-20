@@ -33,6 +33,7 @@ class ProjectController extends Controller
         $key = str_replace('-', '_', $key);
         $key = strtoupper($key);
         $key = mb_substr($key, 0, 10);
+        $key = trim($key, '_');
         $request->request->add(['key' => $key]);
     }
 
@@ -96,7 +97,7 @@ class ProjectController extends Controller
 
     protected function putFile($request, $project, $files)
     {
-        if (!$files) return true;
+        if (!$files[0]) return true;
         $dir_sep = $this->dir_sep;
         $path = $this->createDir($project);
         if (!$path) return false;
