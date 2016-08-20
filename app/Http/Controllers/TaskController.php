@@ -212,7 +212,7 @@ class TaskController extends Controller
 
     public function renew(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key);
+        $task = Task::onlyTrashed()->byKey($key, true);
         if (!$task->count()) return redirect()->route('home.index');
 
         $task->restore();
