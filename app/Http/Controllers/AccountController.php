@@ -57,7 +57,7 @@ class AccountController extends Controller
     {
         $order = $request->get('order', 'time');
 
-        $project_files = Project::where('user_id', Auth::user()->id)
+        $project_files = Project::withTrashed()->where('user_id', Auth::user()->id)
             ->join('project_files as files', 'projects.id', '=', 'files.project_id')
             ->select(
                 'files.id as file_id',
@@ -72,10 +72,11 @@ class AccountController extends Controller
                 DB::raw("'project' as `type`"),
                 'projects.name as title',
                 'projects.description as description',
-                'projects.key as key'
+                'projects.key as key',
+                DB::raw("if(`projects`.`deleted_at` is null, 0, 1) as `trashed`")
             );
 
-        $files = Task::join('projects', function ($join) {
+        $files = Task::withTrashed()->join('projects', function ($join) {
             $join->on('projects.id', '=', 'tasks.project_id')
                 ->on('projects.user_id', '=', DB::raw(Auth::user()->id));
         })
@@ -93,7 +94,8 @@ class AccountController extends Controller
                 DB::raw("'task' as `type`"),
                 DB::raw("concat(`tasks`.`name`, ' [', `projects`.`name`, ']') as `title`"),
                 'tasks.description as description',
-                DB::raw("concat(`projects`.`key`, '-', `tasks`.`task_id`) as `key`")
+                DB::raw("concat(`projects`.`key`, '-', `tasks`.`task_id`) as `key`"),
+                DB::raw("if(`tasks`.`deleted_at` is null, 0, 1) as `trashed`")
             )
             ->unionAll($project_files);
 

@@ -191,7 +191,10 @@ class ProjectController extends Controller
 
     protected function deleteFile(Request $request, $id, $name = '')
     {
-        $file = ProjectFile::find($id);
+        $file = ProjectFile::with(['project' => function ($query) {
+            $query->withTrashed();
+        }])->find($id);
+
         if ($file->project->user->id != Auth::user()->id) return redirect()->route('home.index');
 
         $file->delete();

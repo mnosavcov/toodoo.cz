@@ -68,6 +68,9 @@
                                                 </div>
                                             </div>
                                             <div class="description col-xs-12 col-md-6 col-lg-8">
+                                                @if($file['trashed'])
+                                                    &nbsp;<span class="label label-danger">ODSTRANĚNÝ</span>
+                                                @endif
                                                 <span class="label label-default">
                                                     @if($file['type']=='task')
                                                         úkol

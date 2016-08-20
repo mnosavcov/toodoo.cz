@@ -68,7 +68,7 @@ class TaskController extends Controller
         $task->priority = $request->input('priority');
         $task->name = $request->input('name');
         $task->description = $request->input('description');
-	    $task->description_secret = encrypt($request->input('description_secret'));
+        $task->description_secret = encrypt($request->input('description_secret'));
 
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
@@ -115,7 +115,7 @@ class TaskController extends Controller
                     $task->file()->save($task_file);
                 }
             } else {
-                if(isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
+                if (isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
         $request->user()->recalcSize();
@@ -202,7 +202,13 @@ class TaskController extends Controller
 
     protected function deleteFile(Request $request, $id, $name = '')
     {
-        $file = TaskFile::find($id);
+        $file = TaskFile::with(['task' => function ($query) {
+            $query->withTrashed()->with(['project' => function ($query) {
+                $query->withTrashed();
+            }]);
+        }])
+            ->find($id);
+
         if ($file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
 
         $file->delete();
@@ -223,7 +229,7 @@ class TaskController extends Controller
 
     public function forceDelete(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key);
+        $task = Task::onlyTrashed()->byKey($key, true);
         if (!$task->count()) return redirect()->route('home.index');
 
         $task->forceDelete();
