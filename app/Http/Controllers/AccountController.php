@@ -9,6 +9,7 @@ use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests;
 use Auth;
 use DB;
+use Mail;
 use Illuminate\Pagination\Paginator;
 
 class AccountController extends Controller
@@ -146,7 +147,67 @@ class AccountController extends Controller
         return view('account.trash', ['items' => $items->get()]);
     }
 
-    public function invite() {
-        return view('account.invite');
+    public function invite(Request $request)
+    {
+        $info = "\n" . '10MB navíc na neomezenou dobu získáte také vy.';
+        if (Auth::user()->main_size > '50000000') {
+            $info = "\n" . 'Již jste dosáhli, maximální výšem 50MB volného prostoru, vaše místo již nebude navýšeno.';
+        }
+        request()->session()->flash('info', 'V případě přihlášení přes odeslaný odkaz, získá přítel 10MB k základní velikosti místa pro ukládání souborů navíc.' . $info);
+
+        if ($request->get('submit') == 'send') {
+            $this->validate($request, [
+                'mail_text' => 'required',
+                'emails' => 'required',
+            ], [], [
+                'mail_text' => 'text',
+                'emails' => 'emaily'
+            ]);
+
+            $recipients_a = [];
+            $bad_emails = [];
+            $emails = explode(',', $request->get('emails'));
+            foreach ($emails as $email) {
+                $email = trim($email);
+
+                if (isEmail($email)) {
+                    $recipients_a[$email] = $email;
+                } else {
+                    if ($email) $bad_emails[$email] = $email;
+                }
+            }
+
+            if (count($recipients_a)) {
+                $recipients = implode(', ', $recipients_a);
+                $content_text = $request->get('mail_text');
+                $content_html = $request->get('mail_text');
+                $status = Mail::send(['html' => 'email.blank', 'text' => 'email.blank-text'], ['content_html' => $content_html, 'content_text' => $content_text], function ($m) use ($recipients_a) {
+                    $m->bcc($recipients_a)->subject('Pozvánka k připojení na toodoo.cz!');
+                });
+
+                if($status) {
+                    request()->session()->flash('success', 'email byl odeslaný na následující adresy: ' . $recipients);
+                }
+            }
+
+            if (count($bad_emails)) {
+                $bad_emails = implode(', ', $bad_emails);
+                request()->session()->flash('danger', 'chybně zadané emailové adresy: ' . $bad_emails);
+            }
+
+
+            return back()->withInput(['mail_text' => $request->get('mail_text')]);
+        }
+
+        $odkaz = url('/login') . '?aff=' . Auth::user()->affil_hash;
+        $mail_text = 'Ahoj,' . "\n";
+        $mail_text .= 'Rád bych tě pozval k registraci mezi uživatele webu toodoo.cz.' . "\n";
+        $mail_text .= 'Jedná se o portál pro správu projektů.' . "\n\n";
+
+        $mail_text .= 'pokud se zaregistruješ pomocí tohoto odkazu ' . $odkaz . ' získáš 10MB na uložení svých dokumnetů navíc' . "\n\n";
+        $mail_text .= 'S pozdravem' . "\n";
+        $mail_text .= Auth::user()->name;
+
+        return view('account.invite', ['mail_text' => old('mail_text', $mail_text)]);
     }
 }
