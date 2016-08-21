@@ -3,20 +3,24 @@
 function linkInText_callback($match)
 {
     // Prepend http:// if no protocol specified
-    $completeUrl = $match[0];
+    $completeUrl_href = $completeUrl = $match[0];
 
     if (count($match) == 1) {
         return '<a href="mailto:' . $completeUrl . '" rel="nofollow">'
         . $completeUrl . '</a>';
     }
 
-    return '<a href="' . $completeUrl . '" rel="nofollow" target="' . md5($completeUrl) . '">'
+    if ($match[1] == 'www.') {
+        $completeUrl_href = 'http://' . $completeUrl;
+    }
+
+    return '<a href="' . $completeUrl_href . '" rel="nofollow" target="' . md5($completeUrl) . '">'
     . $completeUrl . '</a>';
 }
 
 function linkInText($text)
 {
-    $rexProtocol = '(https?://)';
+    $rexProtocol = '(https?://|www.)';
     $rexDomain = '((?:[-a-zA-Z0-9]{1,63}\.)+[-a-zA-Z0-9]{2,63}|(?:[0-9]{1,3}\.){3}[0-9]{1,3})';
     $rexPort = '(:[0-9]{1,5})?';
     $rexPath = '(/[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]*?)?';
@@ -46,10 +50,12 @@ function formatBytes($size, $precision = 2)
     }
 }
 
-function isEmail($email) {
-    return preg_match('&'.getEmailRegEx().'&', $email);
+function isEmail($email)
+{
+    return preg_match('&' . getEmailRegEx() . '&', $email);
 }
 
-function getEmailRegEx() {
+function getEmailRegEx()
+{
     return '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,63}';
 }

@@ -151,7 +151,7 @@ class AccountController extends Controller
     {
         $info = "\n" . '10MB navíc na neomezenou dobu získáte také vy.';
         if (Auth::user()->main_size > '50000000') {
-            $info = "\n" . 'Již jste dosáhli, maximální výšem 50MB volného prostoru, vaše místo již nebude navýšeno.';
+            $info = "\n" . 'Již jste dosáhli maximální výše 50MB volného prostoru zdarma.';
         }
         request()->session()->flash('info', 'V případě přihlášení přes odeslaný odkaz, získá přítel 10MB k základní velikosti místa pro ukládání souborů navíc.' . $info);
 
