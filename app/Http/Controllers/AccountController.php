@@ -185,7 +185,7 @@ class AccountController extends Controller
                     $m->bcc($recipients_a)->subject('Pozvánka k připojení na toodoo.cz!');
                 });
 
-                if($status) {
+                if ($status) {
                     request()->session()->flash('success', 'email byl odeslaný na následující adresy: ' . $recipients);
                 }
             }
@@ -199,7 +199,7 @@ class AccountController extends Controller
             return back()->withInput(['mail_text' => $request->get('mail_text')]);
         }
 
-        $odkaz = url('/login') . '?aff=' . Auth::user()->affil_hash;
+        $odkaz = route('affiliate', ['aff' => Auth::user()->affil_hash]);
         $mail_text = 'Ahoj,' . "\n";
         $mail_text .= 'Rád bych tě pozval k registraci mezi uživatele webu toodoo.cz.' . "\n";
         $mail_text .= 'Jedná se o portál pro správu projektů.' . "\n\n";

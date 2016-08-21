@@ -13,6 +13,8 @@
 
 Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
+Route::get('affiliate/{aff}', ['as' => 'affiliate', 'uses' => 'HomeController@affiliate']);
+
 Route::get('account', ['as' => 'account.detail', 'uses' => 'AccountController@detail']);
 Route::get('account/edit', ['as' => 'account.edit', 'uses' => 'AccountController@edit']);
 Route::post('account/save', ['as' => 'account.save', 'uses' => 'AccountController@save']);

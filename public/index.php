@@ -53,6 +53,7 @@ $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
+// last user activity log
 $user = $request->user();
 if ($user) {
     $user->last_activity_at = time();

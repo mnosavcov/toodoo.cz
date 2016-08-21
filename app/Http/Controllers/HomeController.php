@@ -14,4 +14,11 @@ class HomeController extends Controller
 
         return view('home.dashboard');
     }
+
+    public function affiliate(Request $request, $aff)
+    {
+        if ($request->user()) return redirect()->route('home.index');
+
+        return redirect('/login')->withCookie('aff', $aff, 259200); // 180 dní
+    }
 }
