@@ -46,7 +46,7 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -61,7 +61,7 @@ class AuthController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
@@ -94,7 +94,7 @@ class AuthController extends Controller
         $task->task_id = $project->last_task_id;
         $task->hash = str_random(32);
         $task->name = 'vyzkoušet funkčnost';
-        $task->description = '- pročíst manuál '. url('manual');
+        $task->description = '- pročíst manuál ' . url('manual');
         $project->tasks()->save($task);
 
         $project->increment('last_task_id');
@@ -103,6 +103,7 @@ class AuthController extends Controller
         $task->task_id = $project->last_task_id;
         $task->hash = str_random(32);
         $task->name = 'Odeslat zpětnou vazbu';
+        $task->description = '- na email info@toodoo.cz odeslat zpětnou vazbu. Kromě pochvaly :), především nápady na vylepšení, co mi chybí, apod...';
         $project->tasks()->save($task);
 
         $project->increment('last_task_id');
@@ -111,7 +112,8 @@ class AuthController extends Controller
         $task->task_id = $project->last_task_id;
         $task->hash = str_random(32);
         $task->name = 'Pozvat přátele';
-        $task->description = '- odeslat pozvání s odkazem '. url('/').'?aff='.$user->affil_hash.' po registraci pomocí toho odkazu dostanu 5MB prostoru pro své soubory.';
+        $task->description = '- odeslat pozvání s odkazem ' . url('/') . '?aff=' . $user->affil_hash . ' pokud se někdo zaregistruje pomocí toho odkazu dostanu 10MB prostoru pro své soubory navíc.';
+        $task->description .= "\n" . '- na stránce ' . route('account.invite') . ' už mám předpřipravený formulář pro pozvání';
         $task->priority = 1;
         $project->tasks()->save($task);
 

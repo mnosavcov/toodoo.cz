@@ -47,6 +47,8 @@
                                     </tr>
                                     </tbody>
                                 </table>
+
+                                <a href="{{ route('account.invite') }}">Pozvat přátele</a>. získám tak 10MB prostoru pro své soubory navíc.
                             </div>
                         </div>
                     </div>

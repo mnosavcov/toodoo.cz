@@ -145,4 +145,8 @@ class AccountController extends Controller
 
         return view('account.trash', ['items' => $items->get()]);
     }
+
+    public function invite() {
+        return view('account.invite');
+    }
 }
