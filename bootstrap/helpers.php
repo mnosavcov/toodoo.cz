@@ -14,7 +14,7 @@ function linkInText_callback($match)
         $completeUrl_href = 'http://' . $completeUrl;
     }
 
-    return '<a href="' . $completeUrl_href . '" rel="nofollow" target="' . md5($completeUrl) . '">'
+    return '<a href="' . $completeUrl_href . '" rel="nofollow" target="' . md5($completeUrl_href) . '">'
     . $completeUrl . '</a>';
 }
 

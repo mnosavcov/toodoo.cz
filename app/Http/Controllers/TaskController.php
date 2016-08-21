@@ -45,6 +45,7 @@ class TaskController extends Controller
         $task->hash = str_random(32);
         $task->name = $request->input('name');
         $task->description = $request->input('description');
+        $task->description_secret = encrypt($request->input('description_secret'));
 
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
