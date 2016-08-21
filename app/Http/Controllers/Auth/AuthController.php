@@ -66,12 +66,23 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        $user = new User([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'affil_hash' => str_random(8)
         ]);
+
+        $user->save();
+
+        $aff = User::where('affil_hash', request()->cookie('aff'));
+        if ($aff->count() == 1) {
+            if ($aff->first()->main_size < 50000000) $aff->first()->increment('main_size', 10485760);
+            $aff->first()->recalcSize();
+
+            $user->increment('main_size', 10485760);
+            $user->recalcSize();
+        }
 
         $project = new Project;
         $project->hash = str_random(32);
