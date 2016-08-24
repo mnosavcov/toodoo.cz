@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-use Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAccountRequest extends Request
+class StoreAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +23,6 @@ class StoreAccountRequest extends Request
      */
     public function rules()
     {
-//        switch($this->method()) {
-//            case 'POST':
-//        }
-
         return [
             'name' => 'required',
             'password' => 'min:6|confirmed'

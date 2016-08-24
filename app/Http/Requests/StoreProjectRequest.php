@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use Auth;
 
-class StoreProjectRequest extends Request
+class StoreProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,6 @@ class StoreProjectRequest extends Request
      */
     public function rules()
     {
-//        switch($this->method()) {
-//            case 'POST':
-//        }
-
         return [
             'name' => 'required|unique:projects,name,'.$this->input('project_id').',id,user_id,'.Auth::user()->id,
             'key' => 'required|unique:projects,key,'.$this->input('project_id').',id,user_id,'.Auth::user()->id
