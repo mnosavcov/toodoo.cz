@@ -14,7 +14,7 @@
 Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
 Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@invitation']);
-Route::get('terms-and-conditions', ['as' => 'terms-and-conditions', function () {
+Route::get('terms-and-conditions', ['as' => 'termsAndConditions', function () {
     return view('page.terms-and-conditions');
 }]);
 
