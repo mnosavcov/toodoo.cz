@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,12 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // last user activity log
-        $user = Auth::user();
-        if ($user) {
-            $user->last_activity_at = time();
-            $user->save();
-        }
+        //
     }
 
     /**
