@@ -15,7 +15,7 @@ class HomeController extends Controller
         return view('home.dashboard');
     }
 
-    public function affiliate(Request $request, $aff)
+    public function invitation(Request $request, $aff)
     {
         if ($request->user()) return redirect()->route('home.index');
 

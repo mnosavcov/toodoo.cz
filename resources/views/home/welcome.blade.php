@@ -7,7 +7,9 @@
                 <h1>Welcome</h1>
                 <p>Pro fungování je třeba <a href="{{ url('login') }}">přihlásit se</a></p>
 
-                <div>verze {{ config('app.version') }}</div>
+                <p>verze {{ config('app.version') }}</p>
+
+                <p><a href="{{ route('terms-and-conditions') }}">podmínky užití</a></p>
             </div>
         </div>
     </div>
