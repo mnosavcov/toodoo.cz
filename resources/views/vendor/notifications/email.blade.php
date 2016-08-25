@@ -85,9 +85,9 @@ $style = [
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
                                             @if ($level == 'error')
-                                                Whoops!
+                                                Pozor!
                                             @else
-                                                Hello!
+                                                Dobrý den,
                                             @endif
                                         </h1>
 
@@ -136,7 +136,8 @@ $style = [
 
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ config('app.name') }}
+                                            S pozdravem<br>
+                                            tým {{ config('app.name') }}
                                         </p>
 
                                         <!-- Sub Copy -->
@@ -173,7 +174,7 @@ $style = [
                                         <p style="{{ $style['paragraph-sub'] }}">
                                             &copy; {{ date('Y') }}
                                             <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ config('app.name') }}</a>.
-                                            All rights reserved.
+                                            všechna práva vyhrazena.
                                         </p>
                                     </td>
                                 </tr>
