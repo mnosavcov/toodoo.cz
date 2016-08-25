@@ -9,4 +9,4 @@
 S pozdravem
 tým {{ config('app.name') }}
 {{-- Sub Copy --}}
-&copy;{{ date('Y') }} {{ config('app.name') }} všechna práva vyhrazena.
+(c) {{ date('Y') }} {{ config('app.name') }} všechna práva vyhrazena.
