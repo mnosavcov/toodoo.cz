@@ -25,8 +25,9 @@ Route::get('account/refresh', ['as' => 'account.refresh', 'uses' => 'AccountCont
 Route::get('account/files', ['as' => 'account.files', 'uses' => 'AccountController@files']);
 Route::get('account/trash', ['as' => 'account.trash', 'uses' => 'AccountController@trash']);
 Route::match(['GET', 'POST'], 'account/invite', ['as' => 'account.invite', 'uses' => 'AccountController@invite']);
-Route::get('account/order', ['as' => 'account.order.form', 'uses' => 'AccountController@order']);
+Route::get('account/order', ['as' => 'account.order.form', 'uses' => 'AccountController@orderForm']);
 Route::post('account/order', ['as' => 'account.order.save', 'uses' => 'AccountController@orderSave']);
+Route::get('account/order/list', ['as' => 'account.order.detail', 'uses' => 'AccountController@orderList']);
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
 Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);

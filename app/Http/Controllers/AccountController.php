@@ -212,11 +212,15 @@ class AccountController extends Controller
         return view('account.invite', ['mail_text' => old('mail_text', $mail_text)]);
     }
 
-    public function order() {
+    public function orderForm() {
     	return view('account.order.form');
     }
 
 	public function orderSave(StoreOrderRequest $request) {
 		return $request;
 	}
+
+    public function orderList() {
+        return 'order.detail';
+    }
 }

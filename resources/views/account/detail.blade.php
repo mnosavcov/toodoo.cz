@@ -29,7 +29,8 @@
 
                                 <table class="table table-bordered">
                                     <caption>
-                                        <a href="{{ Route('account.refresh') }}" class="pull-right"><span class="glyphicon glyphicon-refresh"></span></a>
+                                        <a href="{{ Route('account.refresh') }}" class="pull-right"><span
+                                                    class="glyphicon glyphicon-refresh"></span></a>
                                         Soubory
                                     </caption>
                                     <tbody>
@@ -48,7 +49,16 @@
                                     </tbody>
                                 </table>
 
-                                <a href="{{ route('account.invite') }}">Pozvat přátele</a>. získám tak 10MB prostoru pro své soubory navíc.
+                                <p>
+                                    <a href="{{ route('account.order.detail') }}">Seznam objednávek</a>
+                                </p>
+                                <p>
+                                    <span class="glyphicon glyphicon-arrow-right text-primary"></span>
+                                    <a href="{{ route('account.order.form') }}"><strong>Objednat více místa pro soubory</strong></a>
+                                    <br>
+                                    <a href="{{ route('account.invite') }}">Pozvat přátele</a>. získám tak 10MB prostoru
+                                    pro své soubory navíc.
+                                </p>
                             </div>
                         </div>
                     </div>
