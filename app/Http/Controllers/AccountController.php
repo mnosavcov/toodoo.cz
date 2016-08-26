@@ -6,6 +6,7 @@ use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAccountRequest;
+use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests;
 use Auth;
 use DB;
@@ -210,4 +211,12 @@ class AccountController extends Controller
 
         return view('account.invite', ['mail_text' => old('mail_text', $mail_text)]);
     }
+
+    public function order() {
+    	return view('account.order.form');
+    }
+
+	public function orderSave(StoreOrderRequest $request) {
+		return $request;
+	}
 }

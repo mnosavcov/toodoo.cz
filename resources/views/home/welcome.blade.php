@@ -9,7 +9,7 @@
 
                 <p>verze {{ config('app.version') }}</p>
 
-                <p><a href="{{ route('terms-and-conditions') }}">podmínky užití</a></p>
+                <p><a href="{{ route('termsAndConditions') }}">podmínky užití</a></p>
             </div>
         </div>
     </div>
