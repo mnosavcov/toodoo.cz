@@ -19,7 +19,7 @@ Artisan::command('publish', function () {
 	exec('composer install');
 	exec('php artisan migrate');
 	exec('php artisan cache:clear');
-	exec('ls ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
+	exec('rm ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
 });
 
 Artisan::command('run', function () {
