@@ -13,15 +13,19 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('publish', function () {
-	exec('git checkout master');
-	exec('git pull');
-	exec('composer install');
-	exec('php artisan migrate');
-	exec('php artisan cache:clear');
-	exec('rm ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
+Artisan::command('publish {--migrate}', function () {
+    $migrate = $this->option('migrate');
+
+    exec('git checkout master');
+    exec('git pull');
+    exec('composer install');
+    if ($migrate) {
+        exec('php artisan migrate');
+    }
+    exec('php artisan cache:clear');
+    exec('rm ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
 });
 
 Artisan::command('run', function () {
-	exec('php artisan serve --port=80');
+    exec('php artisan serve --port=80');
 });
