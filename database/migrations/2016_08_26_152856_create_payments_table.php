@@ -14,20 +14,22 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-	        $table->engine = 'InnoDB';
+            $table->engine = 'InnoDB';
 
             $table->increments('id');
-	        $table->integer('created_at');
-	        $table->integer('updated_at');
+            $table->integer('created_at');
+            $table->integer('updated_at');
 
-	        $table->integer('order_id')->unsigned()->index();
+            $table->integer('order_id')->unsigned()->index();
 
-	        $table->integer('paid_at');
-	        $table->decimal('paid_amount', 8, 2);
-	        $table->integer('processed')->default(0);
-	        $table->text('payment_data');
+            $table->integer('paid_at');
+            $table->decimal('paid_amount', 8, 2);
+            $table->integer('processed')->default(0);
+            $table->text('payment_data');
 
-	        $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->text('description');
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 
