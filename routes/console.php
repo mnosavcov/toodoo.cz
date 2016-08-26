@@ -13,6 +13,15 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
+Artisan::command('publish', function () {
+	exec('git checkout master');
+	exec('git pull');
+	exec('composer install');
+	exec('php artisan migrate');
+	exec('php artisan cache:clear');
+	exec('ls ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
+});
+
+Artisan::command('run', function () {
+	exec('php artisan serve --port=80');
 });
