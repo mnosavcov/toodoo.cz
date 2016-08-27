@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddOrderSizeOrderPeriodOrderActiveOverpaymentToUsersTable extends Migration
+class AddOrderSizeOrderPeriodRenewActiveOverpaymentToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class AddOrderSizeOrderPeriodOrderActiveOverpaymentToUsersTable extends Migratio
         Schema::table('users', function (Blueprint $table) {
             $table->bigInteger('order_size')->unsigned();
             $table->enum('order_period', ['monthly', 'yearly'])->default('yearly');
-            $table->integer('order_active')->default(0);
+            $table->integer('renew_active')->default(0);
             $table->decimal('overpayment', 8, 2)->default(0);
         });
     }
@@ -31,7 +31,7 @@ class AddOrderSizeOrderPeriodOrderActiveOverpaymentToUsersTable extends Migratio
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('order_size');
             $table->dropColumn('order_period');
-            $table->dropColumn('order_active');
+            $table->dropColumn('renew_active');
             $table->dropColumn('overpayment');
         });
     }
