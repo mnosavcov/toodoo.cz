@@ -9,7 +9,7 @@
         "laravel/framework": "5.3.*",
         "anchu/ftp": "~2.0",
         "intervention/image": "^2.3",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "1.4.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
