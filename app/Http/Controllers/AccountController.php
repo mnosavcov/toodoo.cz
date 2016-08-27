@@ -38,6 +38,7 @@ class AccountController extends Controller
         $user = $request->user();
 
         $user->name = $request->name;
+        $user->mailing_enabled = $request->mailing_enabled;
 
         if ($request->password) {
             $user->password = bcrypt($request->password);

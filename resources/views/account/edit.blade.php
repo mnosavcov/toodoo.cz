@@ -58,11 +58,30 @@
                                 <label for="password-confirm" class="col-md-4 control-label">Kontrola hesla</label>
 
                                 <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                                    <input id="password-confirm" type="password" class="form-control"
+                                           name="password_confirmation">
 
                                     @if ($errors->has('password_confirmation'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('mailing_enabled') ? ' has-error' : '' }}">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="mailing_enabled"
+                                                   value="1"{{ old('mailing_enabled', $user->mailing_enabled)?' checked="checked"':'' }}>
+                                            Aktivní mailing
+                                        </label>
+                                    </div>
+
+                                    @if ($errors->has('mailing_enabled'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('mailing_enabled') }}</strong>
                                     </span>
                                     @endif
                                 </div>

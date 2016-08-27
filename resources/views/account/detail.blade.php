@@ -24,6 +24,16 @@
                                         <th class="active">Email</th>
                                         <td>{{ $user->email }}</td>
                                     </tr>
+                                    <tr>
+                                        <th class="active">Aktivní mailing</th>
+                                        <td>
+                                            @if($user->mailing_enabled)
+                                                <span class="glyphicon glyphicon-ok text-success"></span>
+                                            @else
+                                                <span class="glyphicon glyphicon-remove text-danger"></span>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
 
@@ -42,10 +52,10 @@
                                         <th class="col-xs-4 active">Místo koupené</th>
                                         <td class="col-xs-8">
                                             @if($user->purchased_size)
-                                            {{ formatBytes($user->purchased_size) }}
+                                                {{ formatBytes($user->purchased_size) }}
                                             @else
                                                 -
-                                                @endif
+                                            @endif
                                             @if($user->purchase_expire_at>time())
                                                 (platné do: {{ date('d.m.Y', $user->purchase_expire_at) }})
                                             @endif
