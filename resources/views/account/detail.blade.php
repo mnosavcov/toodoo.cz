@@ -80,11 +80,11 @@
                                 </table>
 
                                 <p>
-                                    <a href="{{ route('account.order.detail') }}">Seznam objednávek</a>
+                                    <a href="{{ route('order.list') }}">Seznam objednávek</a>
                                 </p>
                                 <p>
                                     <span class="glyphicon glyphicon-arrow-right text-primary"></span>
-                                    <a href="{{ route('account.order.form') }}"><strong>Objednat více místa pro
+                                    <a href="{{ route('order.form') }}"><strong>Objednat více místa pro
                                             soubory</strong></a>
                                     <br>
                                     <a href="{{ route('account.invite') }}">Pozvat přátele</a>. získám tak 10MB prostoru

@@ -6,7 +6,6 @@ use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAccountRequest;
-use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests;
 use Auth;
 use DB;
@@ -211,17 +210,5 @@ class AccountController extends Controller
         $mail_text .= Auth::user()->name;
 
         return view('account.invite', ['mail_text' => old('mail_text', $mail_text)]);
-    }
-
-    public function orderForm() {
-    	return view('account.order.form');
-    }
-
-	public function orderSave(StoreOrderRequest $request) {
-		return $request;
-	}
-
-    public function orderList() {
-        return 'order.detail';
     }
 }

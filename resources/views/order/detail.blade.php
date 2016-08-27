@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Objednat</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('account.order.save') }}">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('order.save') }}">
                             {{ csrf_field() }}
 
                             <div class="form-group">
