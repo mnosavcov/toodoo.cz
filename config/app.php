@@ -131,6 +131,9 @@ return [
 
     'main_size' => '20971520', // 20MB
 
+    'fio' => [
+        'token' => env('FIO_TOKEN'),
+    ],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
