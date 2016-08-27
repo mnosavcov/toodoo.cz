@@ -12,7 +12,7 @@ use App\Order;
 class OrderController extends Controller
 {
     protected $offer = [
-        '500m' => ['size' => 2097152, 'period' => 'monthly', 'price' => 49],
+        '500m' => ['size' => 524288000, 'period' => 'monthly', 'price' => 49],
         '1000m' => ['size' => 1073741824, 'period' => 'monthly', 'price' => 59],
         '2000m' => ['size' => 2147483648, 'period' => 'monthly', 'price' => 69],
         '3000m' => ['size' => 3221225472, 'period' => 'monthly', 'price' => 79],
