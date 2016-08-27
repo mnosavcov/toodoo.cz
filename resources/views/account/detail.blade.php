@@ -35,8 +35,27 @@
                                     </caption>
                                     <tbody>
                                     <tr>
+                                        <th class="col-xs-4 active">Místo zdarma</th>
+                                        <td class="col-xs-8">{{ formatBytes($user->main_size) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-xs-4 active">Místo koupené</th>
+                                        <td class="col-xs-8">
+                                            @if($user->purchased_size)
+                                            {{ formatBytes($user->purchased_size) }}
+                                            @else
+                                                -
+                                                @endif
+                                            @if($user->purchase_expire_at>time())
+                                                (platné do: {{ date('d.m.Y', $user->purchase_expire_at) }})
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
-                                        <td class="col-xs-8">{{ formatBytes($user->main_size + $user->purchased_size) }}</td>
+                                        <td class="col-xs-8 text-danger">
+                                            <strong>{{ formatBytes($user->main_size + $user->purchased_size) }}</strong>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Použité místo</th>
@@ -44,7 +63,8 @@
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Zbývá místo</th>
-                                        <td class="col-xs-8">{{ formatBytes($user->free_size) }}</td>
+                                        <td class="col-xs-8 text-danger">
+                                            <strong>{{ formatBytes($user->free_size) }}</strong></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -54,7 +74,8 @@
                                 </p>
                                 <p>
                                     <span class="glyphicon glyphicon-arrow-right text-primary"></span>
-                                    <a href="{{ route('account.order.form') }}"><strong>Objednat více místa pro soubory</strong></a>
+                                    <a href="{{ route('account.order.form') }}"><strong>Objednat více místa pro
+                                            soubory</strong></a>
                                     <br>
                                     <a href="{{ route('account.invite') }}">Pozvat přátele</a>. získám tak 10MB prostoru
                                     pro své soubory navíc.
