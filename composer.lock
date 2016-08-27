@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82888028fb4b8a47b590266e792c1892",
-    "content-hash": "c7fe6a575fc85addfe6a55246b891ac0",
+    "hash": "bd9528f3f8c91e451b078287e612f85a",
+    "content-hash": "cff3fb21f0290c1afed8760c7dc373fc",
     "packages": [
         {
             "name": "anchu/ftp",
