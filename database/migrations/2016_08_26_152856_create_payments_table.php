@@ -20,16 +20,17 @@ class CreatePaymentsTable extends Migration
             $table->integer('created_at');
             $table->integer('updated_at');
 
-            $table->integer('order_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('variable_symbol')->nullable()->unsigned();
+            $table->enum('status', ['incomer', 'partly', 'complete'])->default('incomer');
 
             $table->integer('paid_at');
-            $table->decimal('paid_amount', 8, 2);
-            $table->integer('processed')->default(0);
+            $table->decimal('paid_amount', 8, 2)->default(0);
+            $table->decimal('amount_remain', 8, 2)->default(0);
+
             $table->text('payment_data');
 
-            $table->text('description');
-
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
