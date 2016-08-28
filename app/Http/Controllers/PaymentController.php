@@ -13,29 +13,27 @@ class PaymentController extends Controller
     {
         $payments = file_get_contents('https://www.fio.cz/ib_api/rest/last/' . config('app.fio.token') . '/transactions.json');
         $payments = json_decode($payments, true);
-        $transaction_list = $payments['accountStatement']['transactionList'];
+        $transaction_list = $payments['accountStatement']['transactionList']['transaction'];
         if (!count($transaction_list)) return;
 
         foreach ($transaction_list as $items) {
             $payment = new Payment;
             $payment->payment_data = json_encode($items);
             foreach ($items as $item) {
-                foreach ($item as $i) {
-                    if ($i['name'] == 'ID pohybu') {
-                        $payment->transaction_id = $i['value'];
-                        if (Payment::where('transaction_id', $i['value'])->count()) continue 3;
-                    }
-                    if ($i['name'] == 'Objem') {
-                        $payment->paid_amount = $i['value'];
-                        $payment->amount_remain = $i['value'];
-                    }
-                    if ($i['name'] == 'Datum') {
-                        $date = new \Carbon\Carbon($i['value']);
-                        $payment->paid_at = $date->getTimestamp();
-                    }
-                    if ($i['name'] == 'VS') {
-                        $payment->variable_symbol = $i['value'];
-                    }
+                if ($item['name'] == 'ID pohybu') {
+                    $payment->transaction_id = $item['value'];
+                    if (Payment::where('transaction_id', $item['value'])->count()) continue 2;
+                }
+                if ($item['name'] == 'Objem') {
+                    $payment->paid_amount = $item['value'];
+                    $payment->amount_remain = $item['value'];
+                }
+                if ($item['name'] == 'Datum') {
+                    $date = new \Carbon\Carbon($item['value']);
+                    $payment->paid_at = $date->getTimestamp();
+                }
+                if ($item['name'] == 'VS') {
+                    $payment->variable_symbol = $item['value'];
                 }
             }
             if ($payment->variable_symbol) {

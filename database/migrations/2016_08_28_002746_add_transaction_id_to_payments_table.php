@@ -14,7 +14,7 @@ class AddTransactionIdToPaymentsTable extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->bigInteger('transaction_id')->after('user_id');
+            $table->bigInteger('transaction_id')->after('user_id')->nullable();
             $table->unique('transaction_id');
         });
     }
