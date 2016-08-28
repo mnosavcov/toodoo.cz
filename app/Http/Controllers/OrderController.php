@@ -39,7 +39,7 @@ class OrderController extends Controller
     {
         $h24 = 86400; // 60*60*24 = 1 day
         $user = $request->user();
-        $variable_symbol = max((int)Order::max('variable_symbol'), date('Y0000')) + 1;
+        $variable_symbol = max((int)Order::max('variable_symbol'), date('Y000000')) + 1;
         $offer = $this->offer[$request->get('order_size')];
         $description = 'Objednávka prostoru o velikosti ' . formatBytes($offer['size']) . ' s ' . ($offer['period'] == 'yearly' ? 'ročním' : 'měsíčním') . ' obnovováním.';
         /* calculate price and time - begin */

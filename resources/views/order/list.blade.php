@@ -8,7 +8,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Objednáno</th>
-                        <th>Konec obdobi</th>
+                        <th>Konec období</th>
                         <th>Platné do</th>
                         <th>VS</th>
                         <th>Cena / Zaplaceno</th>
@@ -23,8 +23,8 @@
                         if ($order->status == 'complete') $class = "bg-success";
                         if ($order->status == 'cancelled') $class = "bg-danger";
                         ?>
-                        <tr class="bg-info">
-                            <td colspan="9">{{ $order->description }}</td>
+                        <tr class="bg-primary">
+                            <td colspan="9"><strong>{{ $order->description }}</strong></td>
                         </tr>
                         <tr class="{{ $class }}">
                             <td>{{ $order->created_at }}</td>
@@ -39,10 +39,13 @@
                             <td>@lang('message.order.period.'.$order->period)</td>
                             <td>{{ formatBytes($order->ordered_size) }}</td>
                             <td>@lang('message.order.status.'.$order->status)</td>
-                            <td>detail / platby</td>
+                            <td>platby</td>
                         </tr>
                     @endforeach
                 </table>
+                @if(!count($orders))
+                    <div class="panel-body">nemáte žádnou objednávku</div>
+                @endif
             </div>
         </div>
     </div>

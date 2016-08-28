@@ -85,6 +85,69 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="3000y"{{ old('order_size')=='3000y'?' checked="checked"':'' }}>
+                                        3GB / Ročně
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="3000m"{{ old('order_size')=='3000m'?' checked="checked"':'' }}>
+                                        3GB / Měsíčně
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="4000y"{{ old('order_size')=='4000y'?' checked="checked"':'' }}>
+                                        4GB / Ročně
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="4000m"{{ old('order_size')=='4000m'?' checked="checked"':'' }}>
+                                        4GB / Měsíčně
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="5000y"{{ old('order_size')=='5000y'?' checked="checked"':'' }}>
+                                        5GB / Ročně
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="order_size"
+                                               value="5000m"{{ old('order_size')=='5000m'?' checked="checked"':'' }}>
+                                        5GB / Měsíčně
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-10 col-md-offset-2">
