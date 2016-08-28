@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Order;
 use App\Payment;
-
-use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     public function getFio(Request $request)
     {
 //        $payments = 'https://www.fio.cz/ib_api/rest/last/'.config('app.fio.token').'/transactions.json'
-        $payments = file_get_contents('https://www.fio.cz/ib_api/rest/periods/'.config('app.fio.token').'/2016-08-01/2016-08-31/transactions.json');
+        $payments = file_get_contents('https://www.fio.cz/ib_api/rest/periods/' . config('app.fio.token') . '/2016-08-01/2016-08-31/transactions.json');
         $payments = json_decode($payments, true);
         $transaction_list = $payments['accountStatement']['transactionList'];
 
@@ -21,21 +20,29 @@ class PaymentController extends Controller
             $payment->payment_data = json_encode($items);
             foreach ($items as $item) {
                 foreach ($item as $i) {
-                    if($i['name']=='ID pohybu') {
+                    if ($i['name'] == 'ID pohybu') {
                         $payment->transaction_id = $i['value'];
-                        if(Payment::where('transaction_id', $i['value'])->count()) continue 3;
+                        if (Payment::where('transaction_id', $i['value'])->count()) continue 3;
                     }
-                    if($i['name']=='Objem') {
+                    if ($i['name'] == 'Objem') {
                         $payment->paid_amount = $i['value'];
                         $payment->amount_remain = $i['value'];
                     }
-                    if($i['name']=='Datum') {
+                    if ($i['name'] == 'Datum') {
                         $date = new \Carbon\Carbon($i['value']);
                         $payment->paid_at = $date->getTimestamp();
                     }
+                    if ($i['name'] == 'VS') {
+                        $payment->variable_symbol = $i['value'];
+                    }
                 }
             }
-            $request->user()->payment()->save($payment);
+            if ($payment->variable_symbol) {
+                if ($order = Order::where('variable_symbol', $payment->variable_symbol)->first()) {
+                    $payment->user_id = $order->user_id;
+                }
+            }
+            $payment->save();
         }
         dd();
 

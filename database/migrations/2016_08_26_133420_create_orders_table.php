@@ -37,6 +37,7 @@ class CreateOrdersTable extends Migration
 
             $table->text('description');
 
+            $table->unique('variable_symbol');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
