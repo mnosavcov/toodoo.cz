@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\Task;
+use App\Payment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -34,6 +35,8 @@ class AdminController extends Controller
 		$data['users_last_register_at'] = AdminStatus::where('type', 'users_last_register_at')->first()->data;
 		$data['ftp'] = AdminStatus::where('type', 'ftp')->get();
 		$data['backup_db'] = json_decode(AdminStatus::where('type', 'backup_db')->first()->data);
+        $data['payments'] = json_decode(AdminStatus::where('type', 'payments')->first()->data);
+
 		return view('admin.dashboard', ['data' => $data]);
 	}
 
@@ -66,6 +69,17 @@ class AdminController extends Controller
 			'type' => 'users_last_register_at',
 			'data' => User::max('created_at')
 		]);
+
+        // payments
+        AdminStatus::create([
+            'type' => 'payments',
+            'data' => json_encode([
+                'last_get_data' => date('d.m.Y H:i:s', Payment::max('created_at')),
+                'last_payment' => date('d.m.Y H:i:s', Payment::max('paid_at')),
+                'suma' => number_format(Payment::sum('paid_amount'), 2, '.', ' '),
+                'not_assign' => Payment::where('user_id', null)->get()
+            ])
+        ]);
 
 		// ftp
 		$ftp_data = [];

@@ -37,6 +37,35 @@
         </div>
     </div>
 
+    <h2>Platby</h2>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <tr>
+                    <td class="active col-xs-4">Poslední načtení / Poslední platba</td>
+                    <td class="col-xs-8">{{ $data['payments']->last_get_data }}
+                        / {{ $data['payments']->last_payment }}</td>
+                </tr>
+                <tr>
+                    <td class="active col-xs-4">Zaplaceno celkem</td>
+                    <td class="col-xs-8">{{ $data['payments']->suma }},- Kč</td>
+                </tr>
+                @if(count($data['payments']->not_assign))
+                    <tr>
+                        <td colspan="2" class="bg-danger">Nepřiřazené platby</td>
+                    </tr>
+                    @foreach($data['payments']->not_assign as $na)
+                        <tr>
+                            <td class="active col-xs-4">Platba: {{ $na->id }}</td>
+                            <td class="col-xs-8">{{ $na->paid_amount }},- Kč</td>
+                        </tr>
+                    @endforeach
+                @endif
+            </table>
+        </div>
+    </div>
+
     <h2>FTP</h2>
 
     <div class="row">
