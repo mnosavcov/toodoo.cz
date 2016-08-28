@@ -20,7 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('created_at');
             $table->integer('updated_at');
 
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index()->nullable();
             $table->integer('variable_symbol')->nullable()->unsigned();
             $table->enum('status', ['incomer', 'partly', 'complete'])->default('incomer');
 

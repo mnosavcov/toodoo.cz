@@ -61,7 +61,7 @@ class OrderController extends Controller
         $paid_period_to_at = $paid_period_to_at->addDays(10)->endOfDay()->getTimestamp();
 
         $price_per_period = $offer['price'];
-        if($partial_price_time>0) {
+        if ($partial_price_time > 0) {
             $price_per_period = $offer['price'] * $partial_price_time / $full_price_time;
         }
         $price_per_period = floor(min($price_per_period, $offer['price']));
@@ -79,11 +79,11 @@ class OrderController extends Controller
 
         $user->order()->save($order);
 
-        dd($request);
+        return redirect()->route('order.list');
     }
 
-    public function orderList()
+    public function orderList(Request $request)
     {
-        return 'order.list';
+        return view('order.list', ['orders' => Order::byUserId($request->user()->id)->orderBy('id', 'desc')->get()]);
     }
 }
