@@ -20,10 +20,11 @@ Artisan::command('publish {--migrate}', function () {
     exec('git pull');
     exec('composer install');
     if ($migrate) {
-        exec('php artisan migrate --force --quiet');
+        exec('php artisan migrate --force');
     }
     exec('php artisan cache:clear');
     exec('rm ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
+    exec('rm ' . base_path() . DIRECTORY_SEPARATOR . 'bootstrap' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . '*.php');
 });
 
 Artisan::command('run', function () {
