@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrderPaymentTable extends Migration
+class CreatePaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateOrderPaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_payment', function (Blueprint $table) {
+        Schema::create('pays', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->increments('id');
             $table->timestamps();
 
             $table->integer('payment_id')->unsigned()->index();
-            $table->string('purpose_type');
-            $table->integer('purpose_id')->unsigned();
+            $table->string('pay_type');
+            $table->integer('pay_id')->unsigned();
 
             $table->decimal('paid_amount', 8, 2)->default(0);
             $table->text('description');
@@ -37,6 +37,6 @@ class CreateOrderPaymentTable extends Migration
      */
     public function down()
     {
-        Schema::drop('order_payment');
+        Schema::drop('pays');
     }
 }
