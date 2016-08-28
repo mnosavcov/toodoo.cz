@@ -10,8 +10,7 @@ class PaymentController extends Controller
 {
     public function getFio(Request $request)
     {
-//        $payments = 'https://www.fio.cz/ib_api/rest/last/'.config('app.fio.token').'/transactions.json'
-        $payments = file_get_contents('https://www.fio.cz/ib_api/rest/periods/' . config('app.fio.token') . '/2016-08-01/2016-08-31/transactions.json');
+        $payments = file_get_contents('https://www.fio.cz/ib_api/rest/last/' . config('app.fio.token') . '/transactions.json');
         $payments = json_decode($payments, true);
         $transaction_list = $payments['accountStatement']['transactionList'];
 
@@ -44,10 +43,5 @@ class PaymentController extends Controller
             }
             $payment->save();
         }
-        dd();
-
-
-        $payments = json_decode($payments);
-        dd($payments->transactionList);
     }
 }

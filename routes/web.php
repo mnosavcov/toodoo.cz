@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('payment/fio', ['as' => 'payment.fio', 'uses' => 'PaymentController@getFio']);
-
 Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
 Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@invitation']);

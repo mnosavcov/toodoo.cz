@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call('App\Http\Controllers\AdminController@backupDb')->twiceDaily(1, 13);
         $schedule->call('App\Http\Controllers\AdminController@deleteTaskProjectXDaysAfterTrashed')->hourly();
+        $schedule->call('App\Http\Controllers\PaymentController@getFio')->hourly();
     }
 
     /**
