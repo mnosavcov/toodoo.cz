@@ -1,0 +1,45 @@
+ORDERS:
+  id, created_at, updated_at, user_id,
+*  start_period_at ... začátek období (teď),
+*  finish_period_at ... konec období,
+*  paid_period_to_at ... období je placené do,
+*  period('monthly','yearly') ... typ období,
+*  ordered_size ... objednaná velikost,
+*  price_per_period ... cena za období,
+*  paid_amount_total ... zaplaceno za období,
+*  variable_symbol ... variabilní symbol,
+*  status('unpaid','partly_complete','complete','cancelled') ... stav objednávky (partly_complete bude zatím nevyužité),
+*  description ... popis objednávky
+
+PAYMENTS
+  id, created_at, updated_at, user_id,
+*  transaction_id ... id bankovní transakce,
+*  variable_symbol ... variabilní symbol,
+*  status('incomer','partly','complete') ... stav platby,
+*  paid_at ... datum platby,
+*  paid_amount ... zaplacená částka,
+*  amount_remain ... zbývající nepoužitá částka,
+*  payment_data ... všechna data záskaná o platbě
+
+PAYS
+  id, created_at, updated_at,
+*  payment_id ... ID platby (tabulka: PAYMENTS),
+*  pay_type ... typ platby (aktuálně jen Aps\Order),
+*  pay_id ... ID z pay_type,
+*  paid_amount ... zaplacená částka,
+*  description ... popis platby
+
+USERS
+  id, name, email, password, remember_token, created_at, updated_at, is_admin,
+*  main_size ... místo zdarma,
+*  purchased_size ... zaplacené místo,
+*  used_size ... použité místo,
+*  free_size ... zbylé volné místo,
+*  purchase_expire_at ... datum expirace placeného místa,
+  last_activity_at, affil_hash, last_project_id,
+*  order_size ... Objednaná velikost,
+*  order_period('monthly','yearly') ... objednané období,
+*  renew_active ... bude se automaticky obnovovat?,
+*  overpayment ... přeplatek,
+  mailing_enabled
+
