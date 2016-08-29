@@ -77,6 +77,8 @@ class OrderController extends Controller
         $order->variable_symbol = $variable_symbol;
         $order->description = $description;
 
+	    Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);
+
         $user->order()->save($order);
 
         return redirect()->route('order.list');
