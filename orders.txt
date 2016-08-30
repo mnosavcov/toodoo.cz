@@ -1,3 +1,19 @@
+USERS
+  id, name, email, password, remember_token, created_at, updated_at, is_admin,
+*  main_size ... místo zdarma,
+=>*  purchased_size ... zaplacené místo, => paid_size
+=>*  purchase_expire_at ... datum expirace placeného místa, => přejmenovat na paid_expire_at přesunout sem
+=>*  ordered_unpaid_size ... objednaná, ale nezaplacená velikost =>přidat
+=>*  ordered_unpaid_expire_at ... kdy končí platnost objednané, nezaplacené velikosti =>přidat
+*  used_size ... použité místo,
+*  free_size ... zbylé volné místo,
+=>*  order_size ... Objednaná velikost, => přejmenovat na ordered_size + přesunout sem
+=>*  order_period('monthly','yearly') ... objednané období, => přejmenovat na ordered_period + přesunout sem
+=>*  renew_active ... bude se automaticky obnovovat?, =>  přesunout sem
+  last_activity_at, affil_hash, last_project_id,
+*  overpayment ... přeplatek,
+  mailing_enabled
+
 ORDERS:
   id, created_at, updated_at, user_id,
 *  start_period_at ... začátek období (teď),
@@ -29,17 +45,28 @@ PAYS
 *  paid_amount ... zaplacená částka,
 *  description ... popis platby
 
-USERS
-  id, name, email, password, remember_token, created_at, updated_at, is_admin,
-*  main_size ... místo zdarma,
-*  purchased_size ... zaplacené místo,
-*  used_size ... použité místo,
-*  free_size ... zbylé volné místo,
-*  purchase_expire_at ... datum expirace placeného místa,
-  last_activity_at, affil_hash, last_project_id,
-*  order_size ... Objednaná velikost,
-*  order_period('monthly','yearly') ... objednané období,
-*  renew_active ... bude se automaticky obnovovat?,
-*  overpayment ... přeplatek,
-  mailing_enabled
+
+OPTIMISTICKÝ SCÉNÁŘ:
+- uživatel vždy zaplatí objednávku v celé výši
+
+OBJEDNÁVKA:
+a) není žádná aktivní objednávka
+- ORDERS: vytvoří se objednávka od teď do konce období, paid_period_to_at se nastaví na teď
+- USERS: vytvoří se záznam v purchased_size ORDERS.ordered_size a purchase_expire_at = ORDES.start_period_at + 14dní
+- pokud není objednávka do 14 dnů zaplacena, pak se stornuje: status=cancelled
+pokud je zaplacena:
+- ORDES: paid_period_to_at=finish_period_at; paid_amount_total=price_per_period, status=complete
+
+b) je menší objednávka, než aktuální (např: 1GB=>2GB)
+- ORDERS: vytvoří se objednávka od teď do konce období, paid_period_to_at se nastaví na teď; cena se dopočítá do konce předchozího období
+- ORDERS: zruší se všechny nezaplacené objednávky: status=cancelled
+
+c) je větší objednávka, než aktuální (např: 2GB=>1GB)
+- ORDERS: vytvoří se objednávka od teď do konce období, paid_period_to_at se nastaví na teď; cena se dopočítá do konce předchozího období
+- ORDERS: zruší se všechny nezaplacené objednávky: status=cancelled
+
+PLATBY:
+
+
+
 
