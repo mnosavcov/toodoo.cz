@@ -42,24 +42,15 @@ class ProjectController extends Controller
         return view('project.form', ['project' => new Project]);
     }
 
-    public function update($key)
+    public function update(Project $project)
     {
-        $project = Project::byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
         return view('project.form', ['project' => $project]);
     }
 
-    public function save(StoreProjectRequest $request, $key = null)
-    {
-        if ($key) {
-            $project = Project::byKey($key);
-            if (!$project->count()) return redirect()->route('home.index');
-            $this->authorize('updateProject', $project);
-        } else {
-            $project = new Project;
-            $project->user_id = Auth::user()->id;
-            $project->hash = str_random(32);
-        }
+    public function saveNew(StoreProjectRequest $request) {
+        $project = new Project;
+        $project->user_id = Auth::user()->id;
+        $project->hash = str_random(32);
 
         $project->priority = $request->input('priority');
         $project->name = $request->input('name');
@@ -72,11 +63,21 @@ class ProjectController extends Controller
         return redirect()->route('project.detail', ['key' => $project->key]);
     }
 
-    public function dashboard($key)
+    public function save(StoreProjectRequest $request, Project $project)
     {
-        $project = Project::byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
+        $project->priority = $request->input('priority');
+        $project->name = $request->input('name');
+        $project->key = $request->input('key');
+        $project->description = $request->input('description');
+        $project->description_secret = encrypt($request->input('description_secret'));
 
+        $project->save();
+        $this->putFile($request, $project, $request->file('files'));
+        return redirect()->route('project.detail', ['key' => $project->key]);
+    }
+
+    public function dashboard(Project $project)
+    {
         $tasks = $project->tasks()->orderBy('priority', 'desc')->orderBy('id')->get();
         $todo = $tasks->where('task_status_id', TaskStatus::where('code', 'TODO')->first(['id'])->id);
         $inProgress = $tasks->where('task_status_id', TaskStatus::where('code', 'IN-PROGRESS')->first(['id'])->id);
@@ -88,10 +89,8 @@ class ProjectController extends Controller
         return view('project.dashboard', ['todo' => $todo, 'inProgress' => $inProgress, 'done' => $done, 'reject' => $reject, 'project' => $project]);
     }
 
-    public function detail($key)
+    public function detail(Project $project)
     {
-        $project = Project::byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
         return view('project.detail', ['project' => $project, 'files' => $project->file]);
     }
 
@@ -202,33 +201,24 @@ class ProjectController extends Controller
         return back();
     }
 
-    public function delete(Request $request, $key)
+    public function delete(Request $request, Project $project)
     {
-        $project = Project::byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
-
         $project->delete();
         $request->session()->flash('success', 'Projekt byl přesunutý do koše!');
 
         return redirect()->route('home.index');
     }
 
-    public function renew(Request $request, $key)
+    public function renew(Request $request, Project $project)
     {
-        $project = Project::onlyTrashed()->byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
-
         $project->restore();
         $request->session()->flash('success', 'Projekt byl obnovený.');
 
         return redirect()->route('account.trash');
     }
 
-    public function forceDelete(Request $request, $key)
+    public function forceDelete(Request $request, Project $project)
     {
-        $project = Project::onlyTrashed()->byKey($key);
-        if (!$project->count()) return redirect()->route('home.index');
-
         $project->forceDelete();
         $request->session()->flash('success', 'Projekt byl nevratně odstraněn.');
 

@@ -11,6 +11,20 @@
 |
 */
 
+// bindings
+
+$router->bind('project', function ($value) {
+    return App\Project::byKey($value);
+});
+
+$router->bind('projectTrashed', function ($value) {
+    $project = App\Project::onlyTrashed()->byKey($value);
+    if($project->count()) return $project;
+    return App\Project;
+});
+
+// routes
+
 Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
 Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@invitation']);
@@ -31,14 +45,14 @@ Route::post('order', ['as' => 'order.save', 'uses' => 'OrderController@store']);
 Route::get('order/list', ['as' => 'order.list', 'uses' => 'OrderController@orderList']);
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
-Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@save']);
-Route::get('project/{key}/update', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
-Route::put('project/{key}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
-Route::get('project/{key}/dashboard', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
-Route::get('project/{key}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
-Route::get('project/{key}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
-Route::get('project/{key}/renew', ['as' => 'project.renew', 'uses' => 'ProjectController@renew']);
-Route::get('project/{key}/force-delete', ['as' => 'project.delete.force', 'uses' => 'ProjectController@forceDelete']);
+Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@saveNew']);
+Route::get('project/{project}/update', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
+Route::put('project/{project}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
+Route::get('project/{project}/dashboard', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
+Route::get('project/{project}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
+Route::get('project/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
+Route::get('project/{projectTrashed}/renew', ['as' => 'project.renew', 'uses' => 'ProjectController@renew']);
+Route::get('project/{projectTrashed}/force-delete', ['as' => 'project.delete.force', 'uses' => 'ProjectController@forceDelete']);
 Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
 Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
