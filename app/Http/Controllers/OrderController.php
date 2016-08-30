@@ -40,7 +40,7 @@ class OrderController extends Controller
         $h24 = 86400; // 60*60*24 = 1 day
         $user = $request->user();
         $variable_symbol = max((int)Order::max('variable_symbol'), date('Y000000')) + 1;
-        $offer = $this->offer[$request->get('order_size')];
+        $offer = $this->offer[$request->get('ordered_size')];
         $description = 'Objednávka prostoru o velikosti ' . formatBytes($offer['size']) . ' s ' . ($offer['period'] == 'yearly' ? 'ročním' : 'měsíčním') . ' obnovováním.';
         /* calculate price and time - begin */
         $start_period_at = new Carbon();
@@ -54,8 +54,8 @@ class OrderController extends Controller
             $finish_period_at = $finish_period_at->addMonth()->endOfDay()->getTimestamp();
         }
         $full_price_time = $finish_period_at - $start_period_at;
-        if ((int)$user->purchase_expire_at - $h24 > $start_period_at) {
-            $finish_period_at = $user->purchase_expire_at;
+        if ((int)$user->paid_expire_at - $h24 > $start_period_at) {
+            $finish_period_at = $user->paid_expire_at;
         }
         $partial_price_time = $finish_period_at - $start_period_at;
         $paid_period_to_at = $paid_period_to_at->addDays(10)->endOfDay()->getTimestamp();

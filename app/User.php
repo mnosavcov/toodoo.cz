@@ -46,13 +46,13 @@ class User extends Authenticatable
 
     protected $attributes = array(
         'main_size' => '20971520', // 20MB
-        'purchased_size' => 0,
+        'paid_size' => 0,
         'free_size' => '20971520' // 20MB
     );
 
     public function recalcSize()
     {
-        $user_size = $this->main_size + $this->purchased_size;
+        $user_size = $this->main_size + $this->paid_size;
         $used_size_project = Project::withTrashed()->where('user_id', $this->id)->join('project_files', 'projects.id', '=', 'project_files.project_id')->sum('filesize');
         $used_size_task = Project::withTrashed()->where('user_id', $this->id)
             ->join('tasks', 'projects.id', '=', 'tasks.project_id')

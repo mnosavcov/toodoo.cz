@@ -51,20 +51,20 @@
                                     <tr>
                                         <th class="col-xs-4 active">Místo koupené</th>
                                         <td class="col-xs-8">
-                                            @if($user->purchased_size)
-                                                {{ formatBytes($user->purchased_size) }}
+                                            @if($user->paid_size)
+                                                {{ formatBytes($user->paid_size) }}
                                             @else
                                                 -
                                             @endif
-                                            @if($user->purchase_expire_at>time())
-                                                (platné do: {{ date('d.m.Y', $user->purchase_expire_at) }})
+                                            @if($user->paid_expire_at>time())
+                                                (platné do: {{ date('d.m.Y', $user->paid_expire_at) }})
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
                                         <td class="col-xs-8 text-danger">
-                                            <strong>{{ formatBytes($user->main_size + $user->purchased_size) }}</strong>
+                                            <strong>{{ formatBytes($user->main_size + $user->paid_size) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>

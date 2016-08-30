@@ -62,7 +62,7 @@ class AdminController extends Controller
 		// users purchased count
 		AdminStatus::create([
 			'type' => 'users_purchased_count',
-			'data' => User::where(DB::raw('purchase_expire_at'), '>', time())->count()
+			'data' => User::where(DB::raw('paid_expire_at'), '>', time())->count()
 		]);
 		// users last register at
 		AdminStatus::create([

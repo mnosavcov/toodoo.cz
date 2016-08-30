@@ -45,7 +45,6 @@ class UpdateUsersTable01 extends Migration
      */
     public function down()
     {
-	    //DB::statement("ALTER TABLE users CHANGE COLUMN paid_size purchased_size BIGINT(20) unsigned NOT NULL");
 	    Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('paid_size');
             $table->bigInteger('purchased_size')->unsigned()->after('main_size');

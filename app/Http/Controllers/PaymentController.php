@@ -66,16 +66,16 @@ class PaymentController extends Controller
                 $order->save();
 
                 $user = User::find($order->user_id);
-                if ($user->purchased_size < $order->ordered_size) {
-                    $user->purchased_size = $order->ordered_size;
+                if ($user->paid_size < $order->ordered_size) {
+                    $user->paid_size = $order->ordered_size;
                 }
-                if ($user->purchase_expire_at < $order->paid_period_to_at) {
-                    $user->purchase_expire_at = $order->paid_period_to_at;
+                if ($user->paid_expire_at < $order->paid_period_to_at) {
+                    $user->paid_expire_at = $order->paid_period_to_at;
                 }
-                if ($user->order_size < $order->ordered_size) {
-                    $user->order_size = $order->ordered_size;
+                if ($user->ordered_size < $order->ordered_size) {
+                    $user->ordered_size = $order->ordered_size;
                 }
-                $user->order_period = $order->period;
+                $user->ordered_period = $order->period;
                 $user->renew_active = 1;
                 $user->save();
                 $user->recalcSize();

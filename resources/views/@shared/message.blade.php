@@ -16,7 +16,7 @@
 
 @if(Auth::user() && Auth::user()->free_size<20000000)
     <p class="alert alert-warning">
-        zbývá {{ formatBytes(Auth::user()->free_size) }} volného místa z {{ formatBytes(Auth::user()->main_size + Auth::user()->purchased_size) }} pro vaše soubory.
+        zbývá {{ formatBytes(Auth::user()->free_size) }} volného místa z {{ formatBytes(Auth::user()->main_size + Auth::user()->paid_size) }} pro vaše soubory.
         <a href="{{ route('order.form') }}">Objednejte si více místa pro soubory</a>
     </p>
 @endif
