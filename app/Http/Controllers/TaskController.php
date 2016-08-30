@@ -25,14 +25,14 @@ class TaskController extends Controller
 
     public function add($key)
     {
-        $project = Project::byKey($key);
+        $project = Project::byKey($key)->first();
         if (!$project->count()) return redirect()->route('home.index');
         return view('task.form', ['task' => new task, 'project' => $project]);
     }
 
     public function save(StoreTaskRequest $request, $key = null)
     {
-        $project = Project::byKey($key);
+        $project = Project::byKey($key)->first();
         if (!$project->count()) return redirect()->route('home.index');
 
         $project->increment('last_task_id');

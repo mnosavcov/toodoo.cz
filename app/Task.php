@@ -42,9 +42,9 @@ class Task extends Model
     {
         list($project_key, $task_id) = explode('-', $key);
         if ($deletedProjects) {
-            $project = Project::withTrashed()->byKey($project_key);
+            $project = Project::withTrashed()->byKey($project_key)->first();
         } else {
-            $project = Project::byKey($project_key);
+            $project = Project::byKey($project_key)->first();
         }
         if (!isset($project->id)) return $query->where(DB::raw('false'));
         return $query->where(['project_id' => $project->id, 'task_id' => $task_id])->first();

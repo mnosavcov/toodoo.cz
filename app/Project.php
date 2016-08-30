@@ -36,7 +36,7 @@ class Project extends Model
 
     public function scopeByKey($query, $key)
     {
-        return $query->where(['user_id' => Auth::id(), 'key' => $key])->first();
+        return $query->where(['user_id' => Auth::id(), 'key' => $key]);
     }
 
     public function scopeNavList($query)

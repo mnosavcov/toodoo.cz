@@ -209,17 +209,17 @@ class ProjectController extends Controller
         return redirect()->route('home.index');
     }
 
-    public function renew(Request $request, Project $project)
+    public function renew(Request $request, Project $projectTrashed)
     {
-        $project->restore();
+        $projectTrashed->restore();
         $request->session()->flash('success', 'Projekt byl obnovený.');
 
         return redirect()->route('account.trash');
     }
 
-    public function forceDelete(Request $request, Project $project)
+    public function forceDelete(Request $request, Project $projectTrashed)
     {
-        $project->forceDelete();
+        $projectTrashed->forceDelete();
         $request->session()->flash('success', 'Projekt byl nevratně odstraněn.');
 
         return redirect()->route('account.trash');

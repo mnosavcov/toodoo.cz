@@ -14,11 +14,11 @@
 // bindings
 
 $router->bind('project', function ($value) {
-    return App\Project::byKey($value);
+    return App\Project::byKey($value)->first();
 });
 
 $router->bind('projectTrashed', function ($value) {
-    return App\Project::onlyTrashed()->byKey($value);
+    return App\Project::onlyTrashed()->byKey($value)->first();
 });
 
 // routes
