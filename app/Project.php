@@ -83,7 +83,9 @@ class Project extends Model
         }
 
         $user = User::find($this->user_id);
-        $user->recalcSize();
+        if($user) {
+            $user->recalcSize();
+        }
 
         return $this->traitForceDelete();
     }
