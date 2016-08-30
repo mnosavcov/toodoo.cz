@@ -18,9 +18,7 @@ $router->bind('project', function ($value) {
 });
 
 $router->bind('projectTrashed', function ($value) {
-    $project = App\Project::onlyTrashed()->byKey($value);
-    if($project->count()) return $project;
-    return App\Project;
+    return App\Project::onlyTrashed()->byKey($value);
 });
 
 // routes
