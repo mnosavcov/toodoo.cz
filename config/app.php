@@ -189,7 +189,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Anchu\Ftp\FtpServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+	    Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -237,7 +238,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'FTP' => Illuminate\Support\Facades\Ftp::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+	    'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
