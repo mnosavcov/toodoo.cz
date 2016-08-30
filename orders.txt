@@ -1,15 +1,15 @@
 USERS
   id, name, email, password, remember_token, created_at, updated_at, is_admin,
 *  main_size ... místo zdarma,
-=>*  purchased_size ... zaplacené místo, => paid_size
-=>*  purchase_expire_at ... datum expirace placeného místa, => přejmenovat na paid_expire_at přesunout sem
-=>*  ordered_unpaid_size ... objednaná, ale nezaplacená velikost =>přidat
-=>*  ordered_unpaid_expire_at ... kdy končí platnost objednané, nezaplacené velikosti =>přidat
+*  paid_size ... zaplacené místo,
+*  paid_expire_at ... datum expirace placeného místa,
+*  ordered_unpaid_size ... objednaná, ale nezaplacená velikost,
+*  ordered_unpaid_expire_at ... kdy končí platnost objednané, nezaplacené velikosti,
 *  used_size ... použité místo,
 *  free_size ... zbylé volné místo,
-=>*  order_size ... Objednaná velikost, => přejmenovat na ordered_size + přesunout sem
-=>*  order_period('monthly','yearly') ... objednané období, => přejmenovat na ordered_period + přesunout sem
-=>*  renew_active ... bude se automaticky obnovovat?, =>  přesunout sem
+*  ordered_size ... Objednaná velikost,
+*  order_period('monthly','yearly') ... objednané období,
+*  renew_active ... bude se automaticky obnovovat?,
   last_activity_at, affil_hash, last_project_id,
 *  overpayment ... přeplatek,
   mailing_enabled
