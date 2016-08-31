@@ -37,28 +37,24 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        $h24 = 86400; // 60*60*24 = 1 day
         $user = $request->user();
         $variable_symbol = max((int)Order::max('variable_symbol'), date('Y000000')) + 1;
         $offer = $this->offer[$request->get('ordered_size')];
         $description = 'Objednávka prostoru o velikosti ' . formatBytes($offer['size']) . ' s ' . ($offer['period'] == 'yearly' ? 'ročním' : 'měsíčním') . ' obnovováním.';
-        /* calculate price and time - begin */
-        $start_period_at = new Carbon();
-        $finish_period_at = new Carbon();
-        $paid_period_to_at = new Carbon();
 
-        $start_period_at = $start_period_at->getTimestamp();
+        /* calculate price and time - begin */
+        $start_period_at = (new Carbon())->getTimestamp();
         if ($offer['period'] == 'yearly') {
-            $finish_period_at = $finish_period_at->addYear()->endOfDay()->getTimestamp();
+            $finish_period_at = (new Carbon())->addYear()->endOfDay()->getTimestamp();
         } else {
-            $finish_period_at = $finish_period_at->addMonth()->endOfDay()->getTimestamp();
+            $finish_period_at = (new Carbon())->addMonth()->endOfDay()->getTimestamp();
         }
+
         $full_price_time = $finish_period_at - $start_period_at;
-        if ((int)$user->paid_expire_at - $h24 > $start_period_at) {
+        if ((int)$user->paid_expire_at > $finish_period_at) {
             $finish_period_at = $user->paid_expire_at;
         }
         $partial_price_time = $finish_period_at - $start_period_at;
-        $paid_period_to_at = $paid_period_to_at->addDays(10)->endOfDay()->getTimestamp();
 
         $price_per_period = $offer['price'];
         if ($partial_price_time > 0) {
@@ -70,14 +66,17 @@ class OrderController extends Controller
         $order = new Order();
         $order->start_period_at = $start_period_at;
         $order->finish_period_at = $finish_period_at;
-        $order->paid_period_to_at = $paid_period_to_at;
+        $order->paid_period_to_at = $start_period_at; // the same as $start_period_at
+        $order->period = $offer['period'];
         $order->ordered_size = $offer['size'];
         $order->price_per_period = $price_per_period;
-        $order->period = $offer['period'];
+        $order->paid_amount_total = 0;
         $order->variable_symbol = $variable_symbol;
+        $order->status = 'unpaid';
         $order->description = $description;
 
-	    Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);
+	    // deleted all previous unpaid orders
+        Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);
 
         $user->order()->save($order);
 

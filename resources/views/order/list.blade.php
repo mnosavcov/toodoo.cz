@@ -23,11 +23,11 @@
                         if ($order->status == 'complete') $class = "bg-success";
                         if ($order->status == 'cancelled') $class = "bg-danger";
                         ?>
-                        <tr class="bg-primary">
-                            <td colspan="9"><strong>{{ $order->description }}</strong></td>
-                        </tr>
                         <tr class="{{ $class }}">
-                            <td>{{ $order->created_at }}</td>
+                            <td>
+                                <span class="glyphicon glyphicon-info-sign text-primary" data-toggle="tooltip" data-placement="right" title="{{ $order->description }}"></span>
+                                {{ $order->created_at }}
+                            </td>
                             <td>{{ date('d.m.Y', $order->finish_period_at) }}</td>
                             <td>{{ date('d.m.Y', $order->paid_period_to_at) }}</td>
                             <td>{{ $order->variable_symbol }}</td>
