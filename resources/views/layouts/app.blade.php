@@ -137,7 +137,7 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    @foreach(\App\Project::navList() as $item)
+                    @foreach(\App\Project::navList()->get() as $item)
                         <li @if(isset($project->id) && $project->id==$item->id) class="active project-nav-wrap"
                             @else class="project-nav-wrap" @endif style="margin-bottom: 1px;">
                             <a href="#"

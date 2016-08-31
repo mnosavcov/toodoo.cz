@@ -41,7 +41,7 @@ class Project extends Model
 
     public function scopeNavList($query)
     {
-        $projects = $query
+        return $query
             ->where('projects.user_id', Auth::user()->id)
             ->leftJoin('tasks', 'tasks.project_id', '=', 'projects.id')
             ->leftJoin('task_statuses as todo', function ($join) {
@@ -55,8 +55,6 @@ class Project extends Model
             ->orderBy('projects.priority', 'desc')
             ->orderBy('projects.name', 'asc')
             ->select('projects.*');
-
-        return $projects->get();
     }
 
 
