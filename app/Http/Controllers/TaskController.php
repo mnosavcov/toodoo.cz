@@ -54,14 +54,14 @@ class TaskController extends Controller
 
     public function update($key)
     {
-        $task = Task::byKey($key);
+        $task = Task::byKey($key)->first();
         if (!$task->count()) return redirect()->route('home.index');
         return view('task.form', ['task' => $task, 'project' => $task->project]);
     }
 
     public function updateSave(StoreTaskRequest $request, $key)
     {
-        $task = Task::byKey($key);
+        $task = Task::byKey($key)->first();
         if (!$task->count()) return redirect()->route('home.index');
 
         $this->authorize('updateTask', $task);
@@ -174,7 +174,7 @@ class TaskController extends Controller
 
     public function detail($key)
     {
-        $task = Task::byKey($key);
+        $task = Task::byKey($key)->first();
         if (!$task->count()) return redirect()->route('home.index');
         $project = $task->project;
         return view('task.detail', ['project' => $project, 'task' => $task, 'files' => $task->file]);
@@ -185,7 +185,7 @@ class TaskController extends Controller
         list($project_key, $task_id) = explode('-', $key);
         $task = Task::whereHas('status', function ($query) use ($from) {
             $query->where('code', $from);
-        })->byKey($key);
+        })->byKey($key)->first();
         if (!$task->count()) return redirect()->route('project.dashboard', ['key' => $project_key]);
 
         $task->last_status_change_at = time();
@@ -219,7 +219,7 @@ class TaskController extends Controller
 
     public function renew(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key, true);
+        $task = Task::onlyTrashed()->byKey($key, true)->first();
         if (!$task->count()) return redirect()->route('home.index');
 
         $task->restore();
@@ -230,7 +230,7 @@ class TaskController extends Controller
 
     public function forceDelete(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key, true);
+        $task = Task::onlyTrashed()->byKey($key, true)->first();
         if (!$task->count()) return redirect()->route('home.index');
 
         $task->forceDelete();

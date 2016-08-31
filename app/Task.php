@@ -47,7 +47,7 @@ class Task extends Model
             $project = Project::byKey($project_key)->first();
         }
         if (!isset($project->id)) return $query->where(DB::raw('false'));
-        return $query->where(['project_id' => $project->id, 'task_id' => $task_id])->first();
+        return $query->where(['project_id' => $project->id, 'task_id' => $task_id]);
     }
 
     public function scopeHasStatus($query, $code)
