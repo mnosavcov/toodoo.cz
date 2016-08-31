@@ -75,6 +75,11 @@ class OrderController extends Controller
         $order->status = 'unpaid';
         $order->description = $description;
 
+        $user->ordered_unpaid_size = $offer['size'];
+        $user->ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
+        $user->save();
+        $user->recalcSize();
+
 	    // deleted all previous unpaid orders
         Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);
 

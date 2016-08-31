@@ -8,6 +8,8 @@ class Payment extends Model
 {
 	protected $dateFormat = 'U';
 
+    protected $fillable = ['status'];
+
     public function order()
     {
         return $this->morphedByMany('App\Order', 'pay')->withTimestamps();

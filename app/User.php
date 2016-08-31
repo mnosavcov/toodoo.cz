@@ -31,7 +31,7 @@ class User extends Authenticatable
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
+     * @param  string $token
      * @return void
      */
     public function sendPasswordResetNotification($token)
@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function recalcSize()
     {
-        $user_size = $this->main_size + $this->paid_size;
+        $user_size = max($this->main_size + $this->paid_size, $this->ordered_unpaid_size);
         $used_size_project = Project::withTrashed()->where('user_id', $this->id)->join('project_files', 'projects.id', '=', 'project_files.project_id')->sum('filesize');
         $used_size_task = Project::withTrashed()->where('user_id', $this->id)
             ->join('tasks', 'projects.id', '=', 'tasks.project_id')

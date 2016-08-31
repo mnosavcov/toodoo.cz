@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Payment;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -47,46 +48,53 @@ class PaymentController extends Controller
 
     public function pairing()
     {
-        $payment = Payment::where('status', 'incomer')->whereNotNull('user_id')->whereNotNull('variable_symbol')->orderBy('id', 'asc')->first();
+        $payment = Payment::where('status', 'incomer')->first();
         if (!$payment) return;
-        $payment->status = 'partly';
 
-        $order = Order::where('variable_symbol', $payment->variable_symbol)->first();
-        if ($order) {
-            $for_payment = $order->price_per_period - $order->paid_amount_total;
-            $paid_amount = $payment->amount_remain;
-
-            if ($for_payment == $paid_amount) {
-                $payment->status = 'complete';
-                $payment->amount_remain = 0;
-
-                $order->paid_amount_total = $order->price_per_period;
-                $order->status = 'complete';
-                $order->paid_period_to_at = $order->finish_period_at;
-                $order->save();
-
-                $user = User::find($order->user_id);
-                if ($user->paid_size < $order->ordered_size) {
-                    $user->paid_size = $order->ordered_size;
-                }
-                if ($user->paid_expire_at < $order->paid_period_to_at) {
-                    $user->paid_expire_at = $order->paid_period_to_at;
-                }
-                if ($user->ordered_size < $order->ordered_size) {
-                    $user->ordered_size = $order->ordered_size;
-                }
-                $user->ordered_period = $order->period;
-                $user->renew_active = 1;
-                $user->save();
-                $user->recalcSize();
-
-                $payment->order()->save($order, [
-                    'paid_amount' => $paid_amount,
-                    'description' => 'Objednávka VS: ' . $order->variable_symbol
-                ]);
+        $order = Order::where('variable_symbol', $payment->variable_symbol)
+            ->where('user_id', $payment->user_id)
+            ->first();
+        $user = User::where('id', $payment->user_id)->first();
+        if (!$order) {
+            if ($user) {
+                $user->increment('overpayment', $payment->amount_remain);
             }
+            $payment->update(['status' => 'partly']);
+            return;
         }
 
-        $payment->save();
+        $for_payment = $order->price_per_period - $order->paid_amount_total;
+        $paid_amount = $payment->amount_remain;
+
+        if ($for_payment == $paid_amount) {
+            $payment->status = 'complete';
+            $payment->amount_remain = 0;
+
+            $order->paid_amount_total = $order->price_per_period;
+            $order->status = 'complete';
+            $order->paid_period_to_at = $order->finish_period_at;
+            $order->save();
+
+            if ($user->paid_size < $order->ordered_size) {
+                $user->paid_size = $order->ordered_size;
+            }
+            if ($user->paid_expire_at < $order->paid_period_to_at) {
+                $user->paid_expire_at = $order->paid_period_to_at;
+            }
+            $user->ordered_unpaid_size = 0;
+            $user->ordered_unpaid_expire_at = 0;
+            $user->ordered_size = $order->ordered_size;
+            $user->ordered_period = $order->period;
+            $user->renew_active = 1;
+            $user->save();
+            $user->recalcSize();
+
+            $payment->order()->save($order, [
+                'paid_amount' => $paid_amount,
+                'description' => 'Objednávka VS: ' . $order->variable_symbol
+            ]);
+
+            $payment->save();
+        }
     }
 }

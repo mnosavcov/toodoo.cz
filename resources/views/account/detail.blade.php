@@ -61,10 +61,21 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    @if($user->ordered_unpaid_size)
+                                        <tr>
+                                            <th class="col-xs-4 active">Místo objednané (nezaplacené)</th>
+                                            <td class="col-xs-8">
+                                                {{ formatBytes($user->ordered_unpaid_size) }}
+                                                (platné
+                                                do: {{ date('d.m.Y', $user->ordered_unpaid_expire_at) }}
+                                                )
+                                            </td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
                                         <td class="col-xs-8 text-danger">
-                                            <strong>{{ formatBytes($user->main_size + $user->paid_size) }}</strong>
+                                            <strong>{{ formatBytes(max($user->main_size + $user->paid_size, $user->ordered_unpaid_size)) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
