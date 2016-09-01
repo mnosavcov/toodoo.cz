@@ -28,6 +28,7 @@ class AdminController extends Controller
 	public function dashboard()
 	{
 		$data = [];
+		if (AdminStatus::where('type', 'autorefresh_after_at')->first()->data < time()) return redirect()->route('admin.refresh');
 		$data['last_refresh'] = AdminStatus::where('type', 'last_refresh')->first()->data;
 		$data['users_count'] = AdminStatus::where('type', 'users_count')->first()->data;
 		$data['users_last_activity_at'] = AdminStatus::where('type', 'users_last_activity_at')->first()->data;
@@ -35,7 +36,7 @@ class AdminController extends Controller
 		$data['users_last_register_at'] = AdminStatus::where('type', 'users_last_register_at')->first()->data;
 		$data['ftp'] = AdminStatus::where('type', 'ftp')->get();
 		$data['backup_db'] = json_decode(AdminStatus::where('type', 'backup_db')->first()->data);
-        $data['payments'] = json_decode(AdminStatus::where('type', 'payments')->first()->data);
+		$data['payments'] = json_decode(AdminStatus::where('type', 'payments')->first()->data);
 
 		return view('admin.dashboard', ['data' => $data]);
 	}
@@ -44,6 +45,12 @@ class AdminController extends Controller
 	{
 		// last refresh
 		AdminStatus::truncate();
+
+		AdminStatus::create([
+			'type' => 'autorefresh_after_at',
+			'data' => time() + (60 * 60) // hour
+		]);
+
 		AdminStatus::create([
 			'type' => 'last_refresh',
 			'data' => date('d.m.Y H:i:s')
@@ -70,16 +77,16 @@ class AdminController extends Controller
 			'data' => User::max('created_at')
 		]);
 
-        // payments
-        AdminStatus::create([
-            'type' => 'payments',
-            'data' => json_encode([
-                'last_get_data' => date('d.m.Y H:i:s', Payment::max('created_at')),
-                'last_payment' => date('d.m.Y H:i:s', Payment::max('paid_at')),
-                'suma' => number_format(Payment::sum('paid_amount'), 2, '.', ' '),
-                'not_assign' => Payment::where('user_id', null)->get()
-            ])
-        ]);
+		// payments
+		AdminStatus::create([
+			'type' => 'payments',
+			'data' => json_encode([
+				'last_get_data' => date('d.m.Y H:i:s', Payment::max('created_at')),
+				'last_payment' => date('d.m.Y H:i:s', Payment::max('paid_at')),
+				'suma' => number_format(Payment::sum('paid_amount'), 2, '.', ' '),
+				'not_assign' => Payment::where('user_id', null)->get()
+			])
+		]);
 
 		// ftp
 		$ftp_data = [];
