@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'affil_hash', 'mailing_enabled'
+        'name', 'email', 'password', 'affil_hash', 'mailing_enabled', 'overpayment'
     ];
 
     /**
@@ -66,6 +66,12 @@ class User extends Authenticatable
 
         return redirect()->route('account.detail');
     }
+
+	public function recalcOverpayment()
+	{
+		$this->update(['overpayment' => $this->payment()->sum('amount_remain')]);
+		return redirect()->route('account.detail');
+	}
 
     public function projects()
     {

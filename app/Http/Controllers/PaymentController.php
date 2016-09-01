@@ -54,11 +54,12 @@ class PaymentController extends Controller
         $order = Order::where('variable_symbol', $payment->variable_symbol)
             ->where('user_id', $payment->user_id)
 	        ->where('status', 'unpaid')
+	        ->where('price_per_period', $payment->amount_remain)
             ->first();
         $user = User::where('id', $payment->user_id)->first();
         if (!$order) {
             if ($user) {
-                $user->increment('overpayment', $payment->amount_remain);
+	            $user->recalcOverpayment();
             }
             $payment->update(['status' => 'partly']);
             return;
@@ -89,6 +90,7 @@ class PaymentController extends Controller
             $user->renew_active = 1;
             $user->save();
             $user->recalcSize();
+	        $user->recalcOverpayment();
 
             $payment->order()->save($order, [
                 'paid_amount' => $paid_amount,
