@@ -61,12 +61,14 @@ class OrderController extends Controller
             $price_per_period = $offer['price'] * $partial_price_time / $full_price_time;
         }
         $price_per_period = floor(min($price_per_period, $offer['price']));
+
+	    $ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
         /* calculate price and time - end */
 
         $order = new Order();
         $order->start_period_at = $start_period_at;
         $order->finish_period_at = $finish_period_at;
-        $order->paid_period_to_at = $start_period_at; // the same as $start_period_at
+        $order->paid_period_to_at = $ordered_unpaid_expire_at; // the same as $user->ordered_unpaid_expire_at
         $order->period = $offer['period'];
         $order->ordered_size = $offer['size'];
         $order->price_per_period = $price_per_period;
@@ -76,7 +78,7 @@ class OrderController extends Controller
         $order->description = $description;
 
         $user->ordered_unpaid_size = $offer['size'];
-        $user->ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
+        $user->ordered_unpaid_expire_at = $ordered_unpaid_expire_at;
         $user->save();
         $user->recalcSize();
 
