@@ -49,7 +49,12 @@
                 </tr>
                 <tr>
                     <td class="active col-xs-4">Zaplaceno celkem</td>
-                    <td class="col-xs-8">{{ $data['payments']->suma }},- Kč</td>
+                    <td class="col-xs-8">
+                        {{ $data['payments']->suma }},- Kč
+                        @if($data['payments']->suma_remain != 0)
+                            / <strong>nespárováno {{ $data['payments']->suma_remain }},- Kč</strong>
+                        @endif
+                    </td>
                 </tr>
                 @if(count($data['payments']->not_assign))
                     <tr>
@@ -58,7 +63,24 @@
                     @foreach($data['payments']->not_assign as $na)
                         <tr>
                             <td class="active col-xs-4">Platba: {{ $na->id }}</td>
-                            <td class="col-xs-8">{{ $na->paid_amount }},- Kč</td>
+                            <td class="col-xs-8">
+                                {{ $na->paid_amount }},- Kč
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @if(count($data['payments']->not_paired))
+                    <tr>
+                        <td colspan="2" class="bg-danger">Nespárované platby</td>
+                    </tr>
+                    @foreach($data['payments']->not_paired as $np)
+                        <tr>
+                            <td class="active col-xs-4">Platba: {{ $np->id }}</td>
+                            <td class="col-xs-8">
+                                {{ $np->paid_amount }},- Kč
+                                / User: {{ $np->user_id }}
+                                / VS: {{ $np->variable_symbol }}
+                            </td>
                         </tr>
                     @endforeach
                 @endif

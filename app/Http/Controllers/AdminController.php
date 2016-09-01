@@ -84,7 +84,9 @@ class AdminController extends Controller
 				'last_get_data' => date('d.m.Y H:i:s', Payment::max('created_at')),
 				'last_payment' => date('d.m.Y H:i:s', Payment::max('paid_at')),
 				'suma' => number_format(Payment::sum('paid_amount'), 2, '.', ' '),
-				'not_assign' => Payment::where('user_id', null)->get()
+				'suma_remain' => number_format(Payment::sum('amount_remain'), 2, '.', ' '),
+				'not_assign' => Payment::whereNull('user_id')->get(),
+				'not_paired' => Payment::whereNotNull('user_id')->where('status', '!=', 'complete')->get()
 			])
 		]);
 
