@@ -13,6 +13,9 @@
                     <div class="panel-body">
                         <div class="container-fluid">
                             <div class="row">
+                                @if($user->overpayment!=0)
+                                <p class="alert alert-danger">Máte přeplatek na účtu {{ $user->overpayment }},- Kč</p>
+                                @endif
                                 <table class="table table-bordered">
                                     <caption>informace o účtu</caption>
                                     <tbody>

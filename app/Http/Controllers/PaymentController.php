@@ -53,6 +53,7 @@ class PaymentController extends Controller
 
         $order = Order::where('variable_symbol', $payment->variable_symbol)
             ->where('user_id', $payment->user_id)
+	        ->where('status', 'unpaid')
             ->first();
         $user = User::where('id', $payment->user_id)->first();
         if (!$order) {
