@@ -22,9 +22,8 @@ Artisan::command('publish {--migrate}', function () {
     if ($migrate) {
         exec('php artisan migrate --force');
     }
-    //exec('php artisan cache:clear');
-    exec('rm ' . base_path() . DIRECTORY_SEPARATOR . 'bootstrap' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . '*.php');
-    exec('rm ' . config('view.compiled') . DIRECTORY_SEPARATOR . '*.php');
+	exec('php artisan view:clear');
+	exec('php artisan cache:clear');
 });
 
 Artisan::command('run', function () {
