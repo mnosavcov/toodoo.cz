@@ -23,7 +23,7 @@ Artisan::command('publish {--migrate}', function () {
         exec('php artisan migrate --force');
     }
 	exec('php artisan view:clear');
-	exec('php artisan cache:clear');
+	exec('php artisan clear-compiled');
 });
 
 Artisan::command('run', function () {
