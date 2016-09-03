@@ -65,22 +65,44 @@ class OrderController extends Controller
 	    $ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
         /* calculate price and time - end */
 
-        $order = new Order();
-        $order->start_period_at = $start_period_at;
-        $order->finish_period_at = $finish_period_at;
-        $order->paid_period_to_at = $ordered_unpaid_expire_at; // the same as $user->ordered_unpaid_expire_at
-        $order->period = $offer['period'];
-        $order->ordered_size = $offer['size'];
-        $order->price_per_period = $price_per_period;
-        $order->paid_amount_total = 0;
-        $order->variable_symbol = $variable_symbol;
-        $order->status = 'unpaid';
-        $order->description = $description;
+        $paid_size = $user->paid_size;
 
-        $user->ordered_unpaid_size = $offer['size'];
-        $user->ordered_unpaid_expire_at = $ordered_unpaid_expire_at;
-        $user->save();
-        $user->recalcSize();
+        $order = new Order();
+        if($offer['size']>$paid_size) {
+            $order->start_period_at = $start_period_at;
+            $order->finish_period_at = $finish_period_at;
+            $order->paid_period_to_at = $ordered_unpaid_expire_at;
+            $order->period = $offer['period'];
+            $order->ordered_size = $offer['size'];
+            $order->price_per_period = $price_per_period;
+            $order->paid_amount_total = 0;
+            $order->variable_symbol = $variable_symbol;
+            $order->status = 'unpaid';
+            $order->description = $description;
+
+            $user->ordered_unpaid_size = $offer['size'];
+            $user->ordered_unpaid_expire_at = $ordered_unpaid_expire_at;
+            $user->save();
+            $user->recalcSize();
+        } else {
+            $order->start_period_at = $start_period_at;
+            $order->finish_period_at = $finish_period_at;
+            $order->paid_period_to_at = $finish_period_at;
+            $order->period = $offer['period'];
+            $order->ordered_size = $offer['size'];
+            $order->price_per_period = 0;
+            $order->paid_amount_total = 0;
+            $order->variable_symbol = $variable_symbol;
+            $order->status = 'complete';
+            $order->description = $description;
+
+            $user->ordered_unpaid_size = 0;
+            $user->ordered_unpaid_expire_at = 0;
+            $user->ordered_size = $offer['size'];
+            $user->ordered_period = $offer['period'];
+            $user->save();
+            $user->recalcSize();
+        }
 
 	    // deleted all previous unpaid orders
         Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);

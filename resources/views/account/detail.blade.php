@@ -78,7 +78,7 @@
                                     <tr>
                                         <th class="col-xs-4 active">Místo celkem</th>
                                         <td class="col-xs-8 text-danger">
-                                            <strong>{{ formatBytes(max($user->main_size + $user->paid_size, $user->ordered_unpaid_size)) }}</strong>
+                                            <strong>{{ formatBytes($user->main_size + max($user->paid_size, $user->ordered_unpaid_size)) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
