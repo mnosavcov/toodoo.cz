@@ -330,3 +330,31 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
     font-size: 50%;
     vertical-align: middle;
 }
+
+/* order list */
+#accordion .order-list-more .glyphicon {
+    color: #333;
+}
+#accordion .order-list-more.collapsed .glyphicon-collapse-down {
+    display: inline-block;
+}
+
+#accordion .order-list-more.collapsed .glyphicon-collapse-up {
+    display: none;
+}
+
+#accordion .order-list-more .glyphicon-collapse-down {
+    display: none;
+}
+
+#accordion .order-list-more .glyphicon-collapse-up {
+    display: inline-block;
+}
+
+#accordion td.order-list-detail {
+    padding: 0 8px !important;
+}
+
+#accordion div.order-list-border {
+    height: 8px;
+}

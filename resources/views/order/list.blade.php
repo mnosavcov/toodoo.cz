@@ -30,8 +30,8 @@
                                        href="#collapse-payment-{{ $order->id }}" role="button" aria-expanded="true"
                                        aria-controls="collapse-payment-{{ $order->id }}"
                                        class="order-list-more collapsed">
-                                        <span class="glyphicon glyphicon-collapse-down text-primary"></span>
-                                        <span class="glyphicon glyphicon-collapse-up text-primary"></span>
+                                        <span class="glyphicon glyphicon-collapse-down"></span>
+                                        <span class="glyphicon glyphicon-collapse-up"></span>
                                     </a>
                                 </td>
                                 <td>
