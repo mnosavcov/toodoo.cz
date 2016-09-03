@@ -37,6 +37,8 @@ Route::get('account/refresh', ['as' => 'account.refresh', 'uses' => 'AccountCont
 Route::get('account/files', ['as' => 'account.files', 'uses' => 'AccountController@files']);
 Route::get('account/trash', ['as' => 'account.trash', 'uses' => 'AccountController@trash']);
 Route::match(['GET', 'POST'], 'account/invite', ['as' => 'account.invite', 'uses' => 'AccountController@invite']);
+Route::get('account/activation/{email}/{token}', ['as' => 'account.activation', 'uses' => 'ActivationController@activate']);
+Route::get('account/reactivate', ['as' => 'account.reactivate', 'uses' => 'ActivationController@reactivate']);
 
 Route::get('order', ['as' => 'order.form', 'uses' => 'OrderController@form']);
 Route::post('order', ['as' => 'order.save', 'uses' => 'OrderController@store']);

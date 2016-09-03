@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Project;
 use App\TaskStatus;
 use App\Task;
+use App\Notifications\ActivationToken;
 
 class RegisterController extends Controller
 {
@@ -73,10 +74,14 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'affil_hash' => str_random(8)
+            'affil_hash' => str_random(8),
+            'activation_token' => md5(uniqid(time(), true)),
+            'active' => 0
         ]);
 
         $user->save();
+
+        $user->notify(new ActivationToken($user));
 
         $aff = User::where('affil_hash', request()->cookie('aff'));
         if ($aff->count() == 1) {
