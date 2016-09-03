@@ -62,13 +62,13 @@ class OrderController extends Controller
         }
         $price_per_period = floor(min($price_per_period, $offer['price']));
 
-	    $ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
+        $ordered_unpaid_expire_at = (new Carbon())->addDays(10)->endOfDay()->getTimestamp();
         /* calculate price and time - end */
 
         $paid_size = $user->paid_size;
 
         $order = new Order();
-        if($offer['size']>$paid_size) {
+        if ($offer['size'] > $paid_size) {
             $order->start_period_at = $start_period_at;
             $order->finish_period_at = $finish_period_at;
             $order->paid_period_to_at = $ordered_unpaid_expire_at;
@@ -104,8 +104,8 @@ class OrderController extends Controller
             $user->recalcSize();
         }
 
-	    // deleted all previous unpaid orders
-        Order::byUserId($user->id)->where('status', 'unpaid')->update(['status'=> 'cancelled']);
+        // deleted all previous unpaid orders
+        Order::byUserId($user->id)->where('status', 'unpaid')->update(['status' => 'cancelled']);
 
         $user->order()->save($order);
 
@@ -114,6 +114,6 @@ class OrderController extends Controller
 
     public function orderList(Request $request)
     {
-        return view('order.list', ['orders' => Order::byUserId($request->user()->id)->orderBy('id', 'desc')->get()]);
+        return view('order.list', ['orders' => Order::byUserId($request->user()->id)->orderBy('id', 'desc')->with('payment')->get()]);
     }
 }

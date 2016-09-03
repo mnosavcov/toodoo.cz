@@ -8,6 +8,10 @@ class Order extends Model
 {
 	protected $dateFormat = 'U';
 
+    public function payment() {
+        return $this->morphToMany('App\Payment', 'pay');
+    }
+
     public function scopebyUserId($query, $user_id) {
         return $query->where('user_id', $user_id);
     }
