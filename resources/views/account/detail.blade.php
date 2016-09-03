@@ -14,7 +14,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 @if($user->overpayment!=0)
-                                <p class="alert alert-danger">Máte přeplatek na účtu {{ $user->overpayment }},- Kč</p>
+                                    <p class="alert alert-danger">Máte přeplatek na účtu {{ $user->overpayment }},- Kč</p>
                                 @endif
                                 <table class="table table-bordered">
                                     <caption>informace o účtu</caption>
@@ -51,6 +51,17 @@
                                         <th class="col-xs-4 active">Místo zdarma</th>
                                         <td class="col-xs-8">{{ formatBytes($user->main_size) }}</td>
                                     </tr>
+                                    @if($user->ordered_unpaid_size)
+                                        <tr>
+                                            <th class="col-xs-4 bg-danger">Místo objednané (nezaplacené)</th>
+                                            <td class="col-xs-8 bg-danger">
+                                                {{ formatBytes($user->ordered_unpaid_size) }}
+                                                (platné
+                                                do: {{ date('d.m.Y', $user->ordered_unpaid_expire_at) }}
+                                                )
+                                            </td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <th class="col-xs-4 active">Místo koupené</th>
                                         <td class="col-xs-8">
@@ -64,14 +75,18 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @if($user->ordered_unpaid_size)
+                                    @if($user->paid_size)
                                         <tr>
-                                            <th class="col-xs-4 active">Místo objednané (nezaplacené)</th>
+                                            <th class="col-xs-4 active">Obnovování</th>
+                                            <td class="col-xs-8">@lang('message.order.period.' . $user->ordered_period)</td>
+                                        </tr>
+                                    @endif
+                                    @if($user->paid_size!=$user->ordered_size)
+                                        <tr>
+                                            <th class="col-xs-4 active">Místo po obnovení</th>
                                             <td class="col-xs-8">
-                                                {{ formatBytes($user->ordered_unpaid_size) }}
-                                                (platné
-                                                do: {{ date('d.m.Y', $user->ordered_unpaid_expire_at) }}
-                                                )
+                                                {{ formatBytes($user->ordered_size) }}
+                                                (platné od: {{ date('d.m.Y', $user->paid_expire_at+1) }})
                                             </td>
                                         </tr>
                                     @endif

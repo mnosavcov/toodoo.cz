@@ -90,7 +90,6 @@ class PaymentController extends Controller
             $user->renew_active = 1;
             $user->save();
             $user->recalcSize();
-	        $user->recalcOverpayment();
 
             $payment->order()->save($order, [
                 'paid_amount' => $paid_amount,
@@ -98,6 +97,7 @@ class PaymentController extends Controller
             ]);
 
             $payment->save();
+            $user->recalcOverpayment();
         }
     }
 }
