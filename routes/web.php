@@ -29,6 +29,10 @@ Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@
 Route::get('terms-and-conditions', ['as' => 'termsAndConditions', function () {
     return view('page.terms-and-conditions');
 }]);
+Route::get('manual', ['as' => 'manual', 'uses' => 'HomeController@manual']);
+Route::get('contact', ['as' => 'contact', function () {
+    return view('page.contact');
+}]);
 
 Route::get('account', ['as' => 'account.detail', 'uses' => 'AccountController@detail']);
 Route::get('account/edit', ['as' => 'account.edit', 'uses' => 'AccountController@edit']);
@@ -72,8 +76,6 @@ Route::get('task/file/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' =
 Route::get('admin', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashboard']);
 Route::get('admin/refresh', ['as' => 'admin.refresh', 'uses' => 'AdminController@refresh']);
 Route::get('admin/backup-db', ['as' => 'admin.backup.db', 'uses' => 'AdminController@backupDb']);
-
-Route::get('manual', ['as' => 'manual', 'uses' => 'HomeController@manual']);
 
 Auth::routes();
 $this->get('logout', 'Auth\LoginController@logout');

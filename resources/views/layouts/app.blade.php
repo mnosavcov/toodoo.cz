@@ -235,5 +235,6 @@
         });
     </script>
 @endif
+@include('@shared.footer')
 </body>
 </html>

@@ -358,3 +358,30 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
 #accordion div.order-list-border {
     height: 8px;
 }
+
+#hp .img-wrap {
+    text-align: center;
+}
+
+#hp .img-wrap {
+}
+#hp .img01 {
+    margin-top: 30px;
+}
+#hp .img03 {
+    margin-top: 34px;
+}
+
+#hp h2 {
+    color: #fff;
+    margin-bottom: 50px;
+}
+#hp .row-top {
+    margin-top: 50px;
+}
+#hp .row-bottom {
+    margin-bottom: 50px;
+}
+#hp .row-button {
+    margin-top: 35px;
+}

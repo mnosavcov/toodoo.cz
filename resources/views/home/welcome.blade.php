@@ -1,15 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
-                <h1>Welcome</h1>
-                <p>Pro fungování je třeba <a href="{{ url('login') }}">přihlásit se</a></p>
+    <div id="hp">
+        <div class="container-fluid bg-primary">
+            <div class="container">
+                <div class="row row-top">
+                    <div class="col-xs-12 col-sm-6 img-wrap">
+                        <img src="/img/hp01.png" class="img01">
+                        <h2 class="text-">Nápad nemusíte držet v hlavě...</h2>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 img-wrap">
+                        <img src="/img/hp02.png" class="img02">
+                        <h2 class="text-">...uložíte jej do systému...</h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row row-bottom">
+                        <div class="col-xs-12 col-sm-6 img-wrap">
+                            <img src="/img/hp03.png" class="img03">
+                            <h2 class="text-">...a pracujete v klidu na projektech...</h2>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 img-wrap">
+                            <img src="/img/hp04.png" class="img04">
+                            <h2 class="text-">...dokud nemáte hotovo</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <p>verze {{ config('app.version') }}</p>
-
-                <p><a href="{{ route('termsAndConditions') }}">podmínky užití</a></p>
+        <div class="container">
+            <div class="row row-button">
+                <div class="col-sm-3 col-sm-offset-2 col-xs-12">
+                        <a href="{{ url('register') }}" class="btn btn-primary btn-block btn-lg">Registrovat</a>
+                </div>
+                <div class="visible-xs-block">&nbsp;</div>
+                <div class="col-sm-3 col-sm-offset-2 col-xs-12">
+                    <a href="{{ url('login') }}" class="btn btn-default btn-block btn-lg">Přihlásit</a>
+                </div>
             </div>
         </div>
     </div>
