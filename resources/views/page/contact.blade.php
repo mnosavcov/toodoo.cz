@@ -29,6 +29,10 @@
                             IČ:&nbsp;64845915
                         </td>
                     </tr>
+                    <tr>
+                        <td class="col-xs-2"><strong>číslo účtu:</strong></td>
+                        <td class="col-xs-10">2301045287/2010</td>
+                    </tr>
                 </table>
 
             </div>

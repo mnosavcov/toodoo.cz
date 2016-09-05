@@ -397,3 +397,7 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
         position: static;
     }
 }
+
+#manual p {
+    padding-top: 50px;
+}

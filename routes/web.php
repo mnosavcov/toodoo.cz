@@ -29,7 +29,9 @@ Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@
 Route::get('terms-and-conditions', ['as' => 'termsAndConditions', function () {
     return view('page.terms-and-conditions');
 }]);
-Route::get('manual', ['as' => 'manual', 'uses' => 'HomeController@manual']);
+Route::get('manual', ['as' => 'manual', function () {
+    return view('page.manual');
+}]);
 Route::get('contact', ['as' => 'contact', function () {
     return view('page.contact');
 }]);
