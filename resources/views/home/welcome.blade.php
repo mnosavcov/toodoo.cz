@@ -7,21 +7,21 @@
                 <div class="row row-top">
                     <div class="col-xs-12 col-sm-6 img-wrap">
                         <img src="/img/hp01.png" class="img01">
-                        <h2 class="text-">Nápad nemusíte držet v hlavě...</h2>
+                        <h3 class="text-">Nápad nemusíte držet v hlavě...</h3>
                     </div>
                     <div class="col-xs-12 col-sm-6 img-wrap">
                         <img src="/img/hp02.png" class="img02">
-                        <h2 class="text-">...uložíte jej do systému...</h2>
+                        <h3 class="text-">...uložíte jej do systému...</h3>
                     </div>
                     <div class="clearfix"></div>
                     <div class="row row-bottom">
                         <div class="col-xs-12 col-sm-6 img-wrap">
                             <img src="/img/hp03.png" class="img03">
-                            <h2 class="text-">...a pracujete v klidu na projektech...</h2>
+                            <h3 class="text-">...a pracujete v klidu na projektech...</h3>
                         </div>
                         <div class="col-xs-12 col-sm-6 img-wrap">
                             <img src="/img/hp04.png" class="img04">
-                            <h2 class="text-">...dokud nemáte hotovo</h2>
+                            <h3 class="text-">...dokud nemáte hotovo</h3>
                         </div>
                     </div>
                 </div>
