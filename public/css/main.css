@@ -335,6 +335,7 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
 #accordion .order-list-more .glyphicon {
     color: #333;
 }
+
 #accordion .order-list-more.collapsed .glyphicon-collapse-down {
     display: inline-block;
 }
@@ -365,9 +366,11 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
 
 #hp .img-wrap {
 }
+
 #hp .img01 {
     margin-top: 22px;
 }
+
 #hp .img03 {
     margin-top: 27px;
 }
@@ -376,12 +379,21 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
     color: #fff;
     margin-bottom: 50px;
 }
+
 #hp .row-top {
     margin-top: 50px;
 }
+
 #hp .row-bottom {
     margin-bottom: 50px;
 }
+
 #hp .row-button {
     margin-top: 35px;
+}
+
+@media (max-width: 767px) {
+    .navbar-fixed-bottom {
+        position: static;
+    }
 }
