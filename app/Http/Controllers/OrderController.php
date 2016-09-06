@@ -11,28 +11,23 @@ use App\Order;
 
 class OrderController extends Controller
 {
-    protected $offer = [
-        '500m' => ['size' => 524288000, 'period' => 'monthly', 'price' => 49],
-        '1000m' => ['size' => 1073741824, 'period' => 'monthly', 'price' => 59],
-        '2000m' => ['size' => 2147483648, 'period' => 'monthly', 'price' => 69],
-        '3000m' => ['size' => 3221225472, 'period' => 'monthly', 'price' => 79],
-        '4000m' => ['size' => 4294967296, 'period' => 'monthly', 'price' => 89],
-        '5000m' => ['size' => 5368709120, 'period' => 'monthly', 'price' => 99],
-        '1000y' => ['size' => 1073741824, 'period' => 'yearly', 'price' => 490],
-        '2000y' => ['size' => 2147483648, 'period' => 'yearly', 'price' => 590],
-        '3000y' => ['size' => 3221225472, 'period' => 'yearly', 'price' => 690],
-        '4000y' => ['size' => 4294967296, 'period' => 'yearly', 'price' => 790],
-        '5000y' => ['size' => 5368709120, 'period' => 'yearly', 'price' => 890],
-    ];
+    protected $offer;
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->offer = config('offer.offer');
     }
 
     public function form(Request $request)
     {
-        return view('order.form', ['user' => $request->user()]);
+        $offer = [];
+
+        foreach ($this->offer as $o) {
+            $offer[] = $o;
+        }
+
+        return view('order.form', ['user' => $request->user(), 'offer' => $offer]);
     }
 
     public function store(StoreOrderRequest $request)

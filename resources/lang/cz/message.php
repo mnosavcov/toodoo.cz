@@ -14,5 +14,11 @@ return [
             'yearly' => 'roční',
             'monthly' => 'měsíční'
         ]
+    ],
+    'offer' => [
+        'period' => [
+            'yearly' => 'Ročně',
+            'monthly' => 'Měsíčně'
+        ]
     ]
 ];

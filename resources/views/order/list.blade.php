@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <p>
+        <a href="{{ route('account.detail') }}" class="pull-right"><span class="glyphicon glyphicon-arrow-left"></span>
+            zpět na můj účet</a>
+    </p>
+    <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12">
             <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -51,7 +56,7 @@
                             </tr>
                             <tr>
                                 <td colspan="9" class="order-list-detail">
-                                    <div id="collapse-payment-{{ $order->id }}" class="collapse"  role="tabpanel">
+                                    <div id="collapse-payment-{{ $order->id }}" class="collapse" role="tabpanel">
                                         <div class="order-list-border"></div>
                                         <div>{{ $order->description }}</div>
                                         @forelse ($order->payment as $payment)
