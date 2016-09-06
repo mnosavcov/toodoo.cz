@@ -7,6 +7,7 @@ use App\Payment;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use App\Notifications\PaymentConfirmation;
 
 class PaymentController extends Controller
 {
@@ -58,10 +59,11 @@ class PaymentController extends Controller
             ->first();
         $user = User::where('id', $payment->user_id)->first();
         if (!$order) {
+            $payment->update(['status' => 'partly']);
             if ($user) {
 	            $user->recalcOverpayment();
+                $user->notify(new PaymentConfirmation($payment));
             }
-            $payment->update(['status' => 'partly']);
             return;
         }
 
@@ -98,6 +100,8 @@ class PaymentController extends Controller
 
             $payment->save();
             $user->recalcOverpayment();
+
+            $user->notify(new PaymentConfirmation($payment));
         }
     }
 }
