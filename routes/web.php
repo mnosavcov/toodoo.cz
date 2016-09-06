@@ -27,19 +27,19 @@ Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
 
 Route::get('invitation/{aff}', ['as' => 'invitation', 'uses' => 'HomeController@invitation']);
 Route::get('terms-and-conditions', ['as' => 'termsAndConditions', function () {
-    return view('page.terms-and-conditions');
+    return view('page.terms-and-conditions', ['page' => true]);
 }]);
 Route::get('manual', ['as' => 'manual', function () {
-    return view('page.manual');
+    return view('page.manual', ['page' => true]);
 }]);
 Route::get('contact', ['as' => 'contact', function () {
-    return view('page.contact');
+    return view('page.contact', ['page' => true]);
 }]);
 Route::get('about', ['as' => 'about', function () {
-    return view('page.about');
+    return view('page.about', ['page' => true]);
 }]);
 Route::get('changelog', ['as' => 'changelog', function () {
-    return view('page.changelog');
+    return view('page.changelog', ['page' => true]);
 }]);
 
 Route::get('account', ['as' => 'account.detail', 'uses' => 'AccountController@detail']);

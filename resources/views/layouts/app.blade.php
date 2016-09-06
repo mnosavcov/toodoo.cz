@@ -132,10 +132,15 @@
 </nav>
 
 @if (Auth::guest())
-    <div class="container">
+    @if(isset($page))
+        <div class="container">
+            @include('@shared.message')
+            @yield('content')
+        </div>
+    @else
         @include('@shared.message')
         @yield('content')
-    </div>
+    @endif
 @else
     <div class="container-fluid">
         <div class="row">
