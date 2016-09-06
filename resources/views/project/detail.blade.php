@@ -13,7 +13,7 @@
             <li>
                 <a href="{{ route('project.delete', ['key'=>$project->key]) }}">
                     <span class="glyphicon glyphicon-remove-sign text-danger"></span>
-                    <strong class="text-danger">DELETE</strong>
+                    <strong class="text-danger">SMAZAT</strong>
                 </a>
             </li>
         </ul>

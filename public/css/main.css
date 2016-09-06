@@ -398,6 +398,6 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
     }
 }
 
-#manual p {
-    padding-top: 50px;
+#manual h2[id], #manual h3[id] {
+    padding-top: 75px;
 }

@@ -66,7 +66,7 @@
                 <li>
                     <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DELETE']) }}">
                         <span class="glyphicon glyphicon-remove-sign text-danger"></span>
-                        <strong class="text-danger">DELETE</strong>
+                        <strong class="text-danger">SMAZAT</strong>
                     </a>
                 </li>
             @endif
