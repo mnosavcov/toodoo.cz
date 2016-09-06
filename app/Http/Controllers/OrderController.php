@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Http\Requests;
 use App\Order;
+use App\Notifications\OrderConfirmation;
 
 class OrderController extends Controller
 {
@@ -103,6 +104,8 @@ class OrderController extends Controller
         Order::byUserId($user->id)->where('status', 'unpaid')->update(['status' => 'cancelled']);
 
         $user->order()->save($order);
+
+        $user->notify(new OrderConfirmation($order));
 
         return redirect()->route('order.list');
     }

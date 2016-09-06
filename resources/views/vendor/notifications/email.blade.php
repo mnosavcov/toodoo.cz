@@ -94,7 +94,7 @@ $style = [
                                         <!-- Intro -->
                                         @foreach ($introLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! nl2br(e($line)) !!}
                                             </p>
                                         @endforeach
 
@@ -130,7 +130,7 @@ $style = [
                                         <!-- Outro -->
                                         @foreach ($outroLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! nl2br(e($line)) !!}
                                             </p>
                                         @endforeach
 
