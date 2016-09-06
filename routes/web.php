@@ -35,6 +35,12 @@ Route::get('manual', ['as' => 'manual', function () {
 Route::get('contact', ['as' => 'contact', function () {
     return view('page.contact');
 }]);
+Route::get('about', ['as' => 'about', function () {
+    return view('page.about');
+}]);
+Route::get('changelog', ['as' => 'changelog', function () {
+    return view('page.changelog');
+}]);
 
 Route::get('account', ['as' => 'account.detail', 'uses' => 'AccountController@detail']);
 Route::get('account/edit', ['as' => 'account.edit', 'uses' => 'AccountController@edit']);
