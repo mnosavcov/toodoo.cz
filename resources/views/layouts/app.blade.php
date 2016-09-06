@@ -118,7 +118,8 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;Můj účet</a>
+                            <li><a href="{{ url('/account') }}"><i class="glyphicon glyphicon-user"></i>&nbsp;Můj
+                                    účet</a>
                             </li>
                             <li><a href="{{ url('/logout') }}"><i
                                             class="glyphicon glyphicon-log-out"></i>&nbsp;Odhlásit se</a></li>
@@ -131,8 +132,10 @@
 </nav>
 
 @if (Auth::guest())
-    @include('@shared.message')
-    @yield('content')
+    <div class="container">
+        @include('@shared.message')
+        @yield('content')
+    </div>
 @else
     <div class="container-fluid">
         <div class="row">
@@ -214,7 +217,8 @@
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 @if(Auth::user()->active==0 || Auth::user()->activation_token)
-                    <p class="alert alert-danger">Aktivujte prosím Váš účet. <a href="{{ route('account.reactivate') }}">Znovu odeslat aktivační email</a>.</p>
+                    <p class="alert alert-danger">Aktivujte prosím Váš účet. <a
+                                href="{{ route('account.reactivate') }}">Znovu odeslat aktivační email</a>.</p>
                 @endif
                 @include('@shared.message')
                 @yield('content')
