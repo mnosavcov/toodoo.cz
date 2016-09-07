@@ -26,6 +26,11 @@
         </strong>
     </p>
 
+    <h2>Data</h2>
+    <p>
+        Veškerá data (s výjimkou vložených souborů) jsou 2x denně zálohována. Tím je zajištěno, že o své zadané projekty nepřijdete.
+    </p>
+
     <h2>Cena</h2>
     <p>
         Užívání portálu a všech jeho součástí je zdarma. Místo pro Vaše soubory je však omezené a je možné

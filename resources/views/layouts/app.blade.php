@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Webová aplikace pro správu projektů, zaměřená na jednoduché a přehledné ovládání." />
+    <meta name="keywords" content="todo,správa projektů,správa úkolů,CRM" />
 
     <title>TooDoo.cz</title>
 
