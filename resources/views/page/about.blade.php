@@ -6,6 +6,13 @@
         Projek je vytvořený pro snadnou správu projektů a úkolů.
     </p>
 
+    <h2>Proč TooDoo.cz?</h2>
+    <p>
+        Tento projekt vzniknul pro možnost snadné a jednoduché správy projektů. Neustále se dále vyvíjí s maximálním
+        zaměřením co nejvíce zjednodušit a zpřehlednit uživatelské rozhraní. Pokud máte rádi jednoduché a transparentní
+        ovládání určitě je pro Vás TooDoo.cz skvělá volba.
+    </p>
+
     <h2>Bezpečnost</h2>
     <p>
         Bezpečnost je pro nás důležitá i proto běží web na https protokolu, který zajišťuje, že při komunikaci
