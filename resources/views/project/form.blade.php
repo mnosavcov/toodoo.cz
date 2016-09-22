@@ -7,7 +7,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">projekt</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}"
+                              enctype="multipart/form-data">
                             {{ csrf_field() }}
 
                             @if($project->id>0)
@@ -78,7 +80,8 @@
 
                                 <div class="col-md-6">
                                     <textarea id="description" class="form-control"
-                                              name="description" rows="8">{{ old('description', $project->description) }}</textarea>
+                                              name="description"
+                                              rows="8">{{ old('description', $project->description) }}</textarea>
 
                                     @if ($errors->has('description'))
                                         <span class="help-block">
@@ -90,18 +93,21 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="button" class="btn btn-primary col-md-12" id="description-secret-button">
+                                    <button type="button" class="btn btn-primary col-md-12"
+                                            id="description-secret-button">
                                         Upravit skrytý popis
                                     </button>
                                 </div>
                             </div>
 
-                            <div id="description-secret" class="form-group{{ $errors->has('description_secret') ? ' has-error' : '' }}">
+                            <div id="description-secret"
+                                 class="form-group{{ $errors->has('description_secret') ? ' has-error' : '' }}">
                                 <label for="description_secret" class="col-md-4 control-label">Popis skrytý</label>
 
                                 <div class="col-md-6">
                                     <textarea id="description_secret" class="form-control"
-                                              name="description_secret" rows="8">{{ old('description_secret', ((isset($project->description_secret) && $project->description_secret)?decrypt($project->description_secret):'')) }}</textarea>
+                                              name="description_secret"
+                                              rows="8">{{ old('description_secret', ((isset($project->description_secret) && $project->description_secret)?decrypt($project->description_secret):'')) }}</textarea>
 
                                     @if ($errors->has('description_secret'))
                                         <span class="help-block">
@@ -136,6 +142,58 @@
                         </form>
                     </div>
                 </div>
+
+                @if($project->id>0)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Spolupracovníci</div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" method="POST"
+                                  action="{{ route('project.participant.add.save', ['key'=>$project->key]) }}"
+                                  enctype="multipart/form-data">
+                                {{ csrf_field() }}
+
+                                @if($project->id>0)
+                                    {{ method_field('PUT') }}
+                                @endif
+                                <input type="hidden" name="project_id" value="{{ $project->id }}">
+
+                                <div class="form-group{{ $errors->has('user_hash') ? ' has-error' : '' }}">
+                                    <label for="user_hash" class="col-md-4 control-label">Email uživatele</label>
+
+                                    <div class="col-md-6">
+                                        <input id="user_hash" type="user_hash" class="form-control" name="user_hash"
+                                               value="" maxlength="255">
+
+                                        @if ($errors->has('user_hash'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('user_hash') }}</strong>
+                                    </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Uložit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(function () {
+                            $("#user_hash").autocomplete({
+                                source: '{{ route('user.ajax.getByEmail') }}',
+                                minLength: 2,
+                                select: function (event, ui) {
+//                                    log("Selected: " + ui.item.value + " aka " + ui.item.id);
+                                }
+                            });
+                        });
+                    </script>
+                @endif
             </div>
         </div>
     </div>

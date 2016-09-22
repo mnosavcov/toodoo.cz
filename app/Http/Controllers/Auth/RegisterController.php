@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'affil_hash' => str_random(8),
+            'hash' => str_random(8),
             'activation_token' => md5(uniqid(time(), true)),
             'active' => 0
         ]);
@@ -83,7 +83,7 @@ class RegisterController extends Controller
 
         $user->notify(new ActivationToken($user));
 
-        $aff = User::where('affil_hash', request()->cookie('aff'));
+        $aff = User::where('hash', request()->cookie('aff'));
         if ($aff->count() == 1) {
             if ($aff->first()->main_size < 50000000) $aff->first()->increment('main_size', 10485760);
             $aff->first()->recalcSize();
@@ -131,7 +131,7 @@ class RegisterController extends Controller
         $task->task_id = $project->last_task_id;
         $task->hash = str_random(32);
         $task->name = 'Pozvat přátele';
-        $task->description = '- odeslat pozvání s odkazem ' . url('/') . '?aff=' . $user->affil_hash . ' pokud se někdo zaregistruje pomocí toho odkazu dostanu 10MB prostoru pro své soubory navíc.';
+        $task->description = '- odeslat pozvání s odkazem ' . url('/') . '?aff=' . $user->hash . ' pokud se někdo zaregistruje pomocí toho odkazu dostanu 10MB prostoru pro své soubory navíc.';
         $task->description .= "\n" . '- na stránce ' . route('account.invite') . ' už mám předpřipravený formulář pro pozvání';
         $task->priority = 1;
         $project->tasks()->save($task);

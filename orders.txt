@@ -10,7 +10,7 @@ USERS
 *  ordered_size ... Objednaná velikost,
 *  order_period('monthly','yearly') ... objednané období,
 *  renew_active ... bude se automaticky obnovovat?,
-  last_activity_at, affil_hash, last_project_id,
+  last_activity_at, hash, last_project_id,
 *  overpayment ... přeplatek,
   mailing_enabled
 

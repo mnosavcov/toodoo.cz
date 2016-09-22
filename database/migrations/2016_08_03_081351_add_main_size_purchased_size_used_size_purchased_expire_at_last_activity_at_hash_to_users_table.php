@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMainSizePurchasedSizeUsedSizePurchasedExpireAtLastActivityAtAffilHashToUsersTable extends Migration
+class AddMainSizePurchasedSizeUsedSizePurchasedExpireAtLastActivityAtHashToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,8 +19,8 @@ class AddMainSizePurchasedSizeUsedSizePurchasedExpireAtLastActivityAtAffilHashTo
 	        $table->bigInteger('used_size')->unsigned();
 	        $table->integer('purchase_expire_at');
 	        $table->integer('last_activity_at');
-	        $table->char('affil_hash', 8);
-            $table->unique('affil_hash');
+	        $table->char('hash', 8);
+            $table->unique('hash');
         });
     }
 
@@ -37,7 +37,7 @@ class AddMainSizePurchasedSizeUsedSizePurchasedExpireAtLastActivityAtAffilHashTo
 	        $table->dropColumn('used_size');
 	        $table->dropColumn('purchase_expire_at');
 	        $table->dropColumn('last_activity_at');
-	        $table->dropColumn('affil_hash');
+	        $table->dropColumn('hash');
         });
     }
 }

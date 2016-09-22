@@ -201,7 +201,7 @@ class AccountController extends Controller
             return back()->withInput(['mail_text' => $request->get('mail_text')]);
         }
 
-        $odkaz = route('invitation', ['aff' => Auth::user()->affil_hash]);
+        $odkaz = route('invitation', ['aff' => Auth::user()->hash]);
         $mail_text = 'Ahoj,' . "\n";
         $mail_text .= 'Rád bych tě pozval k registraci mezi uživatele webu toodoo.cz.' . "\n";
         $mail_text .= 'Jedná se o portál pro správu projektů.' . "\n\n";

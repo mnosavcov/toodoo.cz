@@ -68,6 +68,7 @@ Route::get('project/{projectTrashed}/force-delete', ['as' => 'project.delete.for
 Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
 Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
+Route::post('project/{project}/participant/add', ['as' => 'project.participant.add.save', 'uses' => 'ProjectController@addParticipant']);
 
 Route::get('task/{key}/add', ['as' => 'task.add', 'uses' => 'TaskController@add']);
 Route::post('task/{key}/save', ['as' => 'task.add.save', 'uses' => 'TaskController@save']);
@@ -84,6 +85,8 @@ Route::get('task/file/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' =
 Route::get('admin', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashboard']);
 Route::get('admin/refresh', ['as' => 'admin.refresh', 'uses' => 'AdminController@refresh']);
 Route::get('admin/backup-db', ['as' => 'admin.backup.db', 'uses' => 'AdminController@backupDb']);
+
+Route::get('user/ajax/get-by-email', ['as' => 'user.ajax.getByEmail', 'uses' => 'UserController@ajax_getByEmail']);
 
 Auth::routes();
 $this->get('logout', 'Auth\LoginController@logout');

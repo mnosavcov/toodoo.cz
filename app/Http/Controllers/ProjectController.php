@@ -224,4 +224,10 @@ class ProjectController extends Controller
 
         return redirect()->route('account.trash');
     }
+
+    public function addParticipant(Request $request, $project) {
+	    $user_hash = $request->get('user_hash');
+
+	    return redirect()->route('project.detail', ['key' => $project->key]);
+    }
 }
