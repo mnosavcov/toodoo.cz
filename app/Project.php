@@ -9,7 +9,7 @@ use DB;
 
 class Project extends Model
 {
-	use SoftDeletes {
+    use SoftDeletes {
         forceDelete as traitForceDelete;
     }
 
@@ -24,10 +24,10 @@ class Project extends Model
         return $this->hasMany('App\Task');
     }
 
-	public function user()
-	{
-		return $this->belongsTo('App\User');
-	}
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
     public function participant()
     {
@@ -49,7 +49,12 @@ class Project extends Model
     public function scopeNavList($query)
     {
         return $query
-            ->where('projects.user_id', Auth::user()->id)
+            ->where(function ($query) {
+                $query->where('projects.user_id', Auth::id())
+                    ->orWhereHas('participant', function ($query) {
+                        $query->where('user_id', Auth::id());
+                    });
+            })
             ->leftJoin('tasks', 'tasks.project_id', '=', 'projects.id')
             ->leftJoin('task_statuses as todo', function ($join) {
                 $join->on('todo.id', '=', 'tasks.task_status_id')->where('todo.code', '=', 'TODO');
@@ -78,17 +83,17 @@ class Project extends Model
     public function forceDelete()
     {
         $files = $this->file;
-        foreach($files as $file) {
-            if(!$file->delete()) return false;
+        foreach ($files as $file) {
+            if (!$file->delete()) return false;
         }
 
         $tasks = $this->tasks;
-        foreach($tasks as $task) {
-            if(!$task->forceDelete()) return false;
+        foreach ($tasks as $task) {
+            if (!$task->forceDelete()) return false;
         }
 
         $user = User::find($this->user_id);
-        if($user) {
+        if ($user) {
             $user->recalcSize();
         }
 

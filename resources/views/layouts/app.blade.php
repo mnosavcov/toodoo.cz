@@ -211,7 +211,7 @@
                                class="block-with-text priority{{ $item->priority }}"
                                title="{{ $item->short }}">
                                 @if($item->participant->count())
-                                    <span class="glyphicon glyphicon-user text-danger"></span>&nbsp;
+                                    <span class="glyphicon glyphicon-user text-{{ $item->user->id==Auth::id()?'danger':'info' }}"></span>&nbsp;
                                 @endif
                                 @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
                                     <span class="pull-right">
