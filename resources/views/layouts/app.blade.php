@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Webová aplikace pro správu projektů, zaměřená na jednoduché a přehledné ovládání." />
-    <meta name="keywords" content="todo,správa projektů,správa úkolů,CRM" />
+    <meta name="description"
+          content="Webová aplikace pro správu projektů, zaměřená na jednoduché a přehledné ovládání."/>
+    <meta name="keywords" content="todo,správa projektů,správa úkolů,CRM"/>
 
     <title>TooDoo.cz</title>
 
@@ -209,6 +210,9 @@
                             <a href="{{ route('project.dashboard', ['key'=>$item->key]) }}"
                                class="block-with-text priority{{ $item->priority }}"
                                title="{{ $item->short }}">
+                                @if($item->participant->count())
+                                    <span class="glyphicon glyphicon-user text-danger"></span>&nbsp;
+                                @endif
                                 @if(($todocount = $item->todoCount()) | ($inprogresscount = $item->inprogressCount()))
                                     <span class="pull-right">
                                         &nbsp;<span class="badge">
