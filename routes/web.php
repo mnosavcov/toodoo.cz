@@ -68,7 +68,8 @@ Route::get('project/{projectTrashed}/force-delete', ['as' => 'project.delete.for
 Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
 Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
 Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
-Route::post('project/{project}/participant/add', ['as' => 'project.participant.add.save', 'uses' => 'ProjectController@addParticipant']);
+Route::post('project/{project}/participant/add', ['as' => 'project.participant.add', 'uses' => 'ProjectController@addParticipant']);
+Route::delete('project/{project}/participant/{participant_id}/remove', ['as' => 'project.participant.remove', 'uses' => 'ProjectController@removeParticipant']);
 
 Route::get('task/{key}/add', ['as' => 'task.add', 'uses' => 'TaskController@add']);
 Route::post('task/{key}/save', ['as' => 'task.add.save', 'uses' => 'TaskController@save']);

@@ -147,26 +147,40 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Spolupracovníci</div>
                         <div class="panel-body">
+                            @foreach($project->participant as $participant)
+                                <form class="form-horizontal" role="form" method="POST"
+                                      action="{{ route('project.participant.remove', ['key'=>$project->key, 'participant_id'=>$participant->pivot->id]) }}"
+                                      enctype="multipart/form-data">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                    <div class="form-group">
+                                        <div class="col-md-offset-4 col-md-8">
+                                            {{ $participant->email }}
+                                            <a href="javascript:void(0);"
+                                               onclick="if(confirm('Skutečně si přejete odebrat spolupracovníka?')) {$(this).closest('form').submit()}">
+                                                <span class="glyphicon glyphicon-remove text-danger"></span></a>
+                                        </div>
+                                    </div>
+                                </form>
+                            @endforeach
                             <form class="form-horizontal" role="form" method="POST"
-                                  action="{{ route('project.participant.add.save', ['key'=>$project->key]) }}"
+                                  action="{{ route('project.participant.add', ['key'=>$project->key]) }}"
                                   enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
-                                @if($project->id>0)
-                                    {{ method_field('PUT') }}
-                                @endif
                                 <input type="hidden" name="project_id" value="{{ $project->id }}">
+                                <input type="hidden" id="user_hash" name="user_hash" value="">
 
-                                <div class="form-group{{ $errors->has('user_hash') ? ' has-error' : '' }}">
-                                    <label for="user_hash" class="col-md-4 control-label">Email uživatele</label>
+                                <div class="form-group{{ $errors->has('user_email') ? ' has-error' : '' }}">
+                                    <label for="user_email" class="col-md-4 control-label">Email uživatele</label>
 
                                     <div class="col-md-6">
-                                        <input id="user_hash" type="user_hash" class="form-control" name="user_hash"
+                                        <input id="user_email" type="user_email" class="form-control" name="user_email"
                                                value="" maxlength="255">
 
-                                        @if ($errors->has('user_hash'))
+                                        @if ($errors->has('user_email'))
                                             <span class="help-block">
-                                        <strong>{{ $errors->first('user_hash') }}</strong>
+                                        <strong>{{ $errors->first('user_email') }}</strong>
                                     </span>
                                         @endif
                                     </div>
@@ -184,10 +198,11 @@
 
                     <script>
                         $(function () {
-                            $("#user_hash").autocomplete({
+                            $("#user_email").autocomplete({
                                 source: '{{ route('user.ajax.getByEmail') }}',
                                 minLength: 2,
                                 select: function (event, ui) {
+                                    $('#user_hash').val(ui.item.hash);
 //                                    log("Selected: " + ui.item.value + " aka " + ui.item.id);
                                 }
                             });

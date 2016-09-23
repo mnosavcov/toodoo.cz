@@ -12,6 +12,7 @@ use Auth;
 use FTP;
 use Image;
 use App\TaskStatus;
+use App\User;
 
 class ProjectController extends Controller
 {
@@ -47,7 +48,8 @@ class ProjectController extends Controller
         return view('project.form', ['project' => $project]);
     }
 
-    public function saveNew(StoreProjectRequest $request) {
+    public function saveNew(StoreProjectRequest $request)
+    {
         $project = new Project;
         $project->user_id = Auth::user()->id;
         $project->hash = str_random(32);
@@ -225,9 +227,45 @@ class ProjectController extends Controller
         return redirect()->route('account.trash');
     }
 
-    public function addParticipant(Request $request, $project) {
-	    $user_hash = $request->get('user_hash');
+    public function addParticipant(Request $request, Project $project)
+    {
+        $user_hash = $request->get('user_hash');
+        $user_email = $request->get('user_email');
 
-	    return redirect()->route('project.detail', ['key' => $project->key]);
+        $user = User::where([
+            ['hash', $user_hash],
+            ['email', $user_email],
+        ])->first();
+
+        if ($user) {
+            if($user->id == Auth::id()) {
+                $request->session()->flash('danger', 'Nemůžete přidat zami sebe jako spolupracovníka projektu!');
+            } elseif (!$project->participant->contains($user)) {
+                $project->participant()->attach($user);
+                $request->session()->flash('success', 'Uživatel byl úspěšně přidán jako spolupracovník projektu!');
+            } else {
+                $request->session()->flash('danger', 'Uživatel je již přidán jako spolupracovník projektu!');
+            }
+        } else {
+            $request->session()->flash('danger', 'Uživatel nebyl nalezen!');
+        }
+
+        return redirect()->route('project.update', ['key' => $project->key]);
+    }
+
+    public function removeParticipant(Request $request, Project $project, $participant_id = null)
+    {
+        $participant = \DB::table('project_participant')->find($participant_id);
+        if($participant) {
+            if($project->participant()->detach($participant->user_id)) {
+                $request->session()->flash('success', 'Uživatel byl úspěšně odebrán ze spolupracovníků projektu!');
+            } else {
+                $request->session()->flash('danger', 'Spolupracovníka se nepodařilo odebrat projektu!');
+            }
+        } else {
+            $request->session()->flash('danger', 'Spolupracovník projektu nebyl nalezen!');
+        }
+
+        return redirect()->route('project.update', ['key' => $project->key]);
     }
 }

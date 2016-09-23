@@ -29,6 +29,13 @@ class Project extends Model
 		return $this->belongsTo('App\User');
 	}
 
+    public function participant()
+    {
+        return $this->belongsToMany('App\User', 'project_participant', 'project_id', 'user_id')
+            ->withPivot('id')
+            ->withTimestamps();
+    }
+
     public function file()
     {
         return $this->hasMany('App\ProjectFile');

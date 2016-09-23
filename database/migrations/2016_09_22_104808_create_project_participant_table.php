@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectUserTable extends Migration
+class CreateProjectParticipantTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateProjectUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_user', function (Blueprint $table) {
+        Schema::create('project_participant', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
             $table->timestamps();
 
 	        $table->integer('project_id')->unsigned();
 	        $table->integer('user_id')->unsigned();
 
+            $table->unique(['project_id', 'user_id']);
 	        $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -32,6 +35,6 @@ class CreateProjectUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('project_user');
+        Schema::drop('project_participant');
     }
 }

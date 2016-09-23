@@ -401,3 +401,7 @@ ul.thumbs.acc-files div.img-thumbnail div.in {
 #manual h2[id], #manual h3[id] {
     padding-top: 75px;
 }
+
+.ui-autocomplete-loading {
+    background: transparent url(images/ui-anim_basic_16x16.gif) right center no-repeat;
+}

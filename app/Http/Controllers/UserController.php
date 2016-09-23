@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -13,7 +14,7 @@ class UserController extends Controller
 	{
 		$term = $request->get('term');
 
-		$user = User::where('email', 'like', $term . '%')->get();
+		$user = User::where('email', 'like', $term . '%')->where('id', '<>', Auth::id())->get(['hash', 'email as label', 'email as value']);
 		return $user;
 	}
 }
