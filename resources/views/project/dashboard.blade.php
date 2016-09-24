@@ -12,7 +12,7 @@
                                 &nbsp;({{ $todo->count() }})
                             @endif
                         </div>
-                        <a href="{{ Route('task.add', ['key'=>$project->key]) }}" class="no-hover pull-right">
+                        <a href="{{ Route('task.add', ['key'=>$project->key, 'owner'=>$project->owner()]) }}" class="no-hover pull-right">
                             Nový úkol&nbsp;<span class="glyphicon glyphicon-plus-sign"></span>
                         </a>
                     </div>

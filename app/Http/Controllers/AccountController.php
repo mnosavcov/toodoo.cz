@@ -60,7 +60,7 @@ class AccountController extends Controller
     {
         $order = $request->get('order', 'time');
 
-        $project_files = Project::withTrashed()->where('user_id', Auth::user()->id)
+        $project_files = Project::withTrashed()->where('user_id', Auth::id())
             ->join('project_files as files', 'projects.id', '=', 'files.project_id')
             ->select(
                 'files.id as file_id',
@@ -81,7 +81,7 @@ class AccountController extends Controller
 
         $files = Task::withTrashed()->join('projects', function ($join) {
             $join->on('projects.id', '=', 'tasks.project_id')
-                ->on('projects.user_id', '=', DB::raw(Auth::user()->id));
+                ->on('projects.user_id', '=', DB::raw(Auth::id()));
         })
             ->join('task_files as files', 'tasks.id', '=', 'files.task_id')
             ->select(
@@ -123,6 +123,7 @@ class AccountController extends Controller
     public function trash()
     {
         $items_projects = Project::onlyTrashed()
+            ->where('user_id', Auth::id())
             ->select(
                 'projects.id as project_id',
                 'projects.key as key',
@@ -134,6 +135,7 @@ class AccountController extends Controller
             );
         $items = Task::onlyTrashed()
             ->join('projects', 'projects.id', '=', 'tasks.project_id')
+            ->where('projects.user_id', Auth::id())
             ->select(
                 'projects.id as project_id',
                 DB::raw("concat(`projects`.`key`, '-', `tasks`.`task_id`) as `key`"),

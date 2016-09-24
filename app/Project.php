@@ -41,9 +41,19 @@ class Project extends Model
         return $this->hasMany('App\ProjectFile');
     }
 
-    public function scopeByKey($query, $key)
+    public function scopeByKey($query, $key, $owner = null)
     {
-        return $query->where(['user_id' => Auth::id(), 'key' => $key]);
+        if ($owner) {
+            $user_id = null;
+            $user = User::where('email', $owner)->first();
+            if ($user) $user_id = $user->id;
+            return $query->where(['user_id' => $user_id, 'key' => $key])
+                ->whereHas('participant', function ($query) {
+                    $query->where('user_id', Auth::id());
+                });
+        } else {
+            return $query->where(['user_id' => Auth::id(), 'key' => $key]);
+        }
     }
 
     public function scopeNavList($query)
@@ -98,5 +108,11 @@ class Project extends Model
         }
 
         return $this->traitForceDelete();
+    }
+
+    public function owner()
+    {
+        if ($this->user_id == Auth::id()) return null;
+        return $this->user->email;
     }
 }

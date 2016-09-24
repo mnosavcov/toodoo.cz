@@ -38,13 +38,13 @@ class Task extends Model
         return $this->project->key . '-' . $this->task_id;
     }
 
-    public function scopeByKey($query, $key, $deletedProjects = false)
+    public function scopeByKey($query, $key, $owner = null, $deletedProjects = false)
     {
         list($project_key, $task_id) = explode('-', $key);
         if ($deletedProjects) {
-            $project = Project::withTrashed()->byKey($project_key)->first();
+            $project = Project::withTrashed()->byKey($project_key, $owner)->first();
         } else {
-            $project = Project::byKey($project_key)->first();
+            $project = Project::byKey($project_key, $owner)->first();
         }
         if (!isset($project->id)) return $query->where(DB::raw('false'));
         return $query->where(['project_id' => $project->id, 'task_id' => $task_id]);

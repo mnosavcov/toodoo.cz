@@ -7,68 +7,70 @@
         <ul class="dropdown-menu" role="menu">
             @if($task->status->code=='TODO')
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'TODO', 'to'=>'IN-PROGRESS']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'TODO', 'to'=>'IN-PROGRESS', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;In progress
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'TODO', 'to'=>'REJECT']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'TODO', 'to'=>'REJECT', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Reject
                     </a>
                 </li>
             @elseif($task->status->code=='IN-PROGRESS')
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'DONE']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'DONE', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Done
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'REJECT']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'REJECT', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Reject
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'TODO']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'IN-PROGRESS', 'to'=>'TODO', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Todo
                     </a>
                 </li>
             @elseif($task->status->code=='DONE')
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'DONE', 'to'=>'REJECT']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'DONE', 'to'=>'REJECT', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Reject
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'DONE', 'to'=>'TODO']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'DONE', 'to'=>'TODO', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Todo
                     </a>
                 </li>
             @elseif($task->status->code=='REJECT')
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DONE']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DONE', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Done
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'TODO']) }}">
+                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'TODO', 'owner'=>$task->project->owner()]) }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                         &nbsp;Todo
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DELETE']) }}">
-                        <span class="glyphicon glyphicon-remove-sign text-danger"></span>
-                        <strong class="text-danger">SMAZAT</strong>
-                    </a>
-                </li>
+                @if($task->project->user_id==Auth::id())
+                    <li>
+                        <a href="{{ route('task.status.change', ['key'=>$task->key(), 'from'=>'REJECT', 'to'=>'DELETE', 'owner'=>$task->project->owner()]) }}">
+                            <span class="glyphicon glyphicon-remove-sign text-danger"></span>
+                            <strong class="text-danger">SMAZAT</strong>
+                        </a>
+                    </li>
+                @endif
             @endif
             <li role="separator" class="divider"></li>
             @if($task->file->count())
@@ -101,7 +103,7 @@
             @endif
             <li role="separator" class="divider"></li>
             <li>
-                <a href="{{ route('task.update', ['key'=>$task->key()]) }}">
+                <a href="{{ route('task.update', ['key'=>$task->key(), 'owner'=>$task->project->owner()]) }}">
                     <span class="glyphicon glyphicon-pencil"></span>
                     &nbsp;Upravit
                 </a>
@@ -110,7 +112,8 @@
     </div>
     <h4 class="block-with-text">
         @if($task->status->code=='REJECT')<strike>@endif
-            <a href="{{ route('task.detail', ['key'=>$task->key()]) }}" style="color: inherit"
+            <a href="{{ route('task.detail', ['key'=>$task->key(), 'owner'=>$task->project->owner()]) }}"
+               style="color: inherit"
                title="{{ $task->name }}">{{ $task->name }}
             </a>
             @if($task->status->code=='REJECT')</strike>@endif

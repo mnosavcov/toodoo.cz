@@ -23,17 +23,17 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-    public function add($key)
+    public function add($key, $owner = null)
     {
-        $project = Project::byKey($key)->first();
-        if (!$project->count()) return redirect()->route('home.index');
+        $project = Project::byKey($key, $owner)->first();
+        if (!$project || !$project->count()) return redirect()->route('home.index');
         return view('task.form', ['task' => new task, 'project' => $project]);
     }
 
-    public function save(StoreTaskRequest $request, $key = null)
+    public function save(StoreTaskRequest $request, $key = null, $owner = null)
     {
-        $project = Project::byKey($key)->first();
-        if (!$project->count()) return redirect()->route('home.index');
+        $project = Project::byKey($key, $owner)->first();
+        if (!$project || !$project->count()) return redirect()->route('home.index');
 
         $project->increment('last_task_id');
 
@@ -49,22 +49,20 @@ class TaskController extends Controller
 
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
-        return redirect()->route('project.dashboard', ['key' => $task->project->key]);
+        return redirect()->route('project.dashboard', ['key' => $task->project->key, 'owner' => $task->project->owner()]);
     }
 
-    public function update($key)
+    public function update($key, $owner = null)
     {
-        $task = Task::byKey($key)->first();
-        if (!$task->count()) return redirect()->route('home.index');
+        $task = Task::byKey($key, $owner)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
         return view('task.form', ['task' => $task, 'project' => $task->project]);
     }
 
-    public function updateSave(StoreTaskRequest $request, $key)
+    public function updateSave(StoreTaskRequest $request, $key, $owner = null)
     {
-        $task = Task::byKey($key)->first();
-        if (!$task->count()) return redirect()->route('home.index');
-
-        $this->authorize('updateTask', $task);
+        $task = Task::byKey($key, $owner)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
 
         $task->priority = $request->input('priority');
         $task->name = $request->input('name');
@@ -74,7 +72,7 @@ class TaskController extends Controller
         $task->save();
         $this->putFile($request, $task, $request->file('files'));
 
-        return redirect()->route('project.dashboard', ['key' => $task->project->key]);
+        return redirect()->route('project.dashboard', ['key' => $task->project->key, 'owner' => $task->project->owner()]);
     }
 
     protected function putFile($request, $task, $files)
@@ -119,7 +117,7 @@ class TaskController extends Controller
                 if (isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
-        $request->user()->recalcSize();
+        $task->project->user->recalcSize();
     }
 
     protected function createDir($task)
@@ -172,33 +170,37 @@ class TaskController extends Controller
         return $response;
     }
 
-    public function detail($key)
+    public function detail($key, $owner = null)
     {
-        $task = Task::byKey($key)->first();
-        if (!$task->count()) return redirect()->route('home.index');
+        $task = Task::byKey($key, $owner)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
         $project = $task->project;
         return view('task.detail', ['project' => $project, 'task' => $task, 'files' => $task->file]);
     }
 
-    public function statusChange(Request $request, $key, $from, $to)
+    public function statusChange(Request $request, $key, $from, $to, $owner = null)
     {
         list($project_key, $task_id) = explode('-', $key);
         $task = Task::whereHas('status', function ($query) use ($from) {
             $query->where('code', $from);
-        })->byKey($key)->first();
-        if (!$task->count()) return redirect()->route('project.dashboard', ['key' => $project_key]);
+        })->byKey($key, $owner)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
 
         $task->last_status_change_at = time();
 
         if ($to == 'DELETE') {
-            $task->delete();
-            $request->session()->flash('success', 'Úkol byl přesunutý do koše!');
+            if($task->project->user_id == Auth::id()) {
+                $task->delete();
+                $request->session()->flash('success', 'Úkol byl přesunutý do koše!');
+            } else {
+                $request->session()->flash('danger', 'Na přesunutí tohoto úkolu do koše nemáte dostatečná práva!');
+            }
         } else {
             $task->task_status_id = TaskStatus::where('code', $to)->first(['id'])->id;
             $task->save();
         }
 
-        return redirect()->route('project.dashboard', ['key' => $project_key]);
+        return redirect()->route('project.dashboard', ['key' => $project_key, 'owner' => $task->project->owner()]);
     }
 
     protected function deleteFile(Request $request, $id, $name = '')
@@ -219,8 +221,8 @@ class TaskController extends Controller
 
     public function renew(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key, true)->first();
-        if (!$task->count()) return redirect()->route('home.index');
+        $task = Task::onlyTrashed()->byKey($key, null, true)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
 
         $task->restore();
         $request->session()->flash('success', 'Úkol byl obnovený.');
@@ -230,8 +232,8 @@ class TaskController extends Controller
 
     public function forceDelete(Request $request, $key)
     {
-        $task = Task::onlyTrashed()->byKey($key, true)->first();
-        if (!$task->count()) return redirect()->route('home.index');
+        $task = Task::onlyTrashed()->byKey($key, null, true)->first();
+        if (!$task || !$task->count()) return redirect()->route('home.index');
 
         $task->forceDelete();
         $request->session()->flash('success', 'Úkol byl nevratně odstraněn.');
