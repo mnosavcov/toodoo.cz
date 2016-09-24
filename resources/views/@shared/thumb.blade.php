@@ -3,12 +3,12 @@
         <li>
             <ul class="js-hide menu">
                 <li>
-                    <a href="{{ Route($type.'.file.download', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->task->project->owner()]) }}"
+                    <a href="{{ Route($type.'.file.download', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>($type=='task'?$file->task->project->owner():$file->project->owner())]) }}"
                        title="download">
                         <span class="glyphicon glyphicon-download"></span>
                     </a>
                 </li>
-                @if($file->task->project->user_id==Auth::id())
+                @if(($type=='task' && $file->task->project->user_id==Auth::id()) || ($type=='project' && $file->project->user_id==Auth::id()))
                     <li class="pull-left"><a
                                 href="javascript:void(0);"
                                 title="odstranit"
@@ -17,7 +17,7 @@
                         </a></li>
                 @endif
             </ul>
-            <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->task->project->owner()]) }}"
+            <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>($type=='task'?$file->task->project->owner():$file->project->owner())]) }}"
                title="{{ $file->filename }}" target="{{ $file->file_md5 }}" class="item">
                 @if($file->thumb)
                     <img class="img-thumbnail"

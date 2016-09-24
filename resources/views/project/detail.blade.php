@@ -2,21 +2,25 @@
 
 @section('content')
     <div class="pull-right btn-group">
-        <a href="{{ Route('project.update', ['key'=>$project->key]) }}" type="button" class="btn btn-primary"><span
+        <a href="{{ Route('project.update', ['key'=>$project->key, 'owner'=>$project->owner()]) }}" type="button"
+           class="btn btn-primary"><span
                     class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;upravit</a>
+        @if($project->user_id==Auth::id())
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="{{ route('project.delete', ['key'=>$project->key]) }}">
-                    <span class="glyphicon glyphicon-remove-sign text-danger"></span>
-                    <strong class="text-danger">SMAZAT</strong>
-                </a>
-            </li>
-        </ul>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ route('project.delete', ['key'=>$project->key]) }}">
+                        <span class="glyphicon glyphicon-remove-sign text-danger"></span>
+                        <strong class="text-danger">SMAZAT</strong>
+                    </a>
+                </li>
+            </ul>
+        @endif
     </div>
 
 

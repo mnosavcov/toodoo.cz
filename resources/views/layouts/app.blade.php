@@ -165,7 +165,7 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ route('project.detail', ['key'=>$item->key]) }}">
+                                    <a href="{{ route('project.detail', ['key'=>$item->key, 'owner'=>$item->owner()]) }}">
                                         <span class="glyphicon glyphicon-search"></span>
                                         &nbsp;Detail
                                     </a>
@@ -174,7 +174,7 @@
                                 @if($item->file->count())
                                     @foreach($item->file as $file)
                                         <li class="nav-file">
-                                            <a href="{{ Route('project.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                                            <a href="{{ Route('project.file.get', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->project->owner()]) }}"
                                                title="{{ $file->filename }}" target="{{ $file->file_md5 }}"
                                                class="item block-with-text">
                                                 @if($file->thumb)
@@ -201,7 +201,7 @@
                                 @endif
                                 <li role="separator" class="divider"></li>
                                 <li>
-                                    <a href="{{ route('project.update', ['key'=>$item->key]) }}">
+                                    <a href="{{ route('project.update', ['key'=>$item->key, 'owner'=>$item->owner()]) }}">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                         &nbsp;Upravit
                                     </a>

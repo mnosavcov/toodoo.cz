@@ -8,7 +8,7 @@
                     <div class="panel-heading">projekt</div>
                     <div class="panel-body">
                         <form class="form-horizontal" role="form" method="POST"
-                              action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key]) }}"
+                              action="{{ route('project.'.(($project->id>0)?'update':'add').'.save', ['key'=>$project->key, 'owner'=>$project->owner()]) }}"
                               enctype="multipart/form-data">
                             {{ csrf_field() }}
 
@@ -22,7 +22,8 @@
 
                                 <div class="col-md-6">
                                     <input id="name" type="name" class="form-control" name="name"
-                                           value="{{ old('name', $project->name) }}" maxlength="255">
+                                           value="{{ old('name', $project->name) }}"
+                                           maxlength="255" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -38,7 +39,7 @@
                                 <div class="col-md-6">
                                     <input id="key" type="key" class="form-control" name="key"
                                            value="{{ old('key', $project->key) }}"
-                                           maxlength="10">
+                                           maxlength="10" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
 
                                     @if ($errors->has('key'))
                                         <span class="help-block">
@@ -52,7 +53,8 @@
                                 <label for="priority" class="col-md-4 control-label">Priorita</label>
 
                                 <div class="col-md-6">
-                                    <select id="priority" type="priority" class="form-control" name="priority">
+                                    <select id="priority" type="priority" class="form-control"
+                                            name="priority" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
                                         <option value="1"
                                                 @if(old('priority', $project->priority)==1) selected="selected" @endif>
                                             Vysoká
@@ -143,7 +145,7 @@
                     </div>
                 </div>
 
-                @if($project->id>0)
+                @if($project->id>0 && $project->user_id == Auth::id())
                     <div class="panel panel-default">
                         <div class="panel-heading">Spolupracovníci</div>
                         <div class="panel-body">

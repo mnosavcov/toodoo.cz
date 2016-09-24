@@ -58,18 +58,18 @@ Route::get('order/list', ['as' => 'order.list', 'uses' => 'OrderController@order
 
 Route::get('project/add', ['as' => 'project.add', 'uses' => 'ProjectController@add']);
 Route::post('project/save', ['as' => 'project.add.save', 'uses' => 'ProjectController@saveNew']);
-    Route::get('project/file/{id}-{name}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
-    Route::get('project/file/download/{id}-{name}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
-    Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
-    Route::get('project/{project}/update', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
-    Route::put('project/{project}/save', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
+Route::get('project/file/{id}-{name}/{owner?}', ['as' => 'project.file.get', 'uses' => 'ProjectController@getFile']);
+Route::get('project/file/download/{id}-{name}/{owner?}', ['as' => 'project.file.download', 'uses' => 'ProjectController@downloadFile']);
+Route::get('project/file/delete/{id}-{name}', ['as' => 'project.file.delete', 'uses' => 'ProjectController@deleteFile']);
+Route::get('project/{project}/update/{owner?}', ['as' => 'project.update', 'uses' => 'ProjectController@update']);
+Route::put('project/{project}/save/{owner?}', ['as' => 'project.update.save', 'uses' => 'ProjectController@save']);
 Route::get('project/{project}/dashboard/{owner?}', ['as' => 'project.dashboard', 'uses' => 'ProjectController@dashboard']);
-    Route::get('project/{project}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
-    Route::get('project/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
-    Route::get('project/{projectTrashed}/renew', ['as' => 'project.renew', 'uses' => 'ProjectController@renew']);
-    Route::get('project/{projectTrashed}/force-delete', ['as' => 'project.delete.force', 'uses' => 'ProjectController@forceDelete']);
-    Route::post('project/{project}/participant/add', ['as' => 'project.participant.add', 'uses' => 'ProjectController@addParticipant']);
-    Route::delete('project/{project}/participant/{participant_id}/remove', ['as' => 'project.participant.remove', 'uses' => 'ProjectController@removeParticipant']);
+Route::get('project/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectController@delete']);
+Route::get('project/{projectTrashed}/renew', ['as' => 'project.renew', 'uses' => 'ProjectController@renew']);
+Route::get('project/{projectTrashed}/force-delete', ['as' => 'project.delete.force', 'uses' => 'ProjectController@forceDelete']);
+Route::post('project/{project}/participant/add', ['as' => 'project.participant.add', 'uses' => 'ProjectController@addParticipant']);
+Route::delete('project/{project}/participant/{participant_id}/remove', ['as' => 'project.participant.remove', 'uses' => 'ProjectController@removeParticipant']);
+Route::get('project/{project}/{owner?}', ['as' => 'project.detail', 'uses' => 'ProjectController@detail']);
 
 Route::get('task/file/{id}-{name}/{owner?}', ['as' => 'task.file.get', 'uses' => 'TaskController@getFile']);
 Route::get('task/file/download/{id}-{name}/{owner?}', ['as' => 'task.file.download', 'uses' => 'TaskController@downloadFile']);

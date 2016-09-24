@@ -67,15 +67,17 @@ class ProjectController extends Controller
 
     public function save(StoreProjectRequest $request, Project $project)
     {
-        $project->priority = $request->input('priority');
-        $project->name = $request->input('name');
-        $project->key = $request->input('key');
+        if ($project->user_id == Auth::id()) {
+            $project->priority = $request->input('priority');
+            $project->name = $request->input('name');
+            $project->key = $request->input('key');
+        }
         $project->description = $request->input('description');
         $project->description_secret = encrypt($request->input('description_secret'));
 
         $project->save();
         $this->putFile($request, $project, $request->file('files'));
-        return redirect()->route('project.detail', ['key' => $project->key]);
+        return redirect()->route('project.detail', ['key' => $project->key, 'owner' => $project->owner()]);
     }
 
     public function dashboard(Project $project)
@@ -138,7 +140,7 @@ class ProjectController extends Controller
                 if (isset($file)) $request->session()->flash('success', $file->getClientOriginalName() . ': ' . $file->getErrorMessage());
             }
         }
-        $request->user()->recalcSize();
+        $project->user->recalcSize();
     }
 
     protected function createDir($project)
@@ -181,7 +183,20 @@ class ProjectController extends Controller
     protected function responseFile($id, $disposition)
     {
         $file = ProjectFile::find($id);
-        if (!isset($file) || $file->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+
+        if (!$file) return redirect()->route('home.index');
+        $project_id = $file->project->id;
+
+        if ($file->project->user->id != Auth::id()) {
+            if (!$file->project->whereHas('participant', function ($query) use ($project_id) {
+                $query->where('user_id', Auth::id())
+                    ->where('project_id', $project_id);
+            })->count()
+            ) {
+                return redirect()->route('home.index');
+            }
+        }
+
         $response = response()->make(
             FTP::connection($file->ftp_connection)->readFile($file->fullfile)
         )->header('Content-disposition', $disposition . '; filename="' . $file->filename . '"');
@@ -238,7 +253,7 @@ class ProjectController extends Controller
         ])->first();
 
         if ($user) {
-            if($user->id == Auth::id()) {
+            if ($user->id == Auth::id()) {
                 $request->session()->flash('danger', 'Nemůžete přidat zami sebe jako spolupracovníka projektu!');
             } elseif (!$project->participant->contains($user)) {
                 $project->participant()->attach($user);
@@ -256,8 +271,8 @@ class ProjectController extends Controller
     public function removeParticipant(Request $request, Project $project, $participant_id = null)
     {
         $participant = \DB::table('project_participant')->find($participant_id);
-        if($participant) {
-            if($project->participant()->detach($participant->user_id)) {
+        if ($participant) {
+            if ($project->participant()->detach($participant->user_id)) {
                 $request->session()->flash('success', 'Uživatel byl úspěšně odebrán ze spolupracovníků projektu!');
             } else {
                 $request->session()->flash('danger', 'Spolupracovníka se nepodařilo odebrat projektu!');

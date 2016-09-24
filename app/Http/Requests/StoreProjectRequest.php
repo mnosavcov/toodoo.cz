@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Auth;
+use Route;
 
 class StoreProjectRequest extends FormRequest
 {
@@ -24,9 +25,10 @@ class StoreProjectRequest extends FormRequest
      */
     public function rules()
     {
+        if(Route::current()->getParameter('owner')) return [];
         return [
-            'name' => 'required|unique:projects,name,'.$this->input('project_id').',id,user_id,'.Auth::user()->id,
-            'key' => 'required|unique:projects,key,'.$this->input('project_id').',id,user_id,'.Auth::user()->id
+            'name' => 'required|unique:projects,name,'.$this->input('project_id').',id,user_id,'.Auth::id(),
+            'key' => 'required|unique:projects,key,'.$this->input('project_id').',id,user_id,'.Auth::id()
         ];
     }
 
