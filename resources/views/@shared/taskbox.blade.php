@@ -76,7 +76,7 @@
             @if($task->file->count())
                 @foreach($task->file as $file)
                     <li class="nav-file">
-                        <a href="{{ Route('task.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                        <a href="{{ Route('task.file.get', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->task->project->owner()]) }}"
                            title="{{ $file->filename }}" target="{{ $file->file_md5 }}"
                            class="item block-with-text">
                             @if($file->thumb)

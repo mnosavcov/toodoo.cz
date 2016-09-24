@@ -71,9 +71,9 @@ Route::get('project/{project}/dashboard/{owner?}', ['as' => 'project.dashboard',
     Route::post('project/{project}/participant/add', ['as' => 'project.participant.add', 'uses' => 'ProjectController@addParticipant']);
     Route::delete('project/{project}/participant/{participant_id}/remove', ['as' => 'project.participant.remove', 'uses' => 'ProjectController@removeParticipant']);
 
-    Route::get('task/file/{id}-{name}', ['as' => 'task.file.get', 'uses' => 'TaskController@getFile']);
-    Route::get('task/file/download/{id}-{name}', ['as' => 'task.file.download', 'uses' => 'TaskController@downloadFile']);
-    Route::get('task/file/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' => 'TaskController@deleteFile']);
+Route::get('task/file/{id}-{name}/{owner?}', ['as' => 'task.file.get', 'uses' => 'TaskController@getFile']);
+Route::get('task/file/download/{id}-{name}/{owner?}', ['as' => 'task.file.download', 'uses' => 'TaskController@downloadFile']);
+Route::get('task/file/delete/{id}-{name}', ['as' => 'task.file.delete', 'uses' => 'TaskController@deleteFile']);
 Route::get('task/{key}/add/{owner?}', ['as' => 'task.add', 'uses' => 'TaskController@add']);
 Route::post('task/{key}/save/{owner?}', ['as' => 'task.add.save', 'uses' => 'TaskController@save']);
 Route::get('task/{key}/update/{owner?}', ['as' => 'task.update', 'uses' => 'TaskController@update']);

@@ -3,19 +3,21 @@
         <li>
             <ul class="js-hide menu">
                 <li>
-                    <a href="{{ Route($type.'.file.download', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+                    <a href="{{ Route($type.'.file.download', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->task->project->owner()]) }}"
                        title="download">
                         <span class="glyphicon glyphicon-download"></span>
                     </a>
                 </li>
-                <li class="pull-left"><a
-                            href="javascript:void(0);"
-                            title="odstranit"
-                    onclick="location_confirm('opravdu smazat soubor?', '{{ Route($type.'.file.delete', ['id'=>$file->id, 'name'=>$file->filename]) }}')">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a></li>
+                @if($file->task->project->user_id==Auth::id())
+                    <li class="pull-left"><a
+                                href="javascript:void(0);"
+                                title="odstranit"
+                                onclick="location_confirm('opravdu smazat soubor?', '{{ Route($type.'.file.delete', ['id'=>$file->id, 'name'=>$file->filename]) }}')">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a></li>
+                @endif
             </ul>
-            <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename]) }}"
+            <a href="{{ Route($type.'.file.get', ['id'=>$file->id, 'name'=>$file->filename, 'owner'=>$file->task->project->owner()]) }}"
                title="{{ $file->filename }}" target="{{ $file->file_md5 }}" class="item">
                 @if($file->thumb)
                     <img class="img-thumbnail"

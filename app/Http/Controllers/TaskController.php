@@ -148,20 +148,34 @@ class TaskController extends Controller
         return $path;
     }
 
-    public function getFile($id, $name = '')
+    public function getFile($id, $name = '', $owner = null)
     {
-        return $this->responseFile($id, 'inline');
+        return $this->responseFile($id, 'inline', $owner);
     }
 
-    public function downloadFile($id, $name = '')
+    public function downloadFile($id, $name = '', $owner = null)
     {
-        return $this->responseFile($id, 'attachment');
+        return $this->responseFile($id, 'attachment', $owner);
     }
 
-    protected function responseFile($id, $disposition)
+    protected function responseFile($id, $disposition, $owner = null)
     {
         $file = TaskFile::find($id);
-        if (!isset($file) || $file->task->project->user->id != Auth::user()->id) return redirect()->route('home.index');
+
+        if (!$file) return redirect()->route('home.index');
+        $project_id = $file->task->project->id;
+
+        if ($file->task->project->user->id != Auth::id()) {
+            if (!$file->task->project->whereHas('participant', function ($query) use ($project_id) {
+                $query->where('user_id', Auth::id())
+                    ->where('project_id', $project_id);
+            })->count()
+            ) {
+                return redirect()->route('home.index');
+            }
+        }
+
+
         $response = response()->make(
             FTP::connection($file->ftp_connection)->readFile($file->fullfile)
         )->header('Content-disposition', $disposition . '; filename="' . $file->filename . '"');
@@ -189,7 +203,7 @@ class TaskController extends Controller
         $task->last_status_change_at = time();
 
         if ($to == 'DELETE') {
-            if($task->project->user_id == Auth::id()) {
+            if ($task->project->user_id == Auth::id()) {
                 $task->delete();
                 $request->session()->flash('success', 'Úkol byl přesunutý do koše!');
             } else {
