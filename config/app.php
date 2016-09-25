@@ -127,7 +127,7 @@ return [
     /*
      *
      */
-    'version' => '1.0.0',
+    'version' => '1.1.0',
 
     'main_size' => '20971520', // 20MB
 
