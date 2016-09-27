@@ -113,6 +113,7 @@ class Project extends Model
     public function owner()
     {
         if ($this->user_id == Auth::id()) return null;
+	    if (!$this->user_id) return null;
         return $this->user->email;
     }
 }
