@@ -23,7 +23,7 @@
                                 <div class="col-md-6">
                                     <input id="name" type="name" class="form-control" name="name"
                                            value="{{ old('name', $project->name) }}"
-                                           maxlength="255" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
+                                           maxlength="255" {{ ($project->user_id!=Auth::id() && $project->id>0?' disabled="disabled"':'') }}>
 
                                     @if ($errors->has('name'))
                                         <span class="help-block">
@@ -39,7 +39,7 @@
                                 <div class="col-md-6">
                                     <input id="key" type="key" class="form-control" name="key"
                                            value="{{ old('key', $project->key) }}"
-                                           maxlength="10" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
+                                           maxlength="10" {{ ($project->user_id!=Auth::id() && $project->id>0?' disabled="disabled"':'') }}>
 
                                     @if ($errors->has('key'))
                                         <span class="help-block">
@@ -54,7 +54,7 @@
 
                                 <div class="col-md-6">
                                     <select id="priority" type="priority" class="form-control"
-                                            name="priority" {{ ($project->user_id!=Auth::id()?' disabled="disabled"':'') }}>
+                                            name="priority" {{ ($project->user_id!=Auth::id() && $project->id>0?' disabled="disabled"':'') }}>
                                         <option value="1"
                                                 @if(old('priority', $project->priority)==1) selected="selected" @endif>
                                             Vysoká
